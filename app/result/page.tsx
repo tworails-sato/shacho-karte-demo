@@ -1,0 +1,265 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { CTA_URL, type ThemeScore } from "@/lib/diagnosis";
+import {
+  getLocalSubmission,
+  markLocalCtaClicked,
+  recordLocalEvent,
+  type StoredSubmission
+} from "@/lib/storage";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip
+} from "recharts";
+
+function DifferenceBadge({ value }: { value: number }) {
+  const tone =
+    value >= 0
+      ? "bg-teal-50 text-brand border-teal-100"
+      : value >= -2
+        ? "bg-amber-50 text-accent border-amber-100"
+        : "bg-rose-50 text-rose-700 border-rose-100";
+
+  return (
+    <span className={`inline-flex rounded-full border px-2 py-1 text-xs font-black ${tone}`}>
+      {value >= 0 ? "+" : ""}
+      {value}
+    </span>
+  );
+}
+
+function PriorityBadge({ priority }: { priority: ThemeScore["priority"] }) {
+  const tone =
+    priority === "高"
+      ? "bg-rose-50 text-rose-700"
+      : priority === "中"
+        ? "bg-amber-50 text-accent"
+        : "bg-teal-50 text-brand";
+
+  return (
+    <span className={`inline-flex rounded-full px-2 py-1 text-xs font-black ${tone}`}>
+      {priority}
+    </span>
+  );
+}
+
+export default function ResultPage() {
+  const [submission, setSubmission] = useState<StoredSubmission | null>(null);
+
+  useEffect(() => {
+    const storedSubmission = getLocalSubmission();
+    setSubmission(storedSubmission);
+    if (storedSubmission) {
+      recordLocalEvent(storedSubmission.id, "result_viewed");
+    }
+  }, []);
+
+  const chartData = useMemo(
+    () =>
+      submission?.result.themeScores.map((theme) => ({
+        theme: theme.name,
+        score: theme.score,
+        target: theme.target
+      })) ?? [],
+    [submission]
+  );
+
+  async function handleCtaClick() {
+    if (!submission) return;
+    markLocalCtaClicked(submission.id);
+    window.location.href = CTA_URL;
+  }
+
+  if (!submission) {
+    return (
+      <main className="page-shell flex items-center justify-center">
+        <section className="panel max-w-xl p-6 text-center">
+          <h1 className="text-2xl font-black text-ink">診断結果が見つかりません</h1>
+          <p className="mt-3 leading-7 text-stone-700">
+            基本情報の入力から診断を開始してください。
+          </p>
+          <Link className="primary-button mt-5" href="/basic-info">
+            診断を開始する
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
+  const { basicInfo, result } = submission;
+  const diagnosisDate = new Date(submission.createdAt).toLocaleDateString("ja-JP");
+
+  return (
+    <main className="page-shell space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-bold text-brand">RESULT</p>
+          <h1 className="mt-2 text-3xl font-black text-ink">診断結果</h1>
+          <p className="mt-3 max-w-3xl leading-7 text-stone-700">
+            このデモ診断では、16テーマの主要項目に絞って、
+            自社のスコア、目標値との差分、過去受検者平均との差分を
+            簡易的に表示しています。
+            <br />
+            <br />
+            社長カルテでは、単にスコアを出すだけではなく、
+            「目標値に対してどこが足りていないか」
+            「規模や業界の近い社長と比べて、どこに差があるか」
+            を見ることで、次に優先して取り組むべきテーマを整理することが目的です。
+          </p>
+        </div>
+      </div>
+
+      <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="panel p-5">
+          <h2 className="text-xl font-black text-ink">基本情報</h2>
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            {[
+              ["会社名", basicInfo.companyName],
+              ["氏名", basicInfo.representativeName],
+              ["業種", basicInfo.industry],
+              ["診断日", diagnosisDate]
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-md bg-stone-50 p-3">
+                <dt className="font-bold text-stone-500">{label}</dt>
+                <dd className="mt-1 font-bold text-stone-800">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="panel p-5">
+          <p className="text-sm font-bold text-stone-600">総合スコア</p>
+          <p className="mt-2 text-4xl font-black text-ink">
+            {result.totalScore}
+            <span className="text-lg text-stone-500"> / 192点</span>
+          </p>
+          <p className="mt-2 text-sm font-bold text-brand">達成率：{result.achievementRate}%</p>
+        </div>
+      </section>
+
+      <section className="panel p-5">
+        <h2 className="text-xl font-black text-ink">16テーマ レーダーチャート</h2>
+        <p className="mt-1 text-sm text-stone-600">
+          実スコアと目標値を表示しています。
+        </p>
+        <div className="mt-4 h-80 w-full sm:h-96">
+          <ResponsiveContainer height="100%" width="100%">
+            <RadarChart data={chartData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="theme" tick={{ fontSize: 10 }} />
+              <PolarRadiusAxis angle={90} domain={[0, 12]} tickCount={5} />
+              <Radar dataKey="target" fill="#d97706" fillOpacity={0.12} name="目標値" stroke="#d97706" />
+              <Radar dataKey="score" fill="#0f766e" fillOpacity={0.35} name="実スコア" stroke="#0f766e" />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
+      <section className="panel overflow-hidden">
+        <div className="border-b border-stone-200 p-5">
+          <h2 className="text-xl font-black text-ink">16テーマ別スコア表</h2>
+          <p className="mt-1 text-sm text-stone-600">
+            目標差分 = 実スコア - 目標値、平均差分 = 実スコア - 過去受検者の簡易平均です。
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[900px] text-left text-sm">
+            <thead className="bg-stone-50 text-stone-600">
+              <tr>
+                <th className="px-4 py-3">テーマ名</th>
+                <th className="px-4 py-3">満点</th>
+                <th className="px-4 py-3">目標値</th>
+                <th className="px-4 py-3">過去受検者の簡易平均</th>
+                <th className="px-4 py-3">実スコア</th>
+                <th className="px-4 py-3">目標差分</th>
+                <th className="px-4 py-3">平均差分</th>
+                <th className="px-4 py-3">優先度</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-200">
+              {result.themeScores.map((theme) => (
+                <tr key={theme.id}>
+                  <td className="px-4 py-3 font-black text-ink">{theme.name}</td>
+                  <td className="px-4 py-3">12</td>
+                  <td className="px-4 py-3">{theme.target}</td>
+                  <td className="px-4 py-3">{theme.average}</td>
+                  <td className="px-4 py-3 font-bold">{theme.score}</td>
+                  <td className="px-4 py-3"><DifferenceBadge value={theme.gap} /></td>
+                  <td className="px-4 py-3"><DifferenceBadge value={theme.averageGap} /></td>
+                  <td className="px-4 py-3"><PriorityBadge priority={theme.priority} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="panel p-5">
+        <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
+        <p className="mt-1 text-sm text-stone-600">
+          優先度「高」を優先表示し、該当がない場合は「中」のテーマを最大3件表示します。
+        </p>
+        {result.priorityThemes.length > 0 ? (
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            {result.priorityThemes.map((theme) => (
+              <div key={theme.id} className="rounded-md bg-amber-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-black text-amber-950">{theme.name}</p>
+                  <PriorityBadge priority={theme.priority} />
+                </div>
+                <p className="mt-2 text-sm leading-6 text-amber-900">
+                  目標差分 {theme.gap >= 0 ? "+" : ""}{theme.gap} / 平均差分 {theme.averageGap >= 0 ? "+" : ""}{theme.averageGap}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 rounded-md bg-teal-50 p-4 font-bold text-teal-900">
+            現時点で優先度「高」「中」に該当するテーマはありません。
+          </p>
+        )}
+      </section>
+
+      <section className="panel p-5">
+        <h2 className="text-xl font-black text-ink">簡易コメント</h2>
+        <p className="mt-3 leading-7 text-stone-700">{result.summary}</p>
+      </section>
+
+      <section className="panel p-5">
+        <h2 className="text-xl font-black text-ink">本番版で見られる内容</h2>
+        <p className="mt-3 rounded-md bg-teal-50 p-4 text-sm font-bold leading-7 text-teal-900">
+          本番版では、より詳細な設問により、業種別・規模別・近しい社長タイプ別の比較、
+          詳細フィードバック、支援先への活用方法まで整理できます。
+        </p>
+      </section>
+
+      <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-black">個別解説のご案内</h2>
+          <p className="mt-2 leading-7 text-stone-200">
+            診断結果の詳しい見方や、各種項目の解説・
+            <br />
+            ここからの具体的なアクションプランを
+            <br />
+            知りたい方は、以下より個別解説をお申し込みください。
+            <br />
+            <br />
+            業種別・規模別・近しい社長タイプとの比較をもとに、
+            より詳細な優先順位とフィードバックを整理する詳細版もございます。
+          </p>
+        </div>
+        <button className="primary-button bg-white text-ink hover:bg-stone-100" onClick={handleCtaClick} type="button">
+          30分の個別解説を予約する
+        </button>
+      </section>
+    </main>
+  );
+}
