@@ -1,14 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CTA_URL, type ThemeScore } from "@/lib/diagnosis";
 import {
   getLocalSubmission,
   markLocalCtaClicked,
   recordLocalEvent,
+  saveLocalSubmission,
   type StoredSubmission
 } from "@/lib/storage";
+import {
+  getSupabaseConfigStatus,
+  saveDiagnosisEventToSupabase,
+  saveSubmissionToSupabase
+} from "@/lib/supabase";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -52,12 +58,21 @@ function PriorityBadge({ priority }: { priority: ThemeScore["priority"] }) {
 
 export default function ResultPage() {
   const [submission, setSubmission] = useState<StoredSubmission | null>(null);
+  const [supabaseError, setSupabaseError] = useState<string | null>(null);
+  const [supabaseStatus] = useState(getSupabaseConfigStatus);
+  const hasSyncedResultRef = useRef(false);
 
   useEffect(() => {
     const storedSubmission = getLocalSubmission();
     setSubmission(storedSubmission);
-    if (storedSubmission) {
+    if (storedSubmission && !hasSyncedResultRef.current) {
+      hasSyncedResultRef.current = true;
       recordLocalEvent(storedSubmission.id, "result_viewed");
+      saveSubmissionToSupabase(storedSubmission).then((saveResult) => {
+        saveLocalSubmission(saveResult.data);
+        setSubmission(saveResult.data);
+        setSupabaseError(saveResult.errorMessage ?? null);
+      });
     }
   }, []);
 
@@ -74,6 +89,20 @@ export default function ResultPage() {
   async function handleCtaClick() {
     if (!submission) return;
     markLocalCtaClicked(submission.id);
+    const saveResult = await saveSubmissionToSupabase({
+      ...submission,
+      ctaClicked: true
+    });
+    saveLocalSubmission(saveResult.data);
+    setSubmission(saveResult.data);
+    const eventResult = await saveDiagnosisEventToSupabase(
+      saveResult.data.respondentId ?? saveResult.data.id,
+      "cta_clicked"
+    );
+    const nextError = saveResult.errorMessage ?? eventResult.errorMessage ?? null;
+    setSupabaseError(nextError);
+    if (nextError) return;
+
     window.location.href = CTA_URL;
   }
 
@@ -115,6 +144,21 @@ export default function ResultPage() {
           </p>
         </div>
       </div>
+
+      {supabaseError ? (
+        <section className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm font-bold leading-7 text-rose-800">
+          Supabaseへの保存でエラーが発生しました。画面表示とローカル保存は継続しています。
+          <br />
+          {supabaseError}
+        </section>
+      ) : null}
+
+      {!supabaseStatus.configured ? (
+        <section className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-bold leading-7 text-amber-900">
+          Supabase環境変数が未設定です。
+          NEXT_PUBLIC_SUPABASE_URL と NEXT_PUBLIC_SUPABASE_ANON_KEY を確認し、開発サーバーを再起動してください。
+        </section>
+      ) : null}
 
       <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="panel p-5">

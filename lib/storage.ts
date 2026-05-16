@@ -2,6 +2,9 @@ import type { BasicInfo, DiagnosisResult } from "./diagnosis";
 
 export type StoredSubmission = {
   id: string;
+  respondentId?: string;
+  responseId?: string;
+  supabaseSyncedAt?: string;
   basicInfo: BasicInfo;
   answers: Record<string, number>;
   result: DiagnosisResult;
