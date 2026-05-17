@@ -15,8 +15,8 @@ const initialInfo: BasicInfo = {
 const fields = [
   { key: "companyName", label: "会社名", type: "text", required: true },
   { key: "representativeName", label: "氏名", type: "text", required: true },
-  { key: "email", label: "メールアドレス", type: "email", required: true },
-  { key: "industry", label: "業種", type: "text", required: true }
+  { key: "email", label: "メールアドレス", type: "email", required: false },
+  { key: "industry", label: "業種", type: "text", required: false }
 ] as const;
 
 const categories = ["経営者", "経営支援者", "その他"];

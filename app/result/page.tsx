@@ -15,6 +15,7 @@ import {
   saveDiagnosisEventToSupabase,
   saveSubmissionToSupabase
 } from "@/lib/supabase";
+import { notifyDiagnosisCompleted } from "@/lib/notify";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -61,6 +62,7 @@ export default function ResultPage() {
   const [supabaseError, setSupabaseError] = useState<string | null>(null);
   const [supabaseStatus] = useState(getSupabaseConfigStatus);
   const hasSyncedResultRef = useRef(false);
+  const hasNotifiedRef = useRef(false);
 
   useEffect(() => {
     const storedSubmission = getLocalSubmission();
@@ -72,6 +74,10 @@ export default function ResultPage() {
         saveLocalSubmission(saveResult.data);
         setSubmission(saveResult.data);
         setSupabaseError(saveResult.errorMessage ?? null);
+        if (!saveResult.errorMessage && !hasNotifiedRef.current) {
+          hasNotifiedRef.current = true;
+          notifyDiagnosisCompleted(saveResult.data);
+        }
       });
     }
   }, []);
@@ -124,6 +130,11 @@ export default function ResultPage() {
 
   const { basicInfo, result } = submission;
   const diagnosisDate = new Date(submission.createdAt).toLocaleDateString("ja-JP");
+  const priorityThemeNames =
+    result.priorityThemes.length > 0
+      ? result.priorityThemes.map((theme) => theme.name).join("、")
+      : "今回の診断結果";
+  const displayName = basicInfo.representativeName || "あなた";
 
   return (
     <main className="page-shell space-y-6">
@@ -289,19 +300,13 @@ export default function ResultPage() {
         <div>
           <h2 className="text-2xl font-black">個別解説のご案内</h2>
           <p className="mt-2 leading-7 text-stone-200">
-            診断結果の詳しい見方や、各種項目の解説・
+            {displayName}さんの優先確認テーマ（{priorityThemeNames}）について
             <br />
-            ここからの具体的なアクションプランを
-            <br />
-            知りたい方は、以下より個別解説をお申し込みください。
-            <br />
-            <br />
-            業種別・規模別・近しい社長タイプとの比較をもとに、
-            より詳細な優先順位とフィードバックを整理する詳細版もございます。
+            ズレとアクションプランを30分で一緒に整理します。
           </p>
         </div>
         <button className="primary-button bg-white text-ink hover:bg-stone-100" onClick={handleCtaClick} type="button">
-          30分の個別解説を予約する
+          改善アクションを30分で整理する
         </button>
       </section>
     </main>
