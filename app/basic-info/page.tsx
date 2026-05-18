@@ -84,7 +84,7 @@ export default function BasicInfoPage() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
             <button className="primary-button" type="submit">
-              48問診断へ進む
+              アセスメントに進む
             </button>
           </div>
         </form>
