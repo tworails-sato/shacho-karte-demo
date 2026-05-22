@@ -31,6 +31,30 @@ export function getSupabaseConfigStatus() {
 export async function saveSubmissionToSupabase(
   submission: StoredSubmission
 ): Promise<SupabaseOperationResult<StoredSubmission>> {
+  if (typeof window !== "undefined") {
+    try {
+      const response = await fetch("/api/diagnosis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submission)
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error || "Diagnosis API save failed");
+      }
+
+      const payload = (await response.json()) as { submission: StoredSubmission };
+      return { data: payload.submission };
+    } catch (error) {
+      console.error("Supabase diagnosis save failed", error);
+      return {
+        data: submission,
+        errorMessage: formatSupabaseError(error)
+      };
+    }
+  }
+
   const supabase = getSupabaseClient();
   if (!supabase) {
     return {
@@ -72,7 +96,17 @@ export async function saveSubmissionToSupabase(
           category_scores_json: submission.result.themeScores,
           top_categories_json: submission.result.topThemes,
           low_categories_json: submission.result.lowThemes,
-          priority_categories_json: submission.result.priorityThemes
+          priority_categories_json: submission.result.priorityThemes,
+          email: submission.basicInfo.emailNormalized || submission.basicInfo.email,
+          email_normalized: submission.basicInfo.emailNormalized || submission.basicInfo.email,
+          traffic_source: submission.basicInfo.trafficSource,
+          referrer_name: submission.basicInfo.referrerName || null,
+          referrer_company: submission.basicInfo.referrerCompany || null,
+          referrer_email: submission.basicInfo.referrerEmail || null,
+          consent_agreed: submission.basicInfo.consentAgreed,
+          consent_agreed_at: submission.basicInfo.consentAgreedAt || null,
+          ip_hash: null,
+          user_agent: null
         })
         .select("id")
         .single();

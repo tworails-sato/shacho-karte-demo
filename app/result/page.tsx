@@ -171,6 +171,10 @@ export default function ResultPage() {
         </section>
       ) : null}
 
+      <section className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm font-bold leading-7 text-slate-700">
+        本診断結果は、回答者ご本人の経営課題整理を目的としたものです。第三者への提供、営業提案、顧客向け診断としての利用には、事前の許諾が必要です。
+      </section>
+
       <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="panel p-5">
           <h2 className="text-xl font-black text-ink">基本情報</h2>

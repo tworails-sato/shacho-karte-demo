@@ -20,6 +20,16 @@ create table if not exists public.diagnosis_responses (
   top_categories_json jsonb not null,
   low_categories_json jsonb not null,
   priority_categories_json jsonb not null,
+  email text,
+  email_normalized text,
+  traffic_source text,
+  referrer_name text,
+  referrer_company text,
+  referrer_email text,
+  consent_agreed boolean not null default false,
+  consent_agreed_at timestamptz,
+  ip_hash text,
+  user_agent text,
   created_at timestamptz not null default now()
 );
 

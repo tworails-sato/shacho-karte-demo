@@ -2,8 +2,15 @@ export type BasicInfo = {
   companyName: string;
   representativeName: string;
   email: string;
+  emailNormalized: string;
   industry: string;
   category: string;
+  trafficSource: string;
+  referrerName: string;
+  referrerCompany: string;
+  referrerEmail: string;
+  consentAgreed: boolean;
+  consentAgreedAt: string;
 };
 
 export type Theme = {

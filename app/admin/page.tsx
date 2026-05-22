@@ -19,6 +19,16 @@ type RespondentRow = {
 type DiagnosisResponseRow = {
   id: string;
   respondent_id: string;
+  email: string | null;
+  email_normalized: string | null;
+  traffic_source: string | null;
+  referrer_name: string | null;
+  referrer_company: string | null;
+  referrer_email: string | null;
+  consent_agreed: boolean | null;
+  consent_agreed_at: string | null;
+  ip_hash: string | null;
+  user_agent: string | null;
   total_score: number;
   achievement_rate: number;
   category_scores_json: ThemeScore[];
@@ -41,8 +51,17 @@ type AdminRow = {
   companyName: string;
   representativeName: string;
   email: string;
+  emailNormalized: string;
   industry: string;
   category: string;
+  trafficSource: string;
+  referrerName: string;
+  referrerCompany: string;
+  referrerEmail: string;
+  consentAgreed: boolean;
+  consentAgreedAt: string;
+  ipHash: string;
+  userAgent: string;
   totalScore: number;
   achievementRate: number;
   ctaClicked: boolean;
@@ -70,6 +89,20 @@ function themeScores(themes: ThemeScore[]) {
   return themes.map((theme) => `${theme.name}:${theme.score}`).join(" / ");
 }
 
+function emailDomain(email: string) {
+  return email.includes("@") ? email.split("@")[1]?.toLowerCase() ?? "" : "";
+}
+
+function countBy<T>(items: T[], getKey: (item: T) => string) {
+  const counts = new Map<string, number>();
+  items.forEach((item) => {
+    const key = getKey(item);
+    if (!key) return;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  });
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]);
+}
+
 function localRowsFromStorage(): AdminRow[] {
   return getLocalSubmissions().map((item) => ({
     id: item.id,
@@ -78,8 +111,17 @@ function localRowsFromStorage(): AdminRow[] {
     companyName: item.basicInfo.companyName,
     representativeName: item.basicInfo.representativeName,
     email: item.basicInfo.email,
+    emailNormalized: item.basicInfo.emailNormalized || item.basicInfo.email,
     industry: item.basicInfo.industry,
     category: item.basicInfo.category,
+    trafficSource: item.basicInfo.trafficSource || "",
+    referrerName: item.basicInfo.referrerName || "",
+    referrerCompany: item.basicInfo.referrerCompany || "",
+    referrerEmail: item.basicInfo.referrerEmail || "",
+    consentAgreed: item.basicInfo.consentAgreed ?? false,
+    consentAgreedAt: item.basicInfo.consentAgreedAt || "",
+    ipHash: "",
+    userAgent: "",
     totalScore: item.result.totalScore,
     achievementRate: item.result.achievementRate,
     ctaClicked: item.ctaClicked,
@@ -121,6 +163,16 @@ export default function AdminPage() {
           .select(`
             id,
             respondent_id,
+            email,
+            email_normalized,
+            traffic_source,
+            referrer_name,
+            referrer_company,
+            referrer_email,
+            consent_agreed,
+            consent_agreed_at,
+            ip_hash,
+            user_agent,
             total_score,
             achievement_rate,
             category_scores_json,
@@ -174,9 +226,18 @@ export default function AdminPage() {
               respondentId: response.respondent_id,
               companyName: respondent.company_name,
               representativeName: respondent.name,
-              email: respondent.email,
+              email: response.email ?? respondent.email,
+              emailNormalized: response.email_normalized ?? response.email ?? respondent.email,
               industry: respondent.industry,
               category: respondent.user_type,
+              trafficSource: response.traffic_source ?? "",
+              referrerName: response.referrer_name ?? "",
+              referrerCompany: response.referrer_company ?? "",
+              referrerEmail: response.referrer_email ?? "",
+              consentAgreed: Boolean(response.consent_agreed),
+              consentAgreedAt: response.consent_agreed_at ?? "",
+              ipHash: response.ip_hash ?? "",
+              userAgent: response.user_agent ?? "",
               totalScore: response.total_score,
               achievementRate: response.achievement_rate,
               ctaClicked: ctaClickedRespondentIds.has(response.respondent_id),
@@ -209,6 +270,17 @@ export default function AdminPage() {
   }, []);
 
   const selectedRow = rows.find((row) => row.id === selectedId) ?? null;
+  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const recentRows = rows.filter((row) => new Date(row.createdAt).getTime() >= sevenDaysAgo);
+  const trafficCounts = countBy(recentRows, (row) => row.trafficSource);
+  const referrerCounts = countBy(rows, (row) => row.referrerCompany || row.referrerEmail);
+  const domainCounts = countBy(rows, (row) => emailDomain(row.emailNormalized || row.email))
+    .filter(([, count]) => count >= 2);
+  const referralRowsWithoutName = rows.filter(
+    (row) =>
+      ["知人・取引先からの紹介", "経営支援者・コンサルタントからの紹介"].includes(row.trafficSource) &&
+      !row.referrerName
+  );
 
   function handleCsvExport() {
     const headers = [
@@ -216,6 +288,14 @@ export default function AdminPage() {
       "会社名",
       "氏名",
       "メールアドレス",
+      "流入経路",
+      "紹介者名",
+      "紹介元会社名",
+      "紹介者メールアドレス",
+      "同意済み",
+      "同意日時",
+      "IPハッシュ",
+      "User-Agent",
       "業種",
       "区分",
       "総合スコア",
@@ -234,6 +314,14 @@ export default function AdminPage() {
           row.companyName,
           row.representativeName,
           row.email,
+          row.trafficSource,
+          row.referrerName,
+          row.referrerCompany,
+          row.referrerEmail,
+          row.consentAgreed ? "同意済み" : "未同意",
+          row.consentAgreedAt ? formatDate(row.consentAgreedAt) : "",
+          row.ipHash,
+          row.userAgent,
           row.industry,
           row.category,
           row.totalScore,
@@ -307,6 +395,52 @@ export default function AdminPage() {
         </div>
       </section>
 
+      <section className="grid gap-4 lg:grid-cols-4">
+        <div className="panel p-5">
+          <p className="text-sm font-bold text-stone-600">流入経路別件数（直近7日）</p>
+          <div className="mt-3 space-y-2 text-sm">
+            {trafficCounts.slice(0, 5).map(([source, count]) => (
+              <p key={source} className="flex justify-between gap-3 font-bold">
+                <span>{source}</span>
+                <span>{count}件</span>
+              </p>
+            ))}
+            {trafficCounts.length === 0 ? <p className="text-stone-500">該当なし</p> : null}
+          </div>
+        </div>
+        <div className="panel p-5">
+          <p className="text-sm font-bold text-stone-600">紹介元別件数</p>
+          <div className="mt-3 space-y-2 text-sm">
+            {referrerCounts.slice(0, 5).map(([source, count]) => (
+              <p key={source} className="flex justify-between gap-3 font-bold">
+                <span>{source}</span>
+                <span>{count}件</span>
+              </p>
+            ))}
+            {referrerCounts.length === 0 ? <p className="text-stone-500">該当なし</p> : null}
+          </div>
+        </div>
+        <div className="panel p-5">
+          <p className="text-sm font-bold text-stone-600">同一メールドメイン</p>
+          <div className="mt-3 space-y-2 text-sm">
+            {domainCounts.slice(0, 5).map(([domain, count]) => (
+              <p key={domain} className="flex justify-between gap-3 font-bold">
+                <span>{domain}</span>
+                <span>{count}件</span>
+              </p>
+            ))}
+            {domainCounts.length === 0 ? <p className="text-stone-500">該当なし</p> : null}
+          </div>
+        </div>
+        <div className="panel p-5">
+          <p className="text-sm font-bold text-stone-600">紹介者未記入</p>
+          <p className="mt-2 text-4xl font-black text-accent">{referralRowsWithoutName.length}</p>
+          <p className="mt-2 text-xs font-bold leading-5 text-stone-500">
+            紹介系流入で紹介者名が未記入の回答数です。
+          </p>
+        </div>
+      </section>
+
       {adminError ? (
         <section className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm font-bold leading-7 text-rose-800">
           Supabaseからデータを取得できませんでした。画面表示はローカルデータにフォールバックしています。
@@ -320,13 +454,21 @@ export default function AdminPage() {
           <h2 className="text-xl font-black text-ink">回答一覧表示</h2>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1500px] text-left text-sm">
+          <table className="w-full min-w-[2200px] text-left text-sm">
             <thead className="bg-stone-50 text-stone-600">
               <tr>
                 <th className="px-4 py-3">回答日時</th>
                 <th className="px-4 py-3">会社名</th>
                 <th className="px-4 py-3">氏名</th>
                 <th className="px-4 py-3">メールアドレス</th>
+                <th className="px-4 py-3">流入経路</th>
+                <th className="px-4 py-3">紹介者名</th>
+                <th className="px-4 py-3">紹介元会社名</th>
+                <th className="px-4 py-3">紹介者メールアドレス</th>
+                <th className="px-4 py-3">同意</th>
+                <th className="px-4 py-3">同意日時</th>
+                <th className="px-4 py-3">IPハッシュ</th>
+                <th className="px-4 py-3">User-Agent</th>
                 <th className="px-4 py-3">業種</th>
                 <th className="px-4 py-3">区分</th>
                 <th className="px-4 py-3">総合スコア</th>
@@ -346,6 +488,14 @@ export default function AdminPage() {
                   <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
                   <td className="px-4 py-3">{row.representativeName}</td>
                   <td className="px-4 py-3">{row.email}</td>
+                  <td className="px-4 py-3">{row.trafficSource || "-"}</td>
+                  <td className="px-4 py-3">{row.referrerName || "-"}</td>
+                  <td className="px-4 py-3">{row.referrerCompany || "-"}</td>
+                  <td className="px-4 py-3">{row.referrerEmail || "-"}</td>
+                  <td className="px-4 py-3">{row.consentAgreed ? "同意済み" : "未同意"}</td>
+                  <td className="px-4 py-3">{row.consentAgreedAt ? formatDate(row.consentAgreedAt) : "-"}</td>
+                  <td className="max-w-56 truncate px-4 py-3" title={row.ipHash}>{row.ipHash || "-"}</td>
+                  <td className="max-w-72 truncate px-4 py-3" title={row.userAgent}>{row.userAgent || "-"}</td>
                   <td className="px-4 py-3">{row.industry}</td>
                   <td className="px-4 py-3">{row.category}</td>
                   <td className="px-4 py-3 font-bold">{row.totalScore}/192</td>
@@ -376,7 +526,7 @@ export default function AdminPage() {
               ))}
               {rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-center text-stone-600" colSpan={14}>
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={24}>
                     まだ診断データがありません。
                   </td>
                 </tr>
@@ -398,6 +548,14 @@ export default function AdminPage() {
                 ["会社名", selectedRow.companyName],
                 ["氏名", selectedRow.representativeName],
                 ["メールアドレス", selectedRow.email],
+                ["流入経路", selectedRow.trafficSource || "-"],
+                ["紹介者名", selectedRow.referrerName || "-"],
+                ["紹介元会社名", selectedRow.referrerCompany || "-"],
+                ["紹介者メールアドレス", selectedRow.referrerEmail || "-"],
+                ["同意", selectedRow.consentAgreed ? "同意済み" : "未同意"],
+                ["同意日時", selectedRow.consentAgreedAt ? formatDate(selectedRow.consentAgreedAt) : "-"],
+                ["IPハッシュ", selectedRow.ipHash || "-"],
+                ["User-Agent", selectedRow.userAgent || "-"],
                 ["業種", selectedRow.industry],
                 ["区分", selectedRow.category],
                 ["総合スコア", `${selectedRow.totalScore} / 192`],
