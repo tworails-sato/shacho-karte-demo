@@ -64,7 +64,7 @@ export default function StartPage() {
       <section className="page-shell flex items-center">
         <div className="grid w-full gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div className="space-y-6">
-            <p className="text-sm font-bold text-brand">社長カルテ デモアセスメント</p>
+            <p className="text-sm font-bold text-brand">社長カルテ Light</p>
             <h1 className="text-3xl font-black leading-tight text-ink sm:text-5xl">
               社長の現在地を16テーマで見える化する
             </h1>
@@ -76,7 +76,7 @@ export default function StartPage() {
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link className="primary-button" href="/basic-info">
-                社長カルテのデモアセスメントを始める
+                社長カルテ Lightを始める
               </Link>
             </div>
           </div>
@@ -206,12 +206,12 @@ export default function StartPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-black text-ink">まずはデモアセスメントで、結果の見え方を確認できます。</h2>
+        <h2 className="text-3xl font-black text-ink">まずアセスメントで課題を確認しましょう</h2>
         <p className="mx-auto mt-4 max-w-2xl leading-8 text-stone-700">
           支援先に案内する前の確認用として、スマホからでもそのまま受検できます。
         </p>
         <Link className="primary-button mt-6" href="/basic-info">
-          社長カルテのデモアセスメントを始める
+          アセスメントを始める
         </Link>
       </section>
     </main>

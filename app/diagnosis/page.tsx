@@ -77,7 +77,7 @@ export default function DiagnosisPage() {
             <p className="text-sm font-bold text-brand">STEP 2</p>
             <div className="mt-1 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h1 className="text-3xl font-black text-ink">社長カルテ　デモ診断（48問）</h1>
+                <h1 className="text-3xl font-black text-ink">社長カルテ Light（48問）</h1>
                 <p className="mt-2 text-sm text-stone-600">
                   1：あてはまらない 〜 4：あてはまる で、現在の実態に近いものを選んでください。
                 </p>

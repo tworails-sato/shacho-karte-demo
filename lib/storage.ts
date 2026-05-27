@@ -4,6 +4,8 @@ export type StoredSubmission = {
   id: string;
   respondentId?: string;
   responseId?: string;
+  resultToken?: string;
+  resultTokenExpiresAt?: string;
   supabaseSyncedAt?: string;
   basicInfo: BasicInfo;
   answers: Record<string, number>;

@@ -30,6 +30,12 @@ create table if not exists public.diagnosis_responses (
   consent_agreed_at timestamptz,
   ip_hash text,
   user_agent text,
+  result_token text unique,
+  result_token_expires_at timestamptz,
+  result_view_count integer not null default 0,
+  result_last_viewed_at timestamptz,
+  participant_email_sent_at timestamptz,
+  participant_email_error text,
   created_at timestamptz not null default now()
 );
 
@@ -39,6 +45,9 @@ create table if not exists public.diagnosis_events (
   event_type text not null check (event_type in ('cta_clicked')),
   created_at timestamptz not null default now()
 );
+
+create index if not exists diagnosis_responses_result_token_idx
+  on public.diagnosis_responses (result_token);
 
 alter table public.respondents enable row level security;
 alter table public.diagnosis_responses enable row level security;

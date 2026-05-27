@@ -11,11 +11,21 @@ type NotifyRequest = {
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const replyTo = process.env.RESEND_REPLY_TO;
 
   if (!apiKey) {
     console.error("Resend notification failed: RESEND_API_KEY is not set");
     return NextResponse.json(
       { error: "RESEND_API_KEY is not set" },
+      { status: 500 }
+    );
+  }
+
+  if (!fromEmail) {
+    console.error("Resend notification failed: RESEND_FROM_EMAIL is not set");
+    return NextResponse.json(
+      { error: "RESEND_FROM_EMAIL is not set" },
       { status: 500 }
     );
   }
@@ -33,11 +43,12 @@ export async function POST(request: Request) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: "社長カルテ <onboarding@resend.dev>",
+        from: fromEmail,
         to: ADMIN_EMAIL,
-        subject: `【社長カルテ】デモ診断が完了しました: ${companyName}`,
+        ...(replyTo ? { reply_to: replyTo } : {}),
+        subject: `【社長カルテ Light】診断が完了しました: ${companyName}`,
         text: [
-          "社長カルテ デモ診断が完了しました。",
+          "社長カルテ Lightの診断が完了しました。",
           "",
           `会社名: ${companyName}`,
           `氏名: ${representativeName}`,

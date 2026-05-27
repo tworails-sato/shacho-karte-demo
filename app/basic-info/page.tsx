@@ -73,7 +73,7 @@ export default function BasicInfoPage() {
           <p className="text-sm font-bold text-brand">STEP 1</p>
           <h1 className="mt-2 text-3xl font-black text-ink">基本情報</h1>
           <p className="mt-3 leading-7 text-stone-700">
-            診断結果の表示に使用する基本情報です。デモではブラウザに保存します。
+            診断結果の表示に使用する基本情報です。
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function BasicInfoPage() {
           </div>
 
           <label className="space-y-2">
-            <span className="label">区分 *</span>
+            <span className="label">受検者区分 *</span>
             <select
               className="field"
               required
@@ -151,7 +151,10 @@ export default function BasicInfoPage() {
               onChange={(event) => updateField("consentAgreed", event.target.checked)}
             />
             <span className="text-sm font-bold leading-7 text-stone-700">
-              本診断は回答者ご本人の経営課題の整理を目的としたデモです。第三者への提供、営業提案、顧客向け診断として利用する場合は、事前に運営の許諾が必要です。
+              ●経営支援者の方へ
+              <br />
+              本診断をクライアント社内への展開、ご提案、顧客向け診断として利用する場合は、
+              事前に運営の許諾が必要です。
             </span>
           </label>
 

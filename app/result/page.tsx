@@ -143,7 +143,7 @@ export default function ResultPage() {
           <p className="text-sm font-bold text-brand">RESULT</p>
           <h1 className="mt-2 text-3xl font-black text-ink">診断結果</h1>
           <p className="mt-3 max-w-3xl leading-7 text-stone-700">
-            このデモ診断では、16テーマの主要項目に絞って、
+            社長カルテ Lightでは、16テーマの主要項目に絞って、
             自社のスコア、目標値との差分、過去受検者平均との差分を
             簡易的に表示しています。
             <br />
@@ -206,7 +206,9 @@ export default function ResultPage() {
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">16テーマ レーダーチャート</h2>
         <p className="mt-1 text-sm text-stone-600">
-          実スコアと目標値を表示しています。
+          目標値と実スコアとの差異を表示しています。
+          <br />
+          ※目標値は、社長カルテの算出モデルである経営者の回答から平均値を算出したものです
         </p>
         <div className="mt-4 h-80 w-full sm:h-96">
           <ResponsiveContainer height="100%" width="100%">
@@ -293,9 +295,9 @@ export default function ResultPage() {
       </section>
 
       <section className="panel p-5">
-        <h2 className="text-xl font-black text-ink">本番版で見られる内容</h2>
+        <h2 className="text-xl font-black text-ink">社長カルテ スタンダードで見られる内容は</h2>
         <p className="mt-3 rounded-md bg-teal-50 p-4 text-sm font-bold leading-7 text-teal-900">
-          本番版では、より詳細な設問により、業種別・規模別・近しい社長タイプ別の比較、
+          社長カルテ スタンダードでは、より詳細な設問により、業種別・規模別・近しい社長タイプ別の比較、
           詳細フィードバック、支援先への活用方法まで整理できます。
         </p>
       </section>

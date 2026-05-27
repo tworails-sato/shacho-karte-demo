@@ -29,6 +29,12 @@ type DiagnosisResponseRow = {
   consent_agreed_at: string | null;
   ip_hash: string | null;
   user_agent: string | null;
+  result_token: string | null;
+  result_token_expires_at: string | null;
+  result_view_count: number | null;
+  result_last_viewed_at: string | null;
+  participant_email_sent_at: string | null;
+  participant_email_error: string | null;
   total_score: number;
   achievement_rate: number;
   category_scores_json: ThemeScore[];
@@ -62,6 +68,12 @@ type AdminRow = {
   consentAgreedAt: string;
   ipHash: string;
   userAgent: string;
+  resultToken: string;
+  resultTokenExpiresAt: string;
+  resultViewCount: number;
+  resultLastViewedAt: string;
+  participantEmailSentAt: string;
+  participantEmailError: string;
   totalScore: number;
   achievementRate: number;
   ctaClicked: boolean;
@@ -122,6 +134,12 @@ function localRowsFromStorage(): AdminRow[] {
     consentAgreedAt: item.basicInfo.consentAgreedAt || "",
     ipHash: "",
     userAgent: "",
+    resultToken: item.resultToken || "",
+    resultTokenExpiresAt: item.resultTokenExpiresAt || "",
+    resultViewCount: 0,
+    resultLastViewedAt: "",
+    participantEmailSentAt: "",
+    participantEmailError: "",
     totalScore: item.result.totalScore,
     achievementRate: item.result.achievementRate,
     ctaClicked: item.ctaClicked,
@@ -173,6 +191,12 @@ export default function AdminPage() {
             consent_agreed_at,
             ip_hash,
             user_agent,
+            result_token,
+            result_token_expires_at,
+            result_view_count,
+            result_last_viewed_at,
+            participant_email_sent_at,
+            participant_email_error,
             total_score,
             achievement_rate,
             category_scores_json,
@@ -238,6 +262,12 @@ export default function AdminPage() {
               consentAgreedAt: response.consent_agreed_at ?? "",
               ipHash: response.ip_hash ?? "",
               userAgent: response.user_agent ?? "",
+              resultToken: response.result_token ?? "",
+              resultTokenExpiresAt: response.result_token_expires_at ?? "",
+              resultViewCount: response.result_view_count ?? 0,
+              resultLastViewedAt: response.result_last_viewed_at ?? "",
+              participantEmailSentAt: response.participant_email_sent_at ?? "",
+              participantEmailError: response.participant_email_error ?? "",
               totalScore: response.total_score,
               achievementRate: response.achievement_rate,
               ctaClicked: ctaClickedRespondentIds.has(response.respondent_id),
@@ -296,6 +326,11 @@ export default function AdminPage() {
       "同意日時",
       "IPハッシュ",
       "User-Agent",
+      "結果URL期限",
+      "結果閲覧回数",
+      "結果最終閲覧日時",
+      "受検者メール送信日時",
+      "受検者メールエラー",
       "業種",
       "区分",
       "総合スコア",
@@ -322,6 +357,11 @@ export default function AdminPage() {
           row.consentAgreedAt ? formatDate(row.consentAgreedAt) : "",
           row.ipHash,
           row.userAgent,
+          row.resultTokenExpiresAt ? formatDate(row.resultTokenExpiresAt) : "",
+          row.resultViewCount,
+          row.resultLastViewedAt ? formatDate(row.resultLastViewedAt) : "",
+          row.participantEmailSentAt ? formatDate(row.participantEmailSentAt) : "",
+          row.participantEmailError,
           row.industry,
           row.category,
           row.totalScore,
@@ -469,6 +509,11 @@ export default function AdminPage() {
                 <th className="px-4 py-3">同意日時</th>
                 <th className="px-4 py-3">IPハッシュ</th>
                 <th className="px-4 py-3">User-Agent</th>
+                <th className="px-4 py-3">結果URL期限</th>
+                <th className="px-4 py-3">閲覧回数</th>
+                <th className="px-4 py-3">最終閲覧</th>
+                <th className="px-4 py-3">受検者メール送信</th>
+                <th className="px-4 py-3">受検者メールエラー</th>
                 <th className="px-4 py-3">業種</th>
                 <th className="px-4 py-3">区分</th>
                 <th className="px-4 py-3">総合スコア</th>
@@ -496,6 +541,11 @@ export default function AdminPage() {
                   <td className="px-4 py-3">{row.consentAgreedAt ? formatDate(row.consentAgreedAt) : "-"}</td>
                   <td className="max-w-56 truncate px-4 py-3" title={row.ipHash}>{row.ipHash || "-"}</td>
                   <td className="max-w-72 truncate px-4 py-3" title={row.userAgent}>{row.userAgent || "-"}</td>
+                  <td className="px-4 py-3">{row.resultTokenExpiresAt ? formatDate(row.resultTokenExpiresAt) : "-"}</td>
+                  <td className="px-4 py-3">{row.resultViewCount}</td>
+                  <td className="px-4 py-3">{row.resultLastViewedAt ? formatDate(row.resultLastViewedAt) : "-"}</td>
+                  <td className="px-4 py-3">{row.participantEmailSentAt ? formatDate(row.participantEmailSentAt) : "-"}</td>
+                  <td className="max-w-72 truncate px-4 py-3" title={row.participantEmailError}>{row.participantEmailError || "-"}</td>
                   <td className="px-4 py-3">{row.industry}</td>
                   <td className="px-4 py-3">{row.category}</td>
                   <td className="px-4 py-3 font-bold">{row.totalScore}/192</td>
@@ -526,7 +576,7 @@ export default function AdminPage() {
               ))}
               {rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-center text-stone-600" colSpan={24}>
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={29}>
                     まだ診断データがありません。
                   </td>
                 </tr>
@@ -556,6 +606,11 @@ export default function AdminPage() {
                 ["同意日時", selectedRow.consentAgreedAt ? formatDate(selectedRow.consentAgreedAt) : "-"],
                 ["IPハッシュ", selectedRow.ipHash || "-"],
                 ["User-Agent", selectedRow.userAgent || "-"],
+                ["結果URL期限", selectedRow.resultTokenExpiresAt ? formatDate(selectedRow.resultTokenExpiresAt) : "-"],
+                ["結果閲覧回数", String(selectedRow.resultViewCount)],
+                ["結果最終閲覧日時", selectedRow.resultLastViewedAt ? formatDate(selectedRow.resultLastViewedAt) : "-"],
+                ["受検者メール送信日時", selectedRow.participantEmailSentAt ? formatDate(selectedRow.participantEmailSentAt) : "-"],
+                ["受検者メールエラー", selectedRow.participantEmailError || "-"],
                 ["業種", selectedRow.industry],
                 ["区分", selectedRow.category],
                 ["総合スコア", `${selectedRow.totalScore} / 192`],

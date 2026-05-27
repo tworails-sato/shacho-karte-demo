@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "社長カルテ デモ診断",
-  description: "48問で経営状態を可視化する社長カルテのデモ診断Webアプリ"
+  title: "社長カルテ Light",
+  description: "48問で経営状態を可視化する社長カルテ Light"
 };
 
 export default function RootLayout({

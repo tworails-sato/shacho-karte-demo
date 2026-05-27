@@ -118,7 +118,7 @@ export default function HomePage() {
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link className="text-sm font-black text-slate-950 sm:text-base" href="/">
-            社長カルテ デモアセスメント
+            社長カルテ Light
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-bold text-slate-600 md:flex">
             <a className="hover:text-blue-700" href="#features">特徴</a>
@@ -126,7 +126,7 @@ export default function HomePage() {
             <a className="hover:text-blue-700" href="#result-image">結果イメージ</a>
           </nav>
           <Link className="rounded-md bg-blue-700 px-4 py-2 text-sm font-black text-white transition hover:bg-blue-800" href="/basic-info">
-            デモ診断を始める
+            診断を始める
           </Link>
         </div>
       </header>
@@ -135,17 +135,17 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-blue-200 bg-white px-3 py-1 text-sm font-black text-blue-700">
-              経営支援者向けデモアセスメント
+              経営者専用アセスメント
             </p>
             <h1 className="text-4xl font-black leading-tight text-slate-950 sm:text-5xl">
               社長の現在地を16テーマで見える化する
             </h1>
             <p className="max-w-2xl text-base leading-8 text-slate-700 sm:text-lg">
-              経営者の課題感・優先順位・意思決定の傾向を、目標値との差分と過去受検者平均との差分から整理するデモアセスメントです。
+              経営者の課題感・優先順位・意思決定の傾向を、目標値との差分と過去受検者平均との差分から整理するアセスメントです。
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link className="inline-flex min-h-12 items-center justify-center rounded-md bg-blue-700 px-6 py-3 text-sm font-black text-white shadow-soft transition hover:bg-blue-800" href="/basic-info">
-                社長カルテのデモアセスメントを始める
+                社長カルテ Lightを始める
               </Link>
             </div>
           </div>
@@ -272,7 +272,7 @@ export default function HomePage() {
                 </div>
               ))}
               <p className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm font-bold leading-7 text-blue-900">
-                本番版では業種別・規模別・近しい社長タイプとの比較も可能です。
+                社長カルテ スタンダードでは業種別・規模別・近しい社長タイプとの比較も可能です。
               </p>
             </div>
           </div>
@@ -299,13 +299,13 @@ export default function HomePage() {
       <section className="bg-slate-950">
         <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-16 lg:px-8">
           <h2 className="text-3xl font-black leading-tight text-white">
-            まずはデモアセスメントで、結果の見え方を確認できます。
+            まずアセスメントで課題を確認しましょう
           </h2>
           <p className="mx-auto mt-4 max-w-2xl leading-8 text-slate-300">
             支援先に案内する前の確認用として、スマホからでもそのまま受検できます。
           </p>
           <Link className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-sm font-black text-white transition hover:bg-blue-500" href="/basic-info">
-            社長カルテのデモアセスメントを始める
+            アセスメントを始める
           </Link>
         </div>
       </section>
