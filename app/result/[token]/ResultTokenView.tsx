@@ -11,6 +11,7 @@ import {
   Tooltip
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
+import ThemeGuideAccordion from "../ThemeGuideAccordion";
 
 type Respondent = {
   company_name: string | null;
@@ -135,6 +136,8 @@ export default function ResultTokenView({
           </table>
         </div>
       </section>
+
+      <ThemeGuideAccordion />
 
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>

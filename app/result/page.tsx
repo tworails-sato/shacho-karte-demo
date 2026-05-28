@@ -16,6 +16,7 @@ import {
   saveSubmissionToSupabase
 } from "@/lib/supabase";
 import { notifyDiagnosisCompleted } from "@/lib/notify";
+import ThemeGuideAccordion from "./ThemeGuideAccordion";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -262,6 +263,8 @@ export default function ResultPage() {
           </table>
         </div>
       </section>
+
+      <ThemeGuideAccordion />
 
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
