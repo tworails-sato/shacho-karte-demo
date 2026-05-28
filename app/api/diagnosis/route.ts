@@ -149,6 +149,7 @@ async function sendParticipantEmail({
     if (!appUrl) throw new Error("NEXT_PUBLIC_APP_URL is not set");
 
     const resultUrl = `${appUrl.replace(/\/$/, "")}/result/${resultToken}`;
+    const displayName = representativeName || companyName || "受検者";
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -159,9 +160,14 @@ async function sendParticipantEmail({
         from: fromEmail,
         to: recipientEmail,
         ...(replyTo ? { reply_to: replyTo } : {}),
-        subject: "社長カルテの受検ありがとうございました",
+        subject: "社長カルテ受検ありがとうございました",
+        html: buildParticipantEmailHtml({
+          displayName,
+          resultUrl,
+          timerexUrl
+        }),
         text: [
-          `${representativeName || companyName || "受検者"} 様`,
+          `${displayName} 様`,
           "",
           "社長カルテをご受検いただき、ありがとうございました。",
           "",
@@ -170,14 +176,11 @@ async function sendParticipantEmail({
           "一方で、スコアの高低だけでは、実際にどのテーマから扱うべきか、",
           "どのように会話や支援につなげるべきかまでは読み切れない部分もあります。",
           "",
-          "以下のURLより、診断結果をご確認いただけます(期限：診断日より7日間）",
-          "",
-          resultUrl,
+          "診断結果はメール内の「診断結果を確認する」ボタンよりご確認ください。",
+          "※閲覧期限：診断日より7日間",
           "",
           "ご希望の方には、15〜30分ほどで結果の見方や活用イメージを簡単にお伝えしています。",
-          "",
-          "▼面談予約はこちら",
-          timerexUrl,
+          "面談予約はメール内の「面談を予約する」ボタンよりお進みください。",
           "",
           "引き続きよろしくお願いいたします。"
         ].join("\n")
@@ -205,6 +208,62 @@ async function sendParticipantEmail({
 
     if (updateError) console.error("Participant email error save failed", updateError);
   }
+}
+
+function buildParticipantEmailHtml({
+  displayName,
+  resultUrl,
+  timerexUrl
+}: {
+  displayName: string;
+  resultUrl: string;
+  timerexUrl: string;
+}) {
+  const buttonStyle = [
+    "background-color:#1f2937",
+    "border-radius:6px",
+    "color:#ffffff",
+    "display:inline-block",
+    "font-weight:700",
+    "padding:12px 20px",
+    "text-decoration:none"
+  ].join(";");
+  const paragraphStyle = "margin:0 0 14px;line-height:1.8;color:#374151;font-size:15px;";
+
+  return `
+<!doctype html>
+<html lang="ja">
+  <body style="margin:0;padding:0;background-color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+    <div style="max-width:640px;margin:0 auto;padding:24px 16px;">
+      <div style="background-color:#ffffff;border:1px solid #e5e7eb;border-radius:10px;padding:24px;">
+        <p style="${paragraphStyle}">${escapeHtml(displayName)} 様</p>
+        <p style="${paragraphStyle}">社長カルテをご受検いただき、ありがとうございました。</p>
+        <p style="${paragraphStyle}">診断結果では、16テーマをもとに現在の課題感や優先確認テーマを整理しています。</p>
+        <p style="${paragraphStyle}">一方で、スコアの高低だけでは、実際にどのテーマから扱うべきか、どのように会話や支援につなげるべきかまでは読み切れない部分もあります。</p>
+
+        <p style="${paragraphStyle}">診断結果は以下よりご確認ください。<br />※閲覧期限：診断日より7日間</p>
+        <p style="margin:0 0 24px;">
+          <a href="${escapeHtml(resultUrl)}" style="${buttonStyle}">診断結果を確認する</a>
+        </p>
+
+        <p style="${paragraphStyle}">ご希望の方には、15〜30分ほどで結果の見方や活用イメージを簡単にお伝えしています。</p>
+        <p style="margin:0 0 24px;">
+          <a href="${escapeHtml(timerexUrl)}" style="${buttonStyle}">面談を予約する</a>
+        </p>
+
+        <p style="margin:0;line-height:1.8;color:#374151;font-size:15px;">引き続きよろしくお願いいたします。</p>
+      </div>
+    </div>
+  </body>
+</html>`;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
 function formatError(error: unknown) {
