@@ -16,6 +16,7 @@ import {
   saveSubmissionToSupabase
 } from "@/lib/supabase";
 import { notifyDiagnosisCompleted } from "@/lib/notify";
+import ResultHowToReadCard from "./ResultHowToReadCard";
 import ThemeGuideAccordion from "./ThemeGuideAccordion";
 import {
   PolarAngleAxis,
@@ -131,11 +132,15 @@ export default function ResultPage() {
 
   const { basicInfo, result } = submission;
   const diagnosisDate = new Date(submission.createdAt).toLocaleDateString("ja-JP");
-  const priorityThemeNames =
+  const strongestThemeNames = result.topThemes.map((theme) => theme.name).join("・");
+  const prioritySummaryNames =
     result.priorityThemes.length > 0
-      ? result.priorityThemes.map((theme) => theme.name).join("、")
-      : "今回の診断結果";
-  const displayName = basicInfo.representativeName || "あなた";
+      ? result.priorityThemes.map((theme) => theme.name).join("・")
+      : "現在表示されているテーマ";
+  const friendlySummary =
+    result.priorityThemes.length > 0
+      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
     <main className="page-shell space-y-6">
@@ -144,15 +149,13 @@ export default function ResultPage() {
           <p className="text-sm font-bold text-brand">RESULT</p>
           <h1 className="mt-2 text-3xl font-black text-ink">診断結果</h1>
           <p className="mt-3 max-w-3xl leading-7 text-stone-700">
-            社長カルテ Lightでは、16テーマの主要項目に絞って、
-            自社のスコア、目標値との差分、過去受検者平均との差分を
-            簡易的に表示しています。
+            社長カルテ Lightでは、16テーマの主要項目と照らして、自社のスコア、
+            目標値との差分、過去受検者平均との差分を簡易的に表示しています。
             <br />
             <br />
-            社長カルテでは、単にスコアを出すだけではなく、
-            「目標値に対してどこが足りていないか」
-            「規模や業界の近い社長と比べて、どこに差があるか」
-            を見ることで、次に優先して取り組むべきテーマを整理することが目的です。
+            社長カルテは、単にスコアを出すだけではなく、目標値との差分や、
+            他の受検者との違いをもとに、今後優先して確認するとよさそうなテーマを
+            整理することを目的としています。
           </p>
         </div>
       </div>
@@ -172,9 +175,7 @@ export default function ResultPage() {
         </section>
       ) : null}
 
-      <section className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm font-bold leading-7 text-slate-700">
-        本診断結果は、回答者ご本人の経営課題整理を目的としたものです。第三者への提供、営業提案、顧客向け診断としての利用には、事前の許諾が必要です。
-      </section>
+      <ResultHowToReadCard />
 
       <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="panel p-5">
@@ -271,6 +272,10 @@ export default function ResultPage() {
         <p className="mt-1 text-sm text-stone-600">
           優先度「高」を優先表示し、該当がない場合は「中」のテーマを最大3件表示します。
         </p>
+        <p className="mt-3 rounded-md bg-stone-50 p-4 text-sm font-bold leading-7 text-stone-700">
+          優先確認テーマは、できていない項目ではなく、次に整理すると打ち手につながりやすいテーマです。
+          スコアだけで良し悪しを判断するのではなく、今後の対話や具体的なアクションを考える入口としてご覧ください。
+        </p>
         {result.priorityThemes.length > 0 ? (
           <div className="mt-4 grid gap-3 lg:grid-cols-3">
             {result.priorityThemes.map((theme) => (
@@ -294,7 +299,7 @@ export default function ResultPage() {
 
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">簡易コメント</h2>
-        <p className="mt-3 leading-7 text-stone-700">{result.summary}</p>
+        <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
       </section>
 
       <section className="panel p-5">
@@ -307,15 +312,15 @@ export default function ResultPage() {
 
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black">個別解説のご案内</h2>
+          <h2 className="text-2xl font-black">結果の見方、アクションプランを一緒に整理する</h2>
           <p className="mt-2 leading-7 text-stone-200">
-            {displayName}さんの優先確認テーマ（{priorityThemeNames}）について
+            スコアだけでは、なぜその結果になったのか、どこから取り組むとよいかまでは読み切れない部分があります。
             <br />
-            ズレとアクションプランを30分で一緒に整理します。
+            ご希望の方には、15〜30分ほどで結果の見方や具体的な活用イメージを簡単にお伝えしています。
           </p>
         </div>
         <button className="primary-button bg-white text-ink hover:bg-stone-100" onClick={handleCtaClick} type="button">
-          改善アクションを30分で整理する
+          結果の解説を依頼する
         </button>
       </section>
     </main>

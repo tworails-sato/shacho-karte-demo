@@ -11,6 +11,7 @@ import {
   Tooltip
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
+import ResultHowToReadCard from "../ResultHowToReadCard";
 import ThemeGuideAccordion from "../ThemeGuideAccordion";
 
 type Respondent = {
@@ -45,6 +46,19 @@ export default function ResultTokenView({
     score: theme.score,
     target: theme.target
   }));
+  const strongestThemeNames = [...themeScores]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((theme) => theme.name)
+    .join("・");
+  const prioritySummaryNames =
+    priorityThemes.length > 0
+      ? priorityThemes.map((theme) => theme.name).join("・")
+      : "現在表示されているテーマ";
+  const friendlySummary =
+    priorityThemes.length > 0
+      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
     <main className="page-shell space-y-6">
@@ -56,6 +70,8 @@ export default function ResultTokenView({
           {new Date(expiresAt).toLocaleString("ja-JP")}
         </p>
       </div>
+
+      <ResultHowToReadCard />
 
       <section className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="panel p-5">
@@ -141,6 +157,10 @@ export default function ResultTokenView({
 
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
+        <p className="mt-3 rounded-md bg-stone-50 p-4 text-sm font-bold leading-7 text-stone-700">
+          優先確認テーマは、できていない項目ではなく、次に整理すると打ち手につながりやすいテーマです。
+          スコアだけで良し悪しを判断するのではなく、今後の対話や具体的なアクションを考える入口としてご覧ください。
+        </p>
         <div className="mt-4 grid gap-3 lg:grid-cols-3">
           {priorityThemes.length > 0 ? (
             priorityThemes.map((theme) => (
@@ -160,15 +180,22 @@ export default function ResultTokenView({
         </div>
       </section>
 
+      <section className="panel p-5">
+        <h2 className="text-xl font-black text-ink">簡易コメント</h2>
+        <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
+      </section>
+
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black">個別解説のご案内</h2>
+          <h2 className="text-2xl font-black">結果の見方、アクションプランを一緒に整理する</h2>
           <p className="mt-2 leading-7 text-stone-200">
-            結果の見方や活用イメージを、15〜30分で簡単に整理できます。
+            スコアだけでは、なぜその結果になったのか、どこから取り組むとよいかまでは読み切れない部分があります。
+            <br />
+            ご希望の方には、15〜30分ほどで結果の見方や具体的な活用イメージを簡単にお伝えしています。
           </p>
         </div>
         <Link className="primary-button bg-white text-ink hover:bg-stone-100" href={timerexUrl}>
-          面談予約はこちら
+          結果の解説を依頼する
         </Link>
       </section>
     </main>

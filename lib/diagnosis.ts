@@ -156,7 +156,10 @@ export function calculateResult(answers: Record<string, number>): DiagnosisResul
   const priorityThemes = pickPriorityThemes(themeScores);
   const strongest = topThemes.map((theme) => theme.name).join("、");
   const priorityNames = priorityThemes.map((theme) => theme.name).join("、");
-  const summary = `今回の結果では、${strongest} に比較的強みが見られます。優先確認テーマとしては、${priorityNames || "大きな懸念テーマはありません"} を確認すると、次の打ち手を整理しやすくなります。`;
+  const summary =
+    priorityThemes.length > 0
+      ? `今回の結果では、${strongest} に比較的強みが見られます。一方で、${priorityNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      : `今回の結果では、${strongest} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return {
     totalScore,
