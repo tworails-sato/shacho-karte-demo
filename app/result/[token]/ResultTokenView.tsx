@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
 import ResultHowToReadCard from "../ResultHowToReadCard";
+import ResultUseCases from "../ResultUseCases";
 import ThemeGuideAccordion from "../ThemeGuideAccordion";
 
 type Respondent = {
@@ -57,7 +58,7 @@ export default function ResultTokenView({
       : "現在表示されているテーマ";
   const friendlySummary =
     priorityThemes.length > 0
-      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。評価として受け取るのではなく、今後の優先順位を整理する入口としてご覧ください。`
       : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
@@ -120,6 +121,9 @@ export default function ResultTokenView({
       <section className="panel overflow-hidden">
         <div className="border-b border-stone-200 p-5">
           <h2 className="text-xl font-black text-ink">16テーマ別スコア表</h2>
+          <p className="mt-1 text-sm text-stone-600">
+            ※各テーマの詳しい見方は、下部の『16テーマの見方』もあわせてご参照ください。
+          </p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
@@ -153,12 +157,10 @@ export default function ResultTokenView({
         </div>
       </section>
 
-      <ThemeGuideAccordion />
-
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
         <p className="mt-3 rounded-md bg-stone-50 p-4 text-sm font-bold leading-7 text-stone-700">
-          優先確認テーマは、できていない項目ではなく、次に整理すると打ち手につながりやすいテーマです。
+          優先確認テーマは、次に整理すると打ち手につながりやすいテーマです。
           スコアだけで良し悪しを判断するのではなく、今後の対話や具体的なアクションを考える入口としてご覧ください。
         </p>
         <div className="mt-4 grid gap-3 lg:grid-cols-3">
@@ -185,17 +187,21 @@ export default function ResultTokenView({
         <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
       </section>
 
+      <ResultUseCases />
+
+      <ThemeGuideAccordion />
+
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black">結果の見方、アクションプランを一緒に整理する</h2>
+          <h2 className="text-2xl font-black">結果の活用方法を一緒に整理する</h2>
           <p className="mt-2 leading-7 text-stone-200">
-            スコアだけでは、なぜその結果になったのか、どこから取り組むとよいかまでは読み切れない部分があります。
+            診断結果は、見るだけでは活用しきれない場合があります。
             <br />
-            ご希望の方には、15〜30分ほどで結果の見方や具体的な活用イメージを簡単にお伝えしています。
+            ご希望の方には、結果の見方に加えて、具体的な活用方法やアクションの方向性をご一緒に整理します。
           </p>
         </div>
-        <Link className="primary-button bg-white text-ink hover:bg-stone-100" href={timerexUrl}>
-          結果の解説を依頼する
+        <Link className="primary-button min-h-14 bg-white px-7 py-4 text-base text-ink hover:bg-stone-100" href={timerexUrl}>
+          結果の活用方法を相談する
         </Link>
       </section>
     </main>

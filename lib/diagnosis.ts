@@ -158,7 +158,7 @@ export function calculateResult(answers: Record<string, number>): DiagnosisResul
   const priorityNames = priorityThemes.map((theme) => theme.name).join("、");
   const summary =
     priorityThemes.length > 0
-      ? `今回の結果では、${strongest} に比較的強みが見られます。一方で、${priorityNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      ? `今回の結果では、${strongest} に比較的強みが見られます。一方で、${priorityNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。評価として受け取るのではなく、今後の優先順位を整理する入口としてご覧ください。`
       : `今回の結果では、${strongest} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return {

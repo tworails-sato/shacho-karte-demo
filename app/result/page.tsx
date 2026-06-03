@@ -17,6 +17,7 @@ import {
 } from "@/lib/supabase";
 import { notifyDiagnosisCompleted } from "@/lib/notify";
 import ResultHowToReadCard from "./ResultHowToReadCard";
+import ResultUseCases from "./ResultUseCases";
 import ThemeGuideAccordion from "./ThemeGuideAccordion";
 import {
   PolarAngleAxis,
@@ -139,7 +140,7 @@ export default function ResultPage() {
       : "現在表示されているテーマ";
   const friendlySummary =
     result.priorityThemes.length > 0
-      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。低い点数として見るのではなく、今後の優先順位を整理する入口としてご覧ください。`
+      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。評価として受け取るのではなく、今後の優先順位を整理する入口としてご覧ください。`
       : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
@@ -231,6 +232,8 @@ export default function ResultPage() {
           <h2 className="text-xl font-black text-ink">16テーマ別スコア表</h2>
           <p className="mt-1 text-sm text-stone-600">
             目標差分 = 実スコア - 目標値、平均差分 = 実スコア - 過去受検者の簡易平均です。
+            <br />
+            ※各テーマの詳しい見方は、下部の『16テーマの見方』もあわせてご参照ください。
           </p>
         </div>
         <div className="overflow-x-auto">
@@ -265,15 +268,13 @@ export default function ResultPage() {
         </div>
       </section>
 
-      <ThemeGuideAccordion />
-
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
         <p className="mt-1 text-sm text-stone-600">
           優先度「高」を優先表示し、該当がない場合は「中」のテーマを最大3件表示します。
         </p>
         <p className="mt-3 rounded-md bg-stone-50 p-4 text-sm font-bold leading-7 text-stone-700">
-          優先確認テーマは、できていない項目ではなく、次に整理すると打ち手につながりやすいテーマです。
+          優先確認テーマは、次に整理すると打ち手につながりやすいテーマです。
           スコアだけで良し悪しを判断するのではなく、今後の対話や具体的なアクションを考える入口としてご覧ください。
         </p>
         {result.priorityThemes.length > 0 ? (
@@ -302,25 +303,21 @@ export default function ResultPage() {
         <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
       </section>
 
-      <section className="panel p-5">
-        <h2 className="text-xl font-black text-ink">社長カルテ スタンダードで見られる内容は</h2>
-        <p className="mt-3 rounded-md bg-teal-50 p-4 text-sm font-bold leading-7 text-teal-900">
-          社長カルテ スタンダードでは、より詳細な設問により、業種別・規模別・近しい社長タイプ別の比較、
-          詳細フィードバック、支援先への活用方法まで整理できます。
-        </p>
-      </section>
+      <ResultUseCases />
+
+      <ThemeGuideAccordion />
 
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black">結果の見方、アクションプランを一緒に整理する</h2>
+          <h2 className="text-2xl font-black">結果の活用方法を一緒に整理する</h2>
           <p className="mt-2 leading-7 text-stone-200">
-            スコアだけでは、なぜその結果になったのか、どこから取り組むとよいかまでは読み切れない部分があります。
+            診断結果は、見るだけでは活用しきれない場合があります。
             <br />
-            ご希望の方には、15〜30分ほどで結果の見方や具体的な活用イメージを簡単にお伝えしています。
+            ご希望の方には、結果の見方に加えて、具体的な活用方法やアクションの方向性をご一緒に整理します。
           </p>
         </div>
-        <button className="primary-button bg-white text-ink hover:bg-stone-100" onClick={handleCtaClick} type="button">
-          結果の解説を依頼する
+        <button className="primary-button min-h-14 bg-white px-7 py-4 text-base text-ink hover:bg-stone-100" onClick={handleCtaClick} type="button">
+          結果の活用方法を相談する
         </button>
       </section>
     </main>
