@@ -45,9 +45,16 @@ export default function BasicInfoPage() {
   const router = useRouter();
   const [info, setInfo] = useState<BasicInfo>(initialInfo);
   const shouldShowReferrerName = referralSources.includes(info.trafficSource);
+  const shouldRequireConsent = info.category === "経営支援者";
 
   function updateField(key: keyof BasicInfo, value: string | boolean) {
-    setInfo((current) => ({ ...current, [key]: value }));
+    setInfo((current) => {
+      if (key === "category" && typeof value === "string" && value !== "経営支援者") {
+        return { ...current, [key]: value, consentAgreed: false, consentAgreedAt: "" };
+      }
+
+      return { ...current, [key]: value };
+    });
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -58,8 +65,8 @@ export default function BasicInfoPage() {
       email: emailNormalized,
       emailNormalized,
       referrerName: shouldShowReferrerName ? info.referrerName.trim() : "",
-      consentAgreed: true,
-      consentAgreedAt: new Date().toISOString()
+      consentAgreed: shouldRequireConsent ? info.consentAgreed : false,
+      consentAgreedAt: shouldRequireConsent && info.consentAgreed ? new Date().toISOString() : ""
     };
 
     window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(submittedInfo));
@@ -142,21 +149,23 @@ export default function BasicInfoPage() {
             </label>
           ) : null}
 
-          <label className="flex items-start gap-3 rounded-md border border-stone-200 bg-stone-50 p-4">
-            <input
-              className="mt-1 h-4 w-4 shrink-0"
-              required
-              type="checkbox"
-              checked={info.consentAgreed}
-              onChange={(event) => updateField("consentAgreed", event.target.checked)}
-            />
-            <span className="text-sm font-bold leading-7 text-stone-700">
-              ●経営支援者の方へ
-              <br />
-              本診断をクライアント社内への展開、ご提案、顧客向け診断として利用する場合は、
-              事前に運営の許諾が必要です。
-            </span>
-          </label>
+          {shouldRequireConsent ? (
+            <label className="flex items-start gap-3 rounded-md border border-stone-200 bg-stone-50 p-4">
+              <input
+                className="mt-1 h-4 w-4 shrink-0"
+                required
+                type="checkbox"
+                checked={info.consentAgreed}
+                onChange={(event) => updateField("consentAgreed", event.target.checked)}
+              />
+              <span className="text-sm font-bold leading-7 text-stone-700">
+                ●経営支援者の方へ
+                <br />
+                本診断をクライアント社内への展開、ご提案、顧客向け診断として利用する場合は、
+                事前に運営の許諾が必要です。
+              </span>
+            </label>
+          ) : null}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
             <button className="primary-button" type="submit">
