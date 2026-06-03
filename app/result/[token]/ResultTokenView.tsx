@@ -157,6 +157,8 @@ export default function ResultTokenView({
         </div>
       </section>
 
+      <ThemeGuideAccordion />
+
       <section className="panel p-5">
         <h2 className="text-xl font-black text-ink">優先確認テーマ</h2>
         <p className="mt-3 rounded-md bg-stone-50 p-4 text-sm font-bold leading-7 text-stone-700">
@@ -188,8 +190,6 @@ export default function ResultTokenView({
       </section>
 
       <ResultUseCases />
-
-      <ThemeGuideAccordion />
 
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
