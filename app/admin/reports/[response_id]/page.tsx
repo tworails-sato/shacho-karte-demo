@@ -97,6 +97,49 @@ function themeNames(themes: ThemeScore[]) {
   return themes.map((theme) => theme.name).join("、") || "-";
 }
 
+function averageQuestionScore(theme: ThemeScore) {
+  return theme.score / 3;
+}
+
+function getReportPriority(theme: ThemeScore) {
+  const score = averageQuestionScore(theme);
+  if (score < 2) return "高";
+  if (score < 2.5) return "中";
+  return "低";
+}
+
+function PriorityBadge({ priority }: { priority: string }) {
+  const style =
+    priority === "高"
+      ? "border-rose-200 bg-rose-50 text-rose-700"
+      : priority === "中"
+        ? "border-amber-200 bg-amber-50 text-amber-700"
+        : "border-blue-200 bg-blue-50 text-blue-700";
+  const icon = priority === "高" ? "🔴" : priority === "中" ? "🟡" : "🔵";
+
+  return (
+    <span className={`priority-badge inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-black ${style}`}>
+      <span aria-hidden="true">{icon}</span>
+      <span>{priority}</span>
+    </span>
+  );
+}
+
+function PriorityThemeList({ themes }: { themes: ThemeScore[] }) {
+  if (themes.length === 0) return <p className="mt-2 leading-7 text-amber-900">-</p>;
+
+  return (
+    <div className="mt-3 space-y-2">
+      {themes.map((theme) => (
+        <div key={theme.id} className="flex flex-wrap items-center gap-2">
+          <PriorityBadge priority={getReportPriority(theme)} />
+          <span className="font-bold text-amber-950">{theme.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function FeedbackReportPage() {
   const params = useParams<{ response_id: string }>();
   const responseId = params.response_id;
@@ -374,16 +417,11 @@ export default function FeedbackReportPage() {
           <section className="mt-6">
             <h3 className="text-xl font-black text-ink">16テーマ別スコア表</h3>
             <div className="mt-3 overflow-x-auto">
-              <table className="w-full min-w-[760px] text-left text-sm">
+              <table className="w-full min-w-[560px] text-left text-sm">
                 <thead className="bg-stone-50 text-stone-600">
                   <tr>
-                    <th className="px-3 py-2">テーマ</th>
-                    <th className="px-3 py-2">満点</th>
-                    <th className="px-3 py-2">目標値</th>
-                    <th className="px-3 py-2">簡易平均</th>
-                    <th className="px-3 py-2">実スコア</th>
-                    <th className="px-3 py-2">目標差分</th>
-                    <th className="px-3 py-2">平均差分</th>
+                    <th className="px-3 py-2">テーマ名</th>
+                    <th className="px-3 py-2">スコア</th>
                     <th className="px-3 py-2">優先度</th>
                   </tr>
                 </thead>
@@ -391,13 +429,8 @@ export default function FeedbackReportPage() {
                   {response.category_scores_json.map((theme) => (
                     <tr key={theme.id}>
                       <td className="px-3 py-2 font-black text-ink">{theme.name}</td>
-                      <td className="px-3 py-2">12</td>
-                      <td className="px-3 py-2">{theme.target}</td>
-                      <td className="px-3 py-2">{theme.average}</td>
-                      <td className="px-3 py-2 font-bold">{theme.score}</td>
-                      <td className="px-3 py-2">{theme.gap >= 0 ? "+" : ""}{theme.gap}</td>
-                      <td className="px-3 py-2">{theme.averageGap >= 0 ? "+" : ""}{theme.averageGap}</td>
-                      <td className="px-3 py-2">{theme.priority}</td>
+                      <td className="px-3 py-2 font-bold">{averageQuestionScore(theme).toFixed(2)}</td>
+                      <td className="px-3 py-2"><PriorityBadge priority={getReportPriority(theme)} /></td>
                     </tr>
                   ))}
                 </tbody>
@@ -412,7 +445,7 @@ export default function FeedbackReportPage() {
             </div>
             <div className="rounded-lg bg-amber-50 p-4">
               <h3 className="font-black text-amber-950">優先確認テーマ</h3>
-              <p className="mt-2 leading-7 text-amber-900">{themeNames(response.priority_categories_json)}</p>
+              <PriorityThemeList themes={response.priority_categories_json} />
             </div>
           </section>
 

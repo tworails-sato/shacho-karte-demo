@@ -37,6 +37,11 @@
   .report-preview section {
     break-inside: avoid;
   }
+
+  .priority-badge {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 }
 
 * {
