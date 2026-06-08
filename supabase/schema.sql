@@ -49,6 +49,7 @@ create table if not exists public.diagnosis_events (
 create table if not exists public.feedback_reports (
   id uuid primary key default gen_random_uuid(),
   response_id uuid not null unique references public.diagnosis_responses(id) on delete cascade,
+  one_line_summary text,
   summary text,
   executive_type text,
   psychological_tendency text,
