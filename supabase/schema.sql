@@ -46,9 +46,28 @@ create table if not exists public.diagnosis_events (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.feedback_reports (
+  id uuid primary key default gen_random_uuid(),
+  response_id uuid not null unique references public.diagnosis_responses(id) on delete cascade,
+  summary text,
+  executive_type text,
+  psychological_tendency text,
+  strength text,
+  gap text,
+  short_term_action text,
+  mid_long_term_action text,
+  advisor_use_case text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create index if not exists diagnosis_responses_result_token_idx
   on public.diagnosis_responses (result_token);
+
+create index if not exists feedback_reports_response_id_idx
+  on public.feedback_reports (response_id);
 
 alter table public.respondents enable row level security;
 alter table public.diagnosis_responses enable row level security;
 alter table public.diagnosis_events enable row level security;
+alter table public.feedback_reports enable row level security;

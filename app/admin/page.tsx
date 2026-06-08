@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip
+} from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
 import { getLocalEvents, getLocalSubmissions, type StoredSubmission } from "@/lib/storage";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
@@ -99,6 +108,20 @@ function themeNames(themes: ThemeScore[]) {
 
 function themeScores(themes: ThemeScore[]) {
   return themes.map((theme) => `${theme.name}:${theme.score}`).join(" / ");
+}
+
+function ThemeTags({ themes }: { themes: ThemeScore[] }) {
+  if (themes.length === 0) return <span className="text-stone-500">-</span>;
+
+  return (
+    <div className="flex max-w-md flex-wrap gap-1.5">
+      {themes.map((theme) => (
+        <span key={theme.id} className="rounded-full bg-stone-100 px-2 py-1 text-xs font-bold text-stone-700">
+          {theme.name}
+        </span>
+      ))}
+    </div>
+  );
 }
 
 function emailDomain(email: string) {
@@ -494,74 +517,36 @@ export default function AdminPage() {
           <h2 className="text-xl font-black text-ink">回答一覧表示</h2>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[2200px] text-left text-sm">
+          <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="bg-stone-50 text-stone-600">
               <tr>
                 <th className="px-4 py-3">回答日時</th>
-                <th className="px-4 py-3">会社名</th>
                 <th className="px-4 py-3">氏名</th>
+                <th className="px-4 py-3">会社名</th>
                 <th className="px-4 py-3">メールアドレス</th>
-                <th className="px-4 py-3">流入経路</th>
-                <th className="px-4 py-3">紹介者名</th>
-                <th className="px-4 py-3">紹介元会社名</th>
-                <th className="px-4 py-3">紹介者メールアドレス</th>
-                <th className="px-4 py-3">同意</th>
-                <th className="px-4 py-3">同意日時</th>
-                <th className="px-4 py-3">IPハッシュ</th>
-                <th className="px-4 py-3">User-Agent</th>
-                <th className="px-4 py-3">結果URL期限</th>
-                <th className="px-4 py-3">閲覧回数</th>
-                <th className="px-4 py-3">最終閲覧</th>
-                <th className="px-4 py-3">受検者メール送信</th>
-                <th className="px-4 py-3">受検者メールエラー</th>
-                <th className="px-4 py-3">業種</th>
-                <th className="px-4 py-3">区分</th>
                 <th className="px-4 py-3">総合スコア</th>
-                <th className="px-4 py-3">達成率</th>
-                <th className="px-4 py-3">各テーマスコア</th>
                 <th className="px-4 py-3">高スコア上位3テーマ</th>
-                <th className="px-4 py-3">低スコア下位3テーマ</th>
                 <th className="px-4 py-3">優先確認テーマ</th>
-                <th className="px-4 py-3">個別解説CTAクリック有無</th>
                 <th className="px-4 py-3">詳細</th>
+                <th className="px-4 py-3">FB</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
               {rows.map((row) => (
-                <tr key={row.id}>
-                  <td className="px-4 py-3 text-stone-600">{formatDate(row.createdAt)}</td>
-                  <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
+                <tr key={row.id} className={selectedId === row.id ? "bg-teal-50/50" : undefined}>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDate(row.createdAt)}</td>
                   <td className="px-4 py-3">{row.representativeName}</td>
-                  <td className="px-4 py-3">{row.email}</td>
-                  <td className="px-4 py-3">{row.trafficSource || "-"}</td>
-                  <td className="px-4 py-3">{row.referrerName || "-"}</td>
-                  <td className="px-4 py-3">{row.referrerCompany || "-"}</td>
-                  <td className="px-4 py-3">{row.referrerEmail || "-"}</td>
-                  <td className="px-4 py-3">{row.consentAgreed ? "同意済み" : "未同意"}</td>
-                  <td className="px-4 py-3">{row.consentAgreedAt ? formatDate(row.consentAgreedAt) : "-"}</td>
-                  <td className="max-w-56 truncate px-4 py-3" title={row.ipHash}>{row.ipHash || "-"}</td>
-                  <td className="max-w-72 truncate px-4 py-3" title={row.userAgent}>{row.userAgent || "-"}</td>
-                  <td className="px-4 py-3">{row.resultTokenExpiresAt ? formatDate(row.resultTokenExpiresAt) : "-"}</td>
-                  <td className="px-4 py-3">{row.resultViewCount}</td>
-                  <td className="px-4 py-3">{row.resultLastViewedAt ? formatDate(row.resultLastViewedAt) : "-"}</td>
-                  <td className="px-4 py-3">{row.participantEmailSentAt ? formatDate(row.participantEmailSentAt) : "-"}</td>
-                  <td className="max-w-72 truncate px-4 py-3" title={row.participantEmailError}>{row.participantEmailError || "-"}</td>
-                  <td className="px-4 py-3">{row.industry}</td>
-                  <td className="px-4 py-3">{row.category}</td>
-                  <td className="px-4 py-3 font-bold">{row.totalScore}/192</td>
-                  <td className="px-4 py-3">{row.achievementRate}%</td>
-                  <td className="px-4 py-3 text-xs leading-5 text-stone-700">
-                    {themeScores(row.themeScores)}
+                  <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
+                  <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-bold">
+                    {row.totalScore}/192
+                    <span className="ml-1 text-xs text-stone-500">({row.achievementRate}%)</span>
                   </td>
-                  <td className="px-4 py-3">{themeNames(row.topThemes)}</td>
-                  <td className="px-4 py-3">{themeNames(row.lowThemes)}</td>
-                  <td className="px-4 py-3">{themeNames(row.priorityThemes)}</td>
                   <td className="px-4 py-3">
-                    <span className={`rounded-full px-2 py-1 text-xs font-black ${
-                      row.ctaClicked ? "bg-teal-50 text-brand" : "bg-stone-100 text-stone-600"
-                    }`}>
-                      {row.ctaClicked ? "クリック済" : "未クリック"}
-                    </span>
+                    <ThemeTags themes={row.topThemes} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <ThemeTags themes={row.priorityThemes.length > 0 ? row.priorityThemes : row.lowThemes} />
                   </td>
                   <td className="px-4 py-3">
                     <button
@@ -569,14 +554,22 @@ export default function AdminPage() {
                       onClick={() => setSelectedId(row.id)}
                       type="button"
                     >
-                      表示
+                      詳細
                     </button>
+                  </td>
+                  <td className="px-4 py-3">
+                    <Link
+                      className="rounded-md bg-brand px-3 py-2 text-xs font-black text-white hover:bg-teal-800"
+                      href={`/admin/reports/${row.responseId ?? row.id}`}
+                    >
+                      FB作成
+                    </Link>
                   </td>
                 </tr>
               ))}
               {rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-center text-stone-600" colSpan={29}>
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={9}>
                     まだ診断データがありません。
                   </td>
                 </tr>
@@ -592,6 +585,18 @@ export default function AdminPage() {
         </div>
         {selectedRow ? (
           <div className="space-y-5 p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-bold text-stone-500">FEEDBACK REPORT</p>
+                <p className="mt-1 text-sm leading-6 text-stone-700">
+                  この回答データをもとに、管理者用のフィードバックレポートを作成・編集できます。
+                </p>
+              </div>
+              <Link className="primary-button" href={`/admin/reports/${selectedRow.responseId ?? selectedRow.id}`}>
+                FBレポート作成
+              </Link>
+            </div>
+
             <div className="grid gap-3 text-sm sm:grid-cols-3">
               {[
                 ["回答日時", formatDate(selectedRow.createdAt)],
@@ -636,6 +641,31 @@ export default function AdminPage() {
               <div className="rounded-md bg-rose-50 p-4">
                 <h3 className="font-black text-rose-950">優先確認テーマ</h3>
                 <p className="mt-2 leading-7 text-rose-900">{themeNames(selectedRow.priorityThemes) || "-"}</p>
+              </div>
+            </div>
+
+            <div className="rounded-md border border-stone-200 bg-white p-5">
+              <h3 className="text-lg font-black text-ink">16テーマ レーダーチャート</h3>
+              <p className="mt-1 text-sm text-stone-600">
+                詳細確認用に、実スコアと目標値を表示しています。
+              </p>
+              <div className="mt-4 h-80 w-full">
+                <ResponsiveContainer height="100%" width="100%">
+                  <RadarChart
+                    data={selectedRow.themeScores.map((theme) => ({
+                      theme: theme.name,
+                      score: theme.score,
+                      target: theme.target
+                    }))}
+                  >
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="theme" tick={{ fontSize: 10 }} />
+                    <PolarRadiusAxis angle={90} domain={[0, 12]} tickCount={5} />
+                    <Radar dataKey="target" fill="#d97706" fillOpacity={0.12} name="目標値" stroke="#d97706" />
+                    <Radar dataKey="score" fill="#0f766e" fillOpacity={0.35} name="実スコア" stroke="#0f766e" />
+                    <Tooltip />
+                  </RadarChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
