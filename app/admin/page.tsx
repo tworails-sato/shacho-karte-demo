@@ -180,6 +180,9 @@ export default function AdminPage() {
   const [eventCount, setEventCount] = useState(0);
   const [dataSource, setDataSource] = useState<"supabase" | "local">("local");
   const [adminError, setAdminError] = useState<string | null>(null);
+  const [adminMessage, setAdminMessage] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<AdminRow | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     async function loadRows() {
@@ -410,6 +413,58 @@ export default function AdminPage() {
     URL.revokeObjectURL(url);
   }
 
+  async function handleDeleteResponse() {
+    if (!deleteTarget) return;
+
+    if (dataSource !== "supabase") {
+      setAdminError("ローカルデータ表示中は管理画面から削除できません。Supabase接続後に削除してください。");
+      setDeleteTarget(null);
+      return;
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setAdminError("Supabase clientを初期化できませんでした。環境変数を確認してください。");
+      setDeleteTarget(null);
+      return;
+    }
+
+    setIsDeleting(true);
+    setAdminError(null);
+    setAdminMessage(null);
+
+    try {
+      const responseId = deleteTarget.responseId ?? deleteTarget.id;
+      const { error: reportDeleteError } = await supabase
+        .from("feedback_reports")
+        .delete()
+        .eq("response_id", responseId);
+
+      if (reportDeleteError) throw reportDeleteError;
+
+      const { error: responseDeleteError } = await supabase
+        .from("diagnosis_responses")
+        .delete()
+        .eq("id", responseId);
+
+      if (responseDeleteError) throw responseDeleteError;
+
+      const remainingRows = rows.filter((row) => row.id !== deleteTarget.id);
+      setRows(remainingRows);
+      setSelectedId((currentSelectedId) => {
+        if (currentSelectedId !== deleteTarget.id) return currentSelectedId;
+        return remainingRows[0]?.id ?? null;
+      });
+      setAdminMessage("削除しました。");
+      setDeleteTarget(null);
+    } catch (error) {
+      console.error("Supabase admin delete failed", error);
+      setAdminError(formatAdminError(error));
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   return (
     <main className="page-shell space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -506,9 +561,17 @@ export default function AdminPage() {
 
       {adminError ? (
         <section className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm font-bold leading-7 text-rose-800">
-          Supabaseからデータを取得できませんでした。画面表示はローカルデータにフォールバックしています。
+          {dataSource === "local"
+            ? "Supabaseからデータを取得できませんでした。画面表示はローカルデータにフォールバックしています。"
+            : "処理に失敗しました。"}
           <br />
           {adminError}
+        </section>
+      ) : null}
+
+      {adminMessage ? (
+        <section className="rounded-lg border border-teal-200 bg-teal-50 p-4 text-sm font-bold text-teal-900">
+          {adminMessage}
         </section>
       ) : null}
 
@@ -529,6 +592,7 @@ export default function AdminPage() {
                 <th className="px-4 py-3">優先確認テーマ</th>
                 <th className="px-4 py-3">詳細</th>
                 <th className="px-4 py-3">FB</th>
+                <th className="px-4 py-3">削除</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
@@ -565,11 +629,21 @@ export default function AdminPage() {
                       FB作成
                     </Link>
                   </td>
+                  <td className="px-4 py-3">
+                    <button
+                      className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-black text-rose-700 hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={dataSource !== "supabase"}
+                      onClick={() => setDeleteTarget(row)}
+                      type="button"
+                    >
+                      削除
+                    </button>
+                  </td>
                 </tr>
               ))}
               {rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-center text-stone-600" colSpan={9}>
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={10}>
                     まだ診断データがありません。
                   </td>
                 </tr>
@@ -704,6 +778,56 @@ export default function AdminPage() {
           <p className="p-5 text-stone-600">表示できる回答がありません。</p>
         )}
       </section>
+
+      {deleteTarget ? (
+        <div
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 px-4"
+          role="dialog"
+        >
+          <section className="w-full max-w-lg rounded-lg bg-white p-6 shadow-soft">
+            <p className="text-sm font-bold text-rose-700">DELETE RESPONSE</p>
+            <h2 className="mt-2 text-2xl font-black text-ink">この回答データを削除しますか？</h2>
+            <p className="mt-3 leading-7 text-stone-700">
+              削除すると、回答データと紐づくFBレポートも削除されます。この操作は元に戻せません。
+            </p>
+
+            <dl className="mt-4 grid gap-3 rounded-md bg-stone-50 p-4 text-sm">
+              <div>
+                <dt className="font-bold text-stone-500">回答者名</dt>
+                <dd className="mt-1 font-black text-ink">{deleteTarget.representativeName || "-"}</dd>
+              </div>
+              <div>
+                <dt className="font-bold text-stone-500">会社名</dt>
+                <dd className="mt-1 font-black text-ink">{deleteTarget.companyName || "-"}</dd>
+              </div>
+              <div>
+                <dt className="font-bold text-stone-500">メールアドレス</dt>
+                <dd className="mt-1 break-all font-black text-ink">{deleteTarget.email || "-"}</dd>
+              </div>
+            </dl>
+
+            <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button
+                className="secondary-button"
+                disabled={isDeleting}
+                onClick={() => setDeleteTarget(null)}
+                type="button"
+              >
+                キャンセル
+              </button>
+              <button
+                className="inline-flex min-h-12 items-center justify-center rounded-md bg-rose-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-800 disabled:cursor-not-allowed disabled:bg-stone-300"
+                disabled={isDeleting}
+                onClick={handleDeleteResponse}
+                type="button"
+              >
+                {isDeleting ? "削除中..." : "削除する"}
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }
