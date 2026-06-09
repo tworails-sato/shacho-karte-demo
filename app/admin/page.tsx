@@ -666,9 +666,19 @@ export default function AdminPage() {
                   この回答データをもとに、管理者用のフィードバックレポートを作成・編集できます。
                 </p>
               </div>
-              <Link className="primary-button" href={`/admin/reports/${selectedRow.responseId ?? selectedRow.id}`}>
-                FBレポート作成
-              </Link>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link className="primary-button" href={`/admin/reports/${selectedRow.responseId ?? selectedRow.id}`}>
+                  FBレポート作成
+                </Link>
+                <button
+                  className="inline-flex min-h-12 items-center justify-center rounded-md border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-bold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={dataSource !== "supabase"}
+                  onClick={() => setDeleteTarget(selectedRow)}
+                  type="button"
+                >
+                  削除
+                </button>
+              </div>
             </div>
 
             <div className="grid gap-3 text-sm sm:grid-cols-3">
