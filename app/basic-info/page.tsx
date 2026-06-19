@@ -15,6 +15,9 @@ const initialInfo: BasicInfo = {
   referrerName: "",
   referrerCompany: "",
   referrerEmail: "",
+  usagePurpose: "",
+  demoTermsAgreed: false,
+  demoTermsAgreedAt: "",
   consentAgreed: false,
   consentAgreedAt: ""
 };
@@ -40,10 +43,19 @@ const referralSources = [
   "知人・取引先からの紹介",
   "経営支援者・コンサルタントからの紹介"
 ];
+const usagePurposes = [
+  "自分自身の振り返り",
+  "サービス内容の確認",
+  "クライアント支援での活用を検討",
+  "営業活動での活用を検討",
+  "その他"
+];
 
 export default function BasicInfoPage() {
   const router = useRouter();
   const [info, setInfo] = useState<BasicInfo>(initialInfo);
+  const [eligibilityError, setEligibilityError] = useState("");
+  const [checkingEligibility, setCheckingEligibility] = useState(false);
   const shouldShowReferrerName = referralSources.includes(info.trafficSource);
   const shouldRequireConsent = info.category === "経営支援者";
 
@@ -57,17 +69,32 @@ export default function BasicInfoPage() {
     });
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setEligibilityError("");
     const emailNormalized = info.email.trim().toLowerCase();
     const submittedInfo: BasicInfo = {
       ...info,
       email: emailNormalized,
       emailNormalized,
       referrerName: shouldShowReferrerName ? info.referrerName.trim() : "",
+      demoTermsAgreedAt: info.demoTermsAgreed ? new Date().toISOString() : "",
       consentAgreed: shouldRequireConsent ? info.consentAgreed : false,
       consentAgreedAt: shouldRequireConsent && info.consentAgreed ? new Date().toISOString() : ""
     };
+
+    setCheckingEligibility(true);
+    const eligibility = await fetch("/api/demo-eligibility", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: emailNormalized })
+    });
+    setCheckingEligibility(false);
+    if (!eligibility.ok) {
+      const payload = await eligibility.json().catch(() => ({}));
+      setEligibilityError(payload.error || "このメールアドレスでは現在受検できません。");
+      return;
+    }
 
     window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(submittedInfo));
     router.push("/diagnosis");
@@ -149,6 +176,40 @@ export default function BasicInfoPage() {
             </label>
           ) : null}
 
+          <label className="space-y-2">
+            <span className="label">利用目的 *</span>
+            <select
+              className="field"
+              required
+              value={info.usagePurpose}
+              onChange={(event) => updateField("usagePurpose", event.target.value)}
+            >
+              <option value="">選択してください</option>
+              {usagePurposes.map((purpose) => (
+                <option key={purpose} value={purpose}>{purpose}</option>
+              ))}
+            </select>
+          </label>
+
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm font-bold leading-7 text-amber-950">
+            <p>本アセスメントは、ご本人による診断・体験を目的としたものです。</p>
+            <p className="mt-2">
+              当社の許諾なく、第三者への配布、営業活動等での利用、
+              設問・診断結果・画面構成の転載、複製、改変、
+              類似サービスへの転用を行うことはできません。
+            </p>
+            <label className="mt-3 flex items-start gap-3">
+              <input
+                className="mt-1 h-4 w-4 shrink-0"
+                required
+                type="checkbox"
+                checked={info.demoTermsAgreed}
+                onChange={(event) => updateField("demoTermsAgreed", event.target.checked)}
+              />
+              <span>上記の利用条件に同意して診断を開始します</span>
+            </label>
+          </div>
+
           {shouldRequireConsent ? (
             <label className="flex items-start gap-3 rounded-md border border-stone-200 bg-stone-50 p-4">
               <input
@@ -168,8 +229,13 @@ export default function BasicInfoPage() {
           ) : null}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <button className="primary-button" type="submit">
-              アセスメントに進む
+            {eligibilityError ? (
+              <p className="whitespace-pre-wrap rounded-md border border-rose-200 bg-rose-50 p-4 text-sm font-bold leading-7 text-rose-800">
+                {eligibilityError}
+              </p>
+            ) : null}
+            <button className="primary-button" disabled={checkingEligibility} type="submit">
+              {checkingEligibility ? "確認中..." : "アセスメントに進む"}
             </button>
           </div>
         </form>

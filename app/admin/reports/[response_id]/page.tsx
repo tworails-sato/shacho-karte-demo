@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
+import { defaultUsageSettings, usageSettingsFromRow, type UsageSettings } from "@/lib/usage-settings";
 
 type DiagnosisResponseRow = {
   id: string;
@@ -24,6 +25,14 @@ type DiagnosisResponseRow = {
   top_categories_json: ThemeScore[];
   priority_categories_json: ThemeScore[];
   created_at: string;
+  is_demo: boolean | null;
+  watermark_enabled: boolean | null;
+  watermark_text: string | null;
+  copyright_enabled: boolean | null;
+  copyright_text: string | null;
+  commercial_use_allowed: boolean | null;
+  resubmission_allowed: boolean | null;
+  usage_purpose: string | null;
 };
 
 type RespondentRow = {
@@ -235,8 +244,10 @@ export default function FeedbackReportPage() {
   const [response, setResponse] = useState<DiagnosisResponseRow | null>(null);
   const [respondent, setRespondent] = useState<RespondentRow | null>(null);
   const [report, setReport] = useState<FeedbackReportForm>(emptyReport);
+  const [usageSettings, setUsageSettings] = useState<UsageSettings>(defaultUsageSettings);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingUsageSettings, setSavingUsageSettings] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const themeGuideUrl = `${process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || ""}/theme-guide`;
@@ -263,7 +274,15 @@ export default function FeedbackReportPage() {
             category_scores_json,
             top_categories_json,
             priority_categories_json,
-            created_at
+            created_at,
+            is_demo,
+            watermark_enabled,
+            watermark_text,
+            copyright_enabled,
+            copyright_text,
+            commercial_use_allowed,
+            resubmission_allowed,
+            usage_purpose
           `)
           .eq("id", responseId)
           .maybeSingle();
@@ -273,6 +292,7 @@ export default function FeedbackReportPage() {
 
         const typedResponse = responseData as DiagnosisResponseRow;
         setResponse(typedResponse);
+        setUsageSettings(usageSettingsFromRow(typedResponse));
 
         const { data: respondentData, error: respondentError } = await supabase
           .from("respondents")
@@ -390,8 +410,83 @@ export default function FeedbackReportPage() {
     }
   }
 
+  async function handleSaveUsageSettings() {
+    const supabase = getSupabaseClient();
+    if (!supabase || !response) return;
+
+    if (
+      response.is_demo &&
+      !usageSettings.is_demo &&
+      !window.confirm(
+        "この診断結果を正式利用へ変更します。\nウォーターマークや利用条件の表示が変更される可能性があります。\nよろしいですか？"
+      )
+    ) {
+      return;
+    }
+
+    setSavingUsageSettings(true);
+    setStatusMessage(null);
+    setErrorMessage(null);
+
+    try {
+      const nextSettings = {
+        is_demo: usageSettings.is_demo,
+        watermark_enabled: usageSettings.watermark_enabled,
+        watermark_text: usageSettings.watermark_text,
+        copyright_enabled: usageSettings.copyright_enabled,
+        copyright_text: usageSettings.copyright_text,
+        commercial_use_allowed: usageSettings.commercial_use_allowed,
+        resubmission_allowed: usageSettings.resubmission_allowed,
+        usage_purpose: usageSettings.usage_purpose || null,
+        updated_at: new Date().toISOString()
+      };
+      const { data, error } = await supabase
+        .from("diagnosis_responses")
+        .update(nextSettings)
+        .eq("id", response.id)
+        .select(
+          `
+          id,
+          respondent_id,
+          total_score,
+          achievement_rate,
+          category_scores_json,
+          top_categories_json,
+          priority_categories_json,
+          created_at,
+          is_demo,
+          watermark_enabled,
+          watermark_text,
+          copyright_enabled,
+          copyright_text,
+          commercial_use_allowed,
+          resubmission_allowed,
+          usage_purpose
+        `
+        )
+        .maybeSingle();
+
+      if (error) throw error;
+      if (data) {
+        const typedResponse = data as DiagnosisResponseRow;
+        setResponse(typedResponse);
+        setUsageSettings(usageSettingsFromRow(typedResponse));
+      }
+      setStatusMessage("利用設定を保存しました。");
+    } catch (error) {
+      console.error("Usage settings save failed", error);
+      setErrorMessage(formatError(error));
+    } finally {
+      setSavingUsageSettings(false);
+    }
+  }
+
   function updateReport(key: keyof FeedbackReportForm, value: string) {
     setReport((current) => ({ ...current, [key]: value }));
+  }
+
+  function updateUsageSetting<K extends keyof UsageSettings>(key: K, value: UsageSettings[K]) {
+    setUsageSettings((current) => ({ ...current, [key]: value }));
   }
 
   if (loading) {
@@ -455,6 +550,113 @@ export default function FeedbackReportPage() {
               FB本文は管理者が入力してください。入力内容は右側のプレビューに反映されます。
             </p>
           </div>
+
+          <section className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+            <div>
+              <h3 className="text-lg font-black text-ink">利用設定</h3>
+              <p className="mt-1 text-sm font-bold leading-6 text-stone-600">
+                デモ表示、ウォーターマーク、著作権表示、営業利用、再受検許可を管理します。
+              </p>
+            </div>
+
+            <div className="mt-4 grid gap-3 text-sm">
+              <label className="block space-y-2">
+                <span className="label">利用区分</span>
+                <select
+                  className="field"
+                  value={usageSettings.is_demo ? "demo" : "official"}
+                  onChange={(event) => updateUsageSetting("is_demo", event.target.value === "demo")}
+                >
+                  <option value="demo">デモ利用</option>
+                  <option value="official">正式利用</option>
+                </select>
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">ウォーターマーク</span>
+                <select
+                  className="field"
+                  value={usageSettings.watermark_enabled ? "enabled" : "disabled"}
+                  onChange={(event) => updateUsageSetting("watermark_enabled", event.target.value === "enabled")}
+                >
+                  <option value="enabled">表示する</option>
+                  <option value="disabled">表示しない</option>
+                </select>
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">ウォーターマーク文言</span>
+                <input
+                  className="field"
+                  value={usageSettings.watermark_text}
+                  onChange={(event) => updateUsageSetting("watermark_text", event.target.value)}
+                />
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">著作権表示</span>
+                <select
+                  className="field"
+                  value={usageSettings.copyright_enabled ? "enabled" : "disabled"}
+                  onChange={(event) => updateUsageSetting("copyright_enabled", event.target.value === "enabled")}
+                >
+                  <option value="enabled">表示する</option>
+                  <option value="disabled">表示しない</option>
+                </select>
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">著作権文言</span>
+                <input
+                  className="field"
+                  value={usageSettings.copyright_text}
+                  onChange={(event) => updateUsageSetting("copyright_text", event.target.value)}
+                />
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">営業利用</span>
+                <select
+                  className="field"
+                  value={usageSettings.commercial_use_allowed ? "allowed" : "denied"}
+                  onChange={(event) => updateUsageSetting("commercial_use_allowed", event.target.value === "allowed")}
+                >
+                  <option value="denied">許可しない</option>
+                  <option value="allowed">許可する</option>
+                </select>
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">再受検</span>
+                <select
+                  className="field"
+                  value={usageSettings.resubmission_allowed ? "allowed" : "denied"}
+                  onChange={(event) => updateUsageSetting("resubmission_allowed", event.target.value === "allowed")}
+                >
+                  <option value="denied">許可しない</option>
+                  <option value="allowed">1回許可する</option>
+                </select>
+              </label>
+
+              <label className="block space-y-2">
+                <span className="label">利用目的</span>
+                <input
+                  className="field"
+                  value={usageSettings.usage_purpose ?? ""}
+                  onChange={(event) => updateUsageSetting("usage_purpose", event.target.value)}
+                />
+              </label>
+            </div>
+
+            <button
+              className="secondary-button mt-4 w-full"
+              disabled={savingUsageSettings}
+              onClick={handleSaveUsageSettings}
+              type="button"
+            >
+              {savingUsageSettings ? "保存中..." : "利用設定を保存"}
+            </button>
+          </section>
 
           <label className="block space-y-2">
             <span className="label">レポートサマリ</span>

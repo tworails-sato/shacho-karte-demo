@@ -36,6 +36,15 @@ create table if not exists public.diagnosis_responses (
   result_last_viewed_at timestamptz,
   participant_email_sent_at timestamptz,
   participant_email_error text,
+  is_demo boolean not null default true,
+  watermark_enabled boolean not null default true,
+  watermark_text text not null default 'DEMO｜社長カルテ',
+  copyright_enabled boolean not null default true,
+  copyright_text text not null default '© Two rails',
+  commercial_use_allowed boolean not null default false,
+  resubmission_allowed boolean not null default false,
+  usage_purpose text,
+  updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
 

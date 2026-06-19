@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { StoredSubmission } from "@/lib/storage";
+import { defaultUsageSettings, usageSettingsFromRow } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -25,6 +26,14 @@ export async function POST(request: Request) {
     let responseId = submission.responseId;
     let resultToken = submission.resultToken;
     let resultTokenExpiresAt = submission.resultTokenExpiresAt;
+    const isPublicDemo = true;
+    const usageSettings = {
+      ...defaultUsageSettings,
+      is_demo: isPublicDemo,
+      commercial_use_allowed: false,
+      resubmission_allowed: false,
+      usage_purpose: submission.basicInfo.usagePurpose || null
+    };
 
     if (!submission.respondentId) {
       const { error } = await supabase.from("respondents").upsert(
@@ -43,6 +52,28 @@ export async function POST(request: Request) {
     }
 
     if (!responseId) {
+      const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const { data: recentResponses, error: recentError } = await supabase
+        .from("diagnosis_responses")
+        .select("id,resubmission_allowed")
+        .eq("email_normalized", normalizedEmail)
+        .eq("is_demo", true)
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (recentError) throw recentError;
+      const recent = recentResponses?.[0];
+      if (recent && !recent.resubmission_allowed) {
+        return NextResponse.json(
+          {
+            error:
+              "このメールアドレスでは、直近30日以内に受検済みです。\n\n再受検をご希望の場合は、以下までお問い合わせください。\n\n合同会社Two rails\ninfo@ceo-sherpa.com"
+          },
+          { status: 429 }
+        );
+      }
+
       resultToken = createResultToken();
       resultTokenExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -69,15 +100,42 @@ export async function POST(request: Request) {
           user_agent: request.headers.get("user-agent") || null,
           result_token: resultToken,
           result_token_expires_at: resultTokenExpiresAt,
-          result_view_count: 0
+          result_view_count: 0,
+          is_demo: usageSettings.is_demo,
+          watermark_enabled: usageSettings.watermark_enabled,
+          watermark_text: usageSettings.watermark_text,
+          copyright_enabled: usageSettings.copyright_enabled,
+          copyright_text: usageSettings.copyright_text,
+          commercial_use_allowed: usageSettings.commercial_use_allowed,
+          resubmission_allowed: usageSettings.resubmission_allowed,
+          usage_purpose: usageSettings.usage_purpose
         })
-        .select("id")
+        .select(
+          `
+          id,
+          is_demo,
+          watermark_enabled,
+          watermark_text,
+          copyright_enabled,
+          copyright_text,
+          commercial_use_allowed,
+          resubmission_allowed,
+          usage_purpose
+        `
+        )
         .single();
 
       if (error) throw error;
       const insertedResponseId = data?.id;
       if (!insertedResponseId) throw new Error("diagnosis_responses id was not returned.");
       responseId = insertedResponseId;
+
+      if (recent?.id) {
+        await supabase
+          .from("diagnosis_responses")
+          .update({ resubmission_allowed: false, updated_at: new Date().toISOString() })
+          .eq("id", recent.id);
+      }
 
       await sendParticipantEmail({
         supabase,
@@ -96,7 +154,8 @@ export async function POST(request: Request) {
         responseId,
         resultToken,
         resultTokenExpiresAt,
-        supabaseSyncedAt: new Date().toISOString()
+        supabaseSyncedAt: new Date().toISOString(),
+        usageSettings: usageSettingsFromRow(submission.usageSettings ?? usageSettings)
       }
     });
   } catch (error) {

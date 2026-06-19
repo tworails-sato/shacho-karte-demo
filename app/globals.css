@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.result-with-watermark {
+  position: relative;
+}
+
+.result-watermark {
+  color: rgba(15, 23, 42, 0.08);
+  font-size: clamp(48px, 10vw, 128px);
+  font-weight: 900;
+  inset: 18vh 0 auto 0;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  pointer-events: none;
+  position: fixed;
+  text-align: center;
+  transform: rotate(-18deg);
+  z-index: 20;
+}
+
+@media print {
+  .result-watermark {
+    color: rgba(15, 23, 42, 0.12);
+    display: block !important;
+    position: fixed;
+  }
+}
+
 :root {
   color: #17212b;
   background: #f7f5ef;

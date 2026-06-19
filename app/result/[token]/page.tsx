@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import type { ThemeScore } from "@/lib/diagnosis";
+import type { UsageSettings } from "@/lib/usage-settings";
+import { usageSettingsFromRow } from "@/lib/usage-settings";
 import ResultTokenView from "./ResultTokenView";
 
 type PageProps = {
@@ -17,6 +19,14 @@ type ResponseRow = {
   result_token_expires_at: string | null;
   result_view_count: number | null;
   created_at: string;
+  is_demo: boolean | null;
+  watermark_enabled: boolean | null;
+  watermark_text: string | null;
+  copyright_enabled: boolean | null;
+  copyright_text: string | null;
+  commercial_use_allowed: boolean | null;
+  resubmission_allowed: boolean | null;
+  usage_purpose: string | null;
 };
 
 type RespondentRow = {
@@ -54,7 +64,15 @@ export default async function SharedResultPage({ params }: PageProps) {
       priority_categories_json,
       result_token_expires_at,
       result_view_count,
-      created_at
+      created_at,
+      is_demo,
+      watermark_enabled,
+      watermark_text,
+      copyright_enabled,
+      copyright_text,
+      commercial_use_allowed,
+      resubmission_allowed,
+      usage_purpose
     `
     )
     .eq("result_token", token)
@@ -117,6 +135,7 @@ export default async function SharedResultPage({ params }: PageProps) {
       themeScores={result.category_scores_json ?? []}
       timerexUrl={process.env.TIMEREX_URL || defaultTimerexUrl}
       totalScore={result.total_score}
+      usageSettings={usageSettingsFromRow(result as Partial<UsageSettings>)}
     />
   );
 }

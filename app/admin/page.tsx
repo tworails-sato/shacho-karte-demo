@@ -14,6 +14,8 @@ import {
 import type { ThemeScore } from "@/lib/diagnosis";
 import { getLocalEvents, getLocalSubmissions, type StoredSubmission } from "@/lib/storage";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
+import type { UsageSettings } from "@/lib/usage-settings";
+import { usageSettingsFromRow } from "@/lib/usage-settings";
 
 type RespondentRow = {
   id: string;
@@ -50,6 +52,14 @@ type DiagnosisResponseRow = {
   top_categories_json: ThemeScore[];
   low_categories_json: ThemeScore[];
   priority_categories_json: ThemeScore[];
+  is_demo: boolean | null;
+  watermark_enabled: boolean | null;
+  watermark_text: string | null;
+  copyright_enabled: boolean | null;
+  copyright_text: string | null;
+  commercial_use_allowed: boolean | null;
+  resubmission_allowed: boolean | null;
+  usage_purpose: string | null;
   created_at: string;
 };
 
@@ -83,6 +93,14 @@ type AdminRow = {
   resultLastViewedAt: string;
   participantEmailSentAt: string;
   participantEmailError: string;
+  isDemo: boolean;
+  watermarkEnabled: boolean;
+  watermarkText: string;
+  copyrightEnabled: boolean;
+  copyrightText: string;
+  commercialUseAllowed: boolean;
+  resubmissionAllowed: boolean;
+  usagePurpose: string;
   totalScore: number;
   achievementRate: number;
   ctaClicked: boolean;
@@ -138,6 +156,159 @@ function countBy<T>(items: T[], getKey: (item: T) => string) {
   return [...counts.entries()].sort((a, b) => b[1] - a[1]);
 }
 
+function usageSettingsFromAdminRow(row: AdminRow): UsageSettings {
+  return {
+    is_demo: row.isDemo,
+    watermark_enabled: row.watermarkEnabled,
+    watermark_text: row.watermarkText,
+    copyright_enabled: row.copyrightEnabled,
+    copyright_text: row.copyrightText,
+    commercial_use_allowed: row.commercialUseAllowed,
+    resubmission_allowed: row.resubmissionAllowed,
+    usage_purpose: row.usagePurpose || null
+  };
+}
+
+function UsageSettingsEditor({
+  disabled,
+  onSave,
+  row,
+  saving
+}: {
+  disabled: boolean;
+  onSave: (settings: UsageSettings) => Promise<void>;
+  row: AdminRow;
+  saving: boolean;
+}) {
+  const [settings, setSettings] = useState<UsageSettings>(() => usageSettingsFromAdminRow(row));
+
+  useEffect(() => {
+    setSettings(usageSettingsFromAdminRow(row));
+  }, [row]);
+
+  function updateSetting<K extends keyof UsageSettings>(key: K, value: UsageSettings[K]) {
+    setSettings((current) => ({ ...current, [key]: value }));
+  }
+
+  return (
+    <section className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h3 className="text-lg font-black text-ink">利用設定</h3>
+          <p className="mt-1 text-sm font-bold leading-6 text-stone-600">
+            デモ表示、ウォーターマーク、著作権表示、営業利用、再受検許可を管理します。
+          </p>
+        </div>
+        <button
+          className="primary-button"
+          disabled={disabled || saving}
+          onClick={() => onSave(settings)}
+          type="button"
+        >
+          {saving ? "保存中..." : "利用設定を保存"}
+        </button>
+      </div>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <label className="block space-y-2">
+          <span className="label">利用区分</span>
+          <select
+            className="field"
+            disabled={disabled || saving}
+            value={settings.is_demo ? "demo" : "official"}
+            onChange={(event) => updateSetting("is_demo", event.target.value === "demo")}
+          >
+            <option value="demo">デモ利用</option>
+            <option value="official">正式利用</option>
+          </select>
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">ウォーターマーク</span>
+          <select
+            className="field"
+            disabled={disabled || saving}
+            value={settings.watermark_enabled ? "enabled" : "disabled"}
+            onChange={(event) => updateSetting("watermark_enabled", event.target.value === "enabled")}
+          >
+            <option value="enabled">表示する</option>
+            <option value="disabled">表示しない</option>
+          </select>
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">ウォーターマーク文言</span>
+          <input
+            className="field"
+            disabled={disabled || saving}
+            value={settings.watermark_text}
+            onChange={(event) => updateSetting("watermark_text", event.target.value)}
+          />
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">著作権表示</span>
+          <select
+            className="field"
+            disabled={disabled || saving}
+            value={settings.copyright_enabled ? "enabled" : "disabled"}
+            onChange={(event) => updateSetting("copyright_enabled", event.target.value === "enabled")}
+          >
+            <option value="enabled">表示する</option>
+            <option value="disabled">表示しない</option>
+          </select>
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">著作権文言</span>
+          <input
+            className="field"
+            disabled={disabled || saving}
+            value={settings.copyright_text}
+            onChange={(event) => updateSetting("copyright_text", event.target.value)}
+          />
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">営業利用</span>
+          <select
+            className="field"
+            disabled={disabled || saving}
+            value={settings.commercial_use_allowed ? "allowed" : "denied"}
+            onChange={(event) => updateSetting("commercial_use_allowed", event.target.value === "allowed")}
+          >
+            <option value="denied">許可しない</option>
+            <option value="allowed">許可する</option>
+          </select>
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">再受検</span>
+          <select
+            className="field"
+            disabled={disabled || saving}
+            value={settings.resubmission_allowed ? "allowed" : "denied"}
+            onChange={(event) => updateSetting("resubmission_allowed", event.target.value === "allowed")}
+          >
+            <option value="denied">許可しない</option>
+            <option value="allowed">1回許可する</option>
+          </select>
+        </label>
+
+        <label className="block space-y-2">
+          <span className="label">利用目的</span>
+          <input
+            className="field"
+            disabled={disabled || saving}
+            value={settings.usage_purpose ?? ""}
+            onChange={(event) => updateSetting("usage_purpose", event.target.value)}
+          />
+        </label>
+      </div>
+    </section>
+  );
+}
+
 function localRowsFromStorage(): AdminRow[] {
   return getLocalSubmissions().map((item) => ({
     id: item.id,
@@ -163,6 +334,14 @@ function localRowsFromStorage(): AdminRow[] {
     resultLastViewedAt: "",
     participantEmailSentAt: "",
     participantEmailError: "",
+    isDemo: item.usageSettings?.is_demo ?? true,
+    watermarkEnabled: item.usageSettings?.watermark_enabled ?? true,
+    watermarkText: item.usageSettings?.watermark_text ?? "DEMO｜社長カルテ",
+    copyrightEnabled: item.usageSettings?.copyright_enabled ?? true,
+    copyrightText: item.usageSettings?.copyright_text ?? "© Two rails",
+    commercialUseAllowed: item.usageSettings?.commercial_use_allowed ?? false,
+    resubmissionAllowed: item.usageSettings?.resubmission_allowed ?? false,
+    usagePurpose: item.usageSettings?.usage_purpose || item.basicInfo.usagePurpose || "",
     totalScore: item.result.totalScore,
     achievementRate: item.result.achievementRate,
     ctaClicked: item.ctaClicked,
@@ -183,6 +362,7 @@ export default function AdminPage() {
   const [adminMessage, setAdminMessage] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<AdminRow | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [savingUsageSettings, setSavingUsageSettings] = useState(false);
 
   useEffect(() => {
     async function loadRows() {
@@ -229,6 +409,14 @@ export default function AdminPage() {
             top_categories_json,
             low_categories_json,
             priority_categories_json,
+            is_demo,
+            watermark_enabled,
+            watermark_text,
+            copyright_enabled,
+            copyright_text,
+            commercial_use_allowed,
+            resubmission_allowed,
+            usage_purpose,
             created_at
           `)
           .order("created_at", { ascending: false });
@@ -269,6 +457,7 @@ export default function AdminPage() {
           .map<AdminRow | null>((response) => {
             const respondent = respondentsById.get(response.respondent_id);
             if (!respondent) return null;
+            const usageSettings = usageSettingsFromRow(response);
 
             return {
               id: response.id,
@@ -294,6 +483,14 @@ export default function AdminPage() {
               resultLastViewedAt: response.result_last_viewed_at ?? "",
               participantEmailSentAt: response.participant_email_sent_at ?? "",
               participantEmailError: response.participant_email_error ?? "",
+              isDemo: usageSettings.is_demo,
+              watermarkEnabled: usageSettings.watermark_enabled,
+              watermarkText: usageSettings.watermark_text,
+              copyrightEnabled: usageSettings.copyright_enabled,
+              copyrightText: usageSettings.copyright_text,
+              commercialUseAllowed: usageSettings.commercial_use_allowed,
+              resubmissionAllowed: usageSettings.resubmission_allowed,
+              usagePurpose: usageSettings.usage_purpose ?? "",
               totalScore: response.total_score,
               achievementRate: response.achievement_rate,
               ctaClicked: ctaClickedRespondentIds.has(response.respondent_id),
@@ -344,6 +541,12 @@ export default function AdminPage() {
       "会社名",
       "氏名",
       "メールアドレス",
+      "利用目的",
+      "利用区分",
+      "ウォーターマーク",
+      "著作権表示",
+      "営業利用",
+      "再受検許可",
       "流入経路",
       "紹介者名",
       "紹介元会社名",
@@ -375,6 +578,12 @@ export default function AdminPage() {
           row.companyName,
           row.representativeName,
           row.email,
+          row.usagePurpose,
+          row.isDemo ? "デモ利用" : "正式利用",
+          row.watermarkEnabled ? "表示" : "非表示",
+          row.copyrightEnabled ? "表示" : "非表示",
+          row.commercialUseAllowed ? "許可" : "不許可",
+          row.resubmissionAllowed ? "許可" : "不許可",
           row.trafficSource,
           row.referrerName,
           row.referrerCompany,
@@ -462,6 +671,92 @@ export default function AdminPage() {
       setAdminError(formatAdminError(error));
     } finally {
       setIsDeleting(false);
+    }
+  }
+
+  async function handleSaveUsageSettings(nextSettings: UsageSettings) {
+    if (!selectedRow) return;
+
+    if (dataSource !== "supabase") {
+      setAdminError("ローカルデータ表示中は利用設定を保存できません。Supabase接続後に保存してください。");
+      return;
+    }
+
+    if (
+      selectedRow.isDemo &&
+      !nextSettings.is_demo &&
+      !window.confirm(
+        "この診断結果を正式利用へ変更します。\nウォーターマークや利用条件の表示が変更される可能性があります。\nよろしいですか？"
+      )
+    ) {
+      return;
+    }
+
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setAdminError("Supabase clientを初期化できませんでした。環境変数を確認してください。");
+      return;
+    }
+
+    setSavingUsageSettings(true);
+    setAdminError(null);
+    setAdminMessage(null);
+
+    try {
+      const responseId = selectedRow.responseId ?? selectedRow.id;
+      const payload = {
+        is_demo: nextSettings.is_demo,
+        watermark_enabled: nextSettings.watermark_enabled,
+        watermark_text: nextSettings.watermark_text,
+        copyright_enabled: nextSettings.copyright_enabled,
+        copyright_text: nextSettings.copyright_text,
+        commercial_use_allowed: nextSettings.commercial_use_allowed,
+        resubmission_allowed: nextSettings.resubmission_allowed,
+        usage_purpose: nextSettings.usage_purpose || null,
+        updated_at: new Date().toISOString()
+      };
+      const { data, error } = await supabase
+        .from("diagnosis_responses")
+        .update(payload)
+        .eq("id", responseId)
+        .select(
+          `
+          is_demo,
+          watermark_enabled,
+          watermark_text,
+          copyright_enabled,
+          copyright_text,
+          commercial_use_allowed,
+          resubmission_allowed,
+          usage_purpose
+        `
+        )
+        .maybeSingle();
+
+      if (error) throw error;
+      const savedSettings = usageSettingsFromRow(data as Partial<UsageSettings> | null);
+      const updateRow = (row: AdminRow): AdminRow =>
+        row.id === selectedRow.id
+          ? {
+              ...row,
+              isDemo: savedSettings.is_demo,
+              watermarkEnabled: savedSettings.watermark_enabled,
+              watermarkText: savedSettings.watermark_text,
+              copyrightEnabled: savedSettings.copyright_enabled,
+              copyrightText: savedSettings.copyright_text,
+              commercialUseAllowed: savedSettings.commercial_use_allowed,
+              resubmissionAllowed: savedSettings.resubmission_allowed,
+              usagePurpose: savedSettings.usage_purpose ?? ""
+            }
+          : row;
+
+      setRows((currentRows) => currentRows.map(updateRow));
+      setAdminMessage("利用設定を保存しました。");
+    } catch (error) {
+      console.error("Usage settings save failed", error);
+      setAdminError(formatAdminError(error));
+    } finally {
+      setSavingUsageSettings(false);
     }
   }
 
@@ -681,12 +976,25 @@ export default function AdminPage() {
               </div>
             </div>
 
+            <UsageSettingsEditor
+              disabled={dataSource !== "supabase"}
+              onSave={handleSaveUsageSettings}
+              row={selectedRow}
+              saving={savingUsageSettings}
+            />
+
             <div className="grid gap-3 text-sm sm:grid-cols-3">
               {[
                 ["回答日時", formatDate(selectedRow.createdAt)],
                 ["会社名", selectedRow.companyName],
                 ["氏名", selectedRow.representativeName],
                 ["メールアドレス", selectedRow.email],
+                ["利用目的", selectedRow.usagePurpose || "-"],
+                ["利用区分", selectedRow.isDemo ? "デモ利用" : "正式利用"],
+                ["ウォーターマーク", selectedRow.watermarkEnabled ? "表示" : "非表示"],
+                ["著作権表示", selectedRow.copyrightEnabled ? "表示" : "非表示"],
+                ["営業利用", selectedRow.commercialUseAllowed ? "許可" : "不許可"],
+                ["再受検", selectedRow.resubmissionAllowed ? "1回許可" : "許可しない"],
                 ["流入経路", selectedRow.trafficSource || "-"],
                 ["紹介者名", selectedRow.referrerName || "-"],
                 ["紹介元会社名", selectedRow.referrerCompany || "-"],

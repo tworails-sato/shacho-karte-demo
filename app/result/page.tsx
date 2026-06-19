@@ -17,8 +17,10 @@ import {
 } from "@/lib/supabase";
 import { notifyDiagnosisCompleted } from "@/lib/notify";
 import ResultHowToReadCard from "./ResultHowToReadCard";
+import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
 import ResultUseCases from "./ResultUseCases";
 import ThemeGuideAccordion from "./ThemeGuideAccordion";
+import { usageSettingsFromRow } from "@/lib/usage-settings";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -132,6 +134,7 @@ export default function ResultPage() {
   }
 
   const { basicInfo, result } = submission;
+  const usageSettings = usageSettingsFromRow(submission.usageSettings);
   const diagnosisDate = new Date(submission.createdAt).toLocaleDateString("ja-JP");
   const strongestThemeNames = result.topThemes.map((theme) => theme.name).join("・");
   const prioritySummaryNames =
@@ -144,7 +147,8 @@ export default function ResultPage() {
       : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
-    <main className="page-shell space-y-6">
+    <main className="page-shell result-with-watermark space-y-6">
+      <ResultWatermark settings={usageSettings} />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-bold text-brand">RESULT</p>
@@ -306,6 +310,8 @@ export default function ResultPage() {
       </section>
 
       <ResultUseCases />
+
+      <ResultCopyright settings={usageSettings} />
 
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>

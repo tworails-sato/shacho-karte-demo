@@ -11,6 +11,8 @@ import {
   Tooltip
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
+import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
+import type { UsageSettings } from "@/lib/usage-settings";
 import ResultHowToReadCard from "../ResultHowToReadCard";
 import ResultUseCases from "../ResultUseCases";
 import ThemeGuideAccordion from "../ThemeGuideAccordion";
@@ -30,6 +32,7 @@ type ResultTokenViewProps = {
   themeScores: ThemeScore[];
   priorityThemes: ThemeScore[];
   timerexUrl: string;
+  usageSettings: UsageSettings;
 };
 
 export default function ResultTokenView({
@@ -40,7 +43,8 @@ export default function ResultTokenView({
   expiresAt,
   themeScores,
   priorityThemes,
-  timerexUrl
+  timerexUrl,
+  usageSettings
 }: ResultTokenViewProps) {
   const chartData = themeScores.map((theme) => ({
     theme: theme.name,
@@ -62,7 +66,8 @@ export default function ResultTokenView({
       : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
 
   return (
-    <main className="page-shell space-y-6">
+    <main className="page-shell result-with-watermark space-y-6">
+      <ResultWatermark settings={usageSettings} />
       <div>
         <p className="text-sm font-bold text-brand">SHARED RESULT</p>
         <h1 className="mt-2 text-3xl font-black text-ink">社長カルテ アセスメント結果</h1>
@@ -190,6 +195,8 @@ export default function ResultTokenView({
       </section>
 
       <ResultUseCases />
+
+      <ResultCopyright settings={usageSettings} />
 
       <section className="panel flex flex-col gap-4 bg-ink p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>

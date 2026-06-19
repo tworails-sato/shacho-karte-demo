@@ -1,4 +1,5 @@
 import type { BasicInfo, DiagnosisResult } from "./diagnosis";
+import type { UsageSettings } from "./usage-settings";
 
 export type StoredSubmission = {
   id: string;
@@ -7,6 +8,7 @@ export type StoredSubmission = {
   resultToken?: string;
   resultTokenExpiresAt?: string;
   supabaseSyncedAt?: string;
+  usageSettings?: UsageSettings;
   basicInfo: BasicInfo;
   answers: Record<string, number>;
   result: DiagnosisResult;

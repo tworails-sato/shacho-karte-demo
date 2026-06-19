@@ -9,6 +9,9 @@ export type BasicInfo = {
   referrerName: string;
   referrerCompany: string;
   referrerEmail: string;
+  usagePurpose: string;
+  demoTermsAgreed: boolean;
+  demoTermsAgreedAt: string;
   consentAgreed: boolean;
   consentAgreedAt: string;
 };
