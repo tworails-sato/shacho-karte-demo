@@ -55,11 +55,16 @@ export default function BasicInfoPage() {
   const router = useRouter();
   const [info, setInfo] = useState<BasicInfo>(initialInfo);
   const [eligibilityError, setEligibilityError] = useState("");
+  const [demoTermsError, setDemoTermsError] = useState("");
   const [checkingEligibility, setCheckingEligibility] = useState(false);
   const shouldShowReferrerName = referralSources.includes(info.trafficSource);
   const shouldRequireConsent = info.category === "経営支援者";
 
   function updateField(key: keyof BasicInfo, value: string | boolean) {
+    if (key === "demoTermsAgreed" && value === true) {
+      setDemoTermsError("");
+    }
+
     setInfo((current) => {
       if (key === "category" && typeof value === "string" && value !== "経営支援者") {
         return { ...current, [key]: value, consentAgreed: false, consentAgreedAt: "" };
@@ -72,6 +77,13 @@ export default function BasicInfoPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setEligibilityError("");
+
+    if (!info.demoTermsAgreed) {
+      setDemoTermsError("利用条件への同意が必要です。");
+      return;
+    }
+
+    setDemoTermsError("");
     const emailNormalized = info.email.trim().toLowerCase();
     const submittedInfo: BasicInfo = {
       ...info,
@@ -191,7 +203,13 @@ export default function BasicInfoPage() {
             </select>
           </label>
 
-          <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm font-bold leading-7 text-amber-950">
+          <div
+            className={`rounded-md border p-4 text-sm font-bold leading-7 ${
+              demoTermsError
+                ? "border-rose-300 bg-rose-50 text-rose-950"
+                : "border-amber-200 bg-amber-50 text-amber-950"
+            }`}
+          >
             <p>本アセスメントは、ご本人による診断・体験を目的としたものです。</p>
             <p className="mt-2">
               当社の許諾なく、第三者への配布、営業活動等での利用、
@@ -201,13 +219,21 @@ export default function BasicInfoPage() {
             <label className="mt-3 flex items-start gap-3">
               <input
                 className="mt-1 h-4 w-4 shrink-0"
+                aria-describedby={demoTermsError ? "demo-terms-error" : undefined}
+                aria-invalid={Boolean(demoTermsError)}
                 required
                 type="checkbox"
                 checked={info.demoTermsAgreed}
+                onInvalid={() => setDemoTermsError("利用条件への同意が必要です。")}
                 onChange={(event) => updateField("demoTermsAgreed", event.target.checked)}
               />
               <span>上記の利用条件に同意して診断を開始します</span>
             </label>
+            {demoTermsError ? (
+              <p id="demo-terms-error" role="alert" className="mt-3 text-sm font-bold text-rose-800">
+                {demoTermsError}
+              </p>
+            ) : null}
           </div>
 
           {shouldRequireConsent ? (
