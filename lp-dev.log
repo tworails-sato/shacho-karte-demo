@@ -1,0 +1,28 @@
+
+> shacho-karte-demo@0.1.0 dev
+> next dev -p 3000
+
+   ▲ Next.js 15.5.18
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.160:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 7.6s
+ ○ Compiling / ...
+ ✓ Compiled / in 26.3s (1635 modules)
+ GET / 200 in 28588ms
+ GET / 200 in 1117ms
+ GET / 200 in 509ms
+ ✓ Compiled in 959ms (755 modules)
+ GET / 200 in 282ms
+ GET / 200 in 277ms
+ ✓ Compiled in 1876ms (1663 modules)
+ GET / 200 in 598ms
+ GET / 200 in 622ms
+ ✓ Compiled in 1769ms (1663 modules)
+ GET / 200 in 317ms
+ GET / 200 in 344ms
+ ○ Compiling /basic-info ...
+ ✓ Compiled /basic-info in 1997ms (1658 modules)
+ GET /basic-info 200 in 2712ms

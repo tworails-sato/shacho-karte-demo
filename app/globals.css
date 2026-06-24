@@ -6,6 +6,21 @@
   position: relative;
 }
 
+.landing-hero {
+  background:
+    radial-gradient(circle at 84% 18%, rgba(45, 212, 191, 0.22), transparent 27rem),
+    radial-gradient(circle at 16% 82%, rgba(37, 99, 235, 0.2), transparent 30rem),
+    linear-gradient(135deg, #020617 0%, #0f172a 52%, #132b36 100%);
+}
+
+.landing-grid-overlay {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 78%);
+}
+
 .result-watermark {
   color: rgba(15, 23, 42, 0.08);
   font-size: clamp(48px, 10vw, 128px);
