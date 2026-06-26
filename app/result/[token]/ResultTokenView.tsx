@@ -16,6 +16,8 @@ import type { UsageSettings } from "@/lib/usage-settings";
 import ResultHowToReadCard from "../ResultHowToReadCard";
 import ResultUseCases from "../ResultUseCases";
 import ThemeGuideAccordion from "../ThemeGuideAccordion";
+import EmployeePhaseGuideSection from "../EmployeePhaseGuide";
+import { buildPhaseAwareSummary } from "@/lib/employee-phase";
 
 type Respondent = {
   company_name: string | null;
@@ -52,19 +54,19 @@ export default function ResultTokenView({
     score: theme.score,
     target: theme.target
   }));
-  const strongestThemeNames = [...themeScores]
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
-    .map((theme) => theme.name)
-    .join("・");
-  const prioritySummaryNames =
-    priorityThemes.length > 0
-      ? priorityThemes.map((theme) => theme.name).join("・")
-      : "現在表示されているテーマ";
-  const friendlySummary =
-    priorityThemes.length > 0
-      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。評価として受け取るのではなく、今後の優先順位を整理する入口としてご覧ください。`
-      : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
+  const friendlySummary = buildPhaseAwareSummary(
+    {
+      totalScore,
+      achievementRate,
+      themeScores,
+      judgement: priorityThemes[0]?.priority ?? "低",
+      summary: "",
+      topThemes: [...themeScores].sort((a, b) => b.score - a.score).slice(0, 3),
+      lowThemes: [...themeScores].sort((a, b) => a.score - b.score).slice(0, 3),
+      priorityThemes
+    },
+    respondent?.employee_size
+  );
 
   return (
     <main className="page-shell result-with-watermark space-y-6">
@@ -195,6 +197,8 @@ export default function ResultTokenView({
         <h2 className="text-xl font-black text-ink">簡易コメント</h2>
         <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
       </section>
+
+      <EmployeePhaseGuideSection employeeSize={respondent?.employee_size} />
 
       <ResultUseCases />
 

@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BasicInfo } from "@/lib/diagnosis";
+import { employeeSizeOptions } from "@/lib/employee-phase";
 
 const initialInfo: BasicInfo = {
   companyName: "",
@@ -31,7 +32,6 @@ const fields = [
 ] as const;
 
 const categories = ["経営者", "経営支援者", "その他"];
-const employeeSizes = ["1〜5名", "6〜10名", "11〜30名", "31〜50名", "51〜100名", "101名以上"];
 const trafficSources = [
   "SNS",
   "note",
@@ -161,7 +161,7 @@ export default function BasicInfoPage() {
               onChange={(event) => updateField("employeeSize", event.target.value)}
             >
               <option value="">選択してください</option>
-              {employeeSizes.map((size) => (
+              {employeeSizeOptions.map((size) => (
                 <option key={size} value={size}>
                   {size}
                 </option>

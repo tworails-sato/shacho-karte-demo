@@ -144,7 +144,7 @@ export default function HomePage() {
               src="/images/shacho-karte-logo.png"
               width={300}
             />
-            <span className="whitespace-nowrap text-xl font-black tracking-wide text-slate-950 sm:text-2xl">社長カルテ</span>
+            <span className="whitespace-nowrap text-xl font-black tracking-wide text-slate-950 sm:text-2xl">社長カルテ Light</span>
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-bold text-slate-600 lg:flex">
             <a className="transition hover:text-teal-700" href="#flow">アセスメントの流れ</a>

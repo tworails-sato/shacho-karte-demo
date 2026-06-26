@@ -20,6 +20,8 @@ import ResultHowToReadCard from "./ResultHowToReadCard";
 import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
 import ResultUseCases from "./ResultUseCases";
 import ThemeGuideAccordion from "./ThemeGuideAccordion";
+import EmployeePhaseGuideSection from "./EmployeePhaseGuide";
+import { buildPhaseAwareSummary } from "@/lib/employee-phase";
 import { usageSettingsFromRow } from "@/lib/usage-settings";
 import {
   PolarAngleAxis,
@@ -136,15 +138,7 @@ export default function ResultPage() {
   const { basicInfo, result } = submission;
   const usageSettings = usageSettingsFromRow(submission.usageSettings);
   const diagnosisDate = new Date(submission.createdAt).toLocaleDateString("ja-JP");
-  const strongestThemeNames = result.topThemes.map((theme) => theme.name).join("・");
-  const prioritySummaryNames =
-    result.priorityThemes.length > 0
-      ? result.priorityThemes.map((theme) => theme.name).join("・")
-      : "現在表示されているテーマ";
-  const friendlySummary =
-    result.priorityThemes.length > 0
-      ? `今回の結果では、${strongestThemeNames} に比較的強みが見られます。一方で、${prioritySummaryNames} は、次の打ち手を考えるうえで確認しておきたいテーマとして表れています。評価として受け取るのではなく、今後の優先順位を整理する入口としてご覧ください。`
-      : `今回の結果では、${strongestThemeNames} に比較的強みが見られます。大きく急ぐテーマとして断定される項目はありませんが、今後の優先順位を整理する入口として、気になるテーマから確認してみてください。`;
+  const friendlySummary = buildPhaseAwareSummary(result, basicInfo.employeeSize);
 
   return (
     <main className="page-shell result-with-watermark space-y-6">
@@ -309,6 +303,8 @@ export default function ResultPage() {
         <h2 className="text-xl font-black text-ink">簡易コメント</h2>
         <p className="mt-3 leading-7 text-stone-700">{friendlySummary}</p>
       </section>
+
+      <EmployeePhaseGuideSection employeeSize={basicInfo.employeeSize} />
 
       <ResultUseCases />
 
