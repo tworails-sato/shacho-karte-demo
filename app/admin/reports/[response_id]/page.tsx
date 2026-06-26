@@ -40,6 +40,7 @@ type RespondentRow = {
   name: string;
   email: string;
   industry: string;
+  employee_size: string | null;
   user_type: string;
 };
 
@@ -296,7 +297,7 @@ export default function FeedbackReportPage() {
 
         const { data: respondentData, error: respondentError } = await supabase
           .from("respondents")
-          .select("company_name,name,email,industry,user_type")
+          .select("company_name,name,email,industry,employee_size,user_type")
           .eq("id", typedResponse.respondent_id)
           .maybeSingle();
 
@@ -437,7 +438,7 @@ export default function FeedbackReportPage() {
         copyright_text: usageSettings.copyright_text,
         commercial_use_allowed: usageSettings.commercial_use_allowed,
         resubmission_allowed: usageSettings.resubmission_allowed,
-        usage_purpose: usageSettings.usage_purpose || null,
+        usage_purpose: null,
         updated_at: new Date().toISOString()
       };
       const { data, error } = await supabase
@@ -638,14 +639,6 @@ export default function FeedbackReportPage() {
                 </select>
               </label>
 
-              <label className="block space-y-2">
-                <span className="label">利用目的</span>
-                <input
-                  className="field"
-                  value={usageSettings.usage_purpose ?? ""}
-                  onChange={(event) => updateUsageSetting("usage_purpose", event.target.value)}
-                />
-              </label>
             </div>
 
             <button
@@ -700,7 +693,7 @@ export default function FeedbackReportPage() {
                 ["会社名", respondent?.company_name || "-"],
                 ["役職", "未取得"],
                 ["業種", respondent?.industry || "-"],
-                ["従業員規模", "未取得"],
+                ["従業員規模", respondent?.employee_size || "-"],
                 ["回答日時", formatDate(response.created_at)]
               ].map(([label, value]) => (
                 <div key={label} className="rounded-md bg-stone-50 p-3">

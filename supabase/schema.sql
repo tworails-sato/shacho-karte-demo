@@ -6,6 +6,7 @@ create table if not exists public.respondents (
   name text not null,
   email text not null,
   industry text not null,
+  employee_size text,
   user_type text not null,
   created_at timestamptz not null default now()
 );

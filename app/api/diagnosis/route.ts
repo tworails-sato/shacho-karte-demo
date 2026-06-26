@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       is_demo: isPublicDemo,
       commercial_use_allowed: false,
       resubmission_allowed: false,
-      usage_purpose: submission.basicInfo.usagePurpose || null
+      usage_purpose: null
     };
 
     if (!submission.respondentId) {
@@ -43,6 +43,7 @@ export async function POST(request: Request) {
           name: submission.basicInfo.representativeName,
           email: normalizedEmail,
           industry: submission.basicInfo.industry,
+          employee_size: submission.basicInfo.employeeSize || null,
           user_type: submission.basicInfo.category
         },
         { onConflict: "id" }

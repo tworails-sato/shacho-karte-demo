@@ -23,6 +23,7 @@ type RespondentRow = {
   name: string;
   email: string;
   industry: string;
+  employee_size: string | null;
   user_type: string;
   created_at: string;
 };
@@ -78,6 +79,7 @@ type AdminRow = {
   email: string;
   emailNormalized: string;
   industry: string;
+  employeeSize: string;
   category: string;
   trafficSource: string;
   referrerName: string;
@@ -100,7 +102,6 @@ type AdminRow = {
   copyrightText: string;
   commercialUseAllowed: boolean;
   resubmissionAllowed: boolean;
-  usagePurpose: string;
   totalScore: number;
   achievementRate: number;
   ctaClicked: boolean;
@@ -165,7 +166,7 @@ function usageSettingsFromAdminRow(row: AdminRow): UsageSettings {
     copyright_text: row.copyrightText,
     commercial_use_allowed: row.commercialUseAllowed,
     resubmission_allowed: row.resubmissionAllowed,
-    usage_purpose: row.usagePurpose || null
+    usage_purpose: null
   };
 }
 
@@ -295,15 +296,6 @@ function UsageSettingsEditor({
           </select>
         </label>
 
-        <label className="block space-y-2">
-          <span className="label">利用目的</span>
-          <input
-            className="field"
-            disabled={disabled || saving}
-            value={settings.usage_purpose ?? ""}
-            onChange={(event) => updateSetting("usage_purpose", event.target.value)}
-          />
-        </label>
       </div>
     </section>
   );
@@ -319,6 +311,7 @@ function localRowsFromStorage(): AdminRow[] {
     email: item.basicInfo.email,
     emailNormalized: item.basicInfo.emailNormalized || item.basicInfo.email,
     industry: item.basicInfo.industry,
+    employeeSize: item.basicInfo.employeeSize || "",
     category: item.basicInfo.category,
     trafficSource: item.basicInfo.trafficSource || "",
     referrerName: item.basicInfo.referrerName || "",
@@ -341,7 +334,6 @@ function localRowsFromStorage(): AdminRow[] {
     copyrightText: item.usageSettings?.copyright_text ?? "© Two rails",
     commercialUseAllowed: item.usageSettings?.commercial_use_allowed ?? false,
     resubmissionAllowed: item.usageSettings?.resubmission_allowed ?? false,
-    usagePurpose: item.usageSettings?.usage_purpose || item.basicInfo.usagePurpose || "",
     totalScore: item.result.totalScore,
     achievementRate: item.result.achievementRate,
     ctaClicked: item.ctaClicked,
@@ -431,7 +423,7 @@ export default function AdminPage() {
         if (respondentIds.length > 0) {
           const { data, error: respondentsError } = await supabase
             .from("respondents")
-            .select("id,company_name,name,email,industry,user_type,created_at")
+            .select("id,company_name,name,email,industry,employee_size,user_type,created_at")
             .in("id", respondentIds);
 
           if (respondentsError) throw respondentsError;
@@ -468,6 +460,7 @@ export default function AdminPage() {
               email: response.email ?? respondent.email,
               emailNormalized: response.email_normalized ?? response.email ?? respondent.email,
               industry: respondent.industry,
+              employeeSize: respondent.employee_size ?? "",
               category: respondent.user_type,
               trafficSource: response.traffic_source ?? "",
               referrerName: response.referrer_name ?? "",
@@ -490,7 +483,6 @@ export default function AdminPage() {
               copyrightText: usageSettings.copyright_text,
               commercialUseAllowed: usageSettings.commercial_use_allowed,
               resubmissionAllowed: usageSettings.resubmission_allowed,
-              usagePurpose: usageSettings.usage_purpose ?? "",
               totalScore: response.total_score,
               achievementRate: response.achievement_rate,
               ctaClicked: ctaClickedRespondentIds.has(response.respondent_id),
@@ -541,7 +533,6 @@ export default function AdminPage() {
       "会社名",
       "氏名",
       "メールアドレス",
-      "利用目的",
       "利用区分",
       "ウォーターマーク",
       "著作権表示",
@@ -561,6 +552,7 @@ export default function AdminPage() {
       "受検者メール送信日時",
       "受検者メールエラー",
       "業種",
+      "従業員規模",
       "区分",
       "総合スコア",
       "達成率",
@@ -578,7 +570,6 @@ export default function AdminPage() {
           row.companyName,
           row.representativeName,
           row.email,
-          row.usagePurpose,
           row.isDemo ? "デモ利用" : "正式利用",
           row.watermarkEnabled ? "表示" : "非表示",
           row.copyrightEnabled ? "表示" : "非表示",
@@ -598,6 +589,7 @@ export default function AdminPage() {
           row.participantEmailSentAt ? formatDate(row.participantEmailSentAt) : "",
           row.participantEmailError,
           row.industry,
+          row.employeeSize,
           row.category,
           row.totalScore,
           `${row.achievementRate}%`,
@@ -712,7 +704,7 @@ export default function AdminPage() {
         copyright_text: nextSettings.copyright_text,
         commercial_use_allowed: nextSettings.commercial_use_allowed,
         resubmission_allowed: nextSettings.resubmission_allowed,
-        usage_purpose: nextSettings.usage_purpose || null,
+        usage_purpose: null,
         updated_at: new Date().toISOString()
       };
       const { data, error } = await supabase
@@ -745,8 +737,7 @@ export default function AdminPage() {
               copyrightEnabled: savedSettings.copyright_enabled,
               copyrightText: savedSettings.copyright_text,
               commercialUseAllowed: savedSettings.commercial_use_allowed,
-              resubmissionAllowed: savedSettings.resubmission_allowed,
-              usagePurpose: savedSettings.usage_purpose ?? ""
+              resubmissionAllowed: savedSettings.resubmission_allowed
             }
           : row;
 
@@ -989,7 +980,6 @@ export default function AdminPage() {
                 ["会社名", selectedRow.companyName],
                 ["氏名", selectedRow.representativeName],
                 ["メールアドレス", selectedRow.email],
-                ["利用目的", selectedRow.usagePurpose || "-"],
                 ["利用区分", selectedRow.isDemo ? "デモ利用" : "正式利用"],
                 ["ウォーターマーク", selectedRow.watermarkEnabled ? "表示" : "非表示"],
                 ["著作権表示", selectedRow.copyrightEnabled ? "表示" : "非表示"],
@@ -1009,6 +999,7 @@ export default function AdminPage() {
                 ["受検者メール送信日時", selectedRow.participantEmailSentAt ? formatDate(selectedRow.participantEmailSentAt) : "-"],
                 ["受検者メールエラー", selectedRow.participantEmailError || "-"],
                 ["業種", selectedRow.industry],
+                ["従業員規模", selectedRow.employeeSize || "-"],
                 ["区分", selectedRow.category],
                 ["総合スコア", `${selectedRow.totalScore} / 192`],
                 ["達成率", `${selectedRow.achievementRate}%`],

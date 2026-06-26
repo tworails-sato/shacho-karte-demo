@@ -190,6 +190,7 @@ export default function ResultPage() {
               ["会社名", basicInfo.companyName],
               ["氏名", basicInfo.representativeName],
               ["業種", basicInfo.industry],
+              ["従業員規模", basicInfo.employeeSize || "-"],
               ["診断日", diagnosisDate]
             ].map(([label, value]) => (
               <div key={label} className="rounded-md bg-stone-50 p-3">

@@ -33,6 +33,7 @@ type RespondentRow = {
   company_name: string | null;
   name: string | null;
   industry: string | null;
+  employee_size: string | null;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -109,7 +110,7 @@ export default async function SharedResultPage({ params }: PageProps) {
 
   const { data: respondent, error: respondentError } = await supabase
     .from("respondents")
-    .select("company_name,name,industry")
+    .select("company_name,name,industry,employee_size")
     .eq("id", result.respondent_id)
     .maybeSingle();
 

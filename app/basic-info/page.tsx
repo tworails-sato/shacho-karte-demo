@@ -10,6 +10,7 @@ const initialInfo: BasicInfo = {
   email: "",
   emailNormalized: "",
   industry: "",
+  employeeSize: "",
   category: "",
   trafficSource: "",
   referrerName: "",
@@ -30,6 +31,7 @@ const fields = [
 ] as const;
 
 const categories = ["経営者", "経営支援者", "その他"];
+const employeeSizes = ["1〜5名", "6〜10名", "11〜30名", "31〜50名", "51〜100名", "101名以上"];
 const trafficSources = [
   "SNS",
   "note",
@@ -43,14 +45,6 @@ const referralSources = [
   "知人・取引先からの紹介",
   "経営支援者・コンサルタントからの紹介"
 ];
-const usagePurposes = [
-  "自分自身の振り返り",
-  "サービス内容の確認",
-  "クライアント支援での活用を検討",
-  "営業活動での活用を検討",
-  "その他"
-];
-
 export default function BasicInfoPage() {
   const router = useRouter();
   const [info, setInfo] = useState<BasicInfo>(initialInfo);
@@ -160,6 +154,22 @@ export default function BasicInfoPage() {
           </label>
 
           <label className="space-y-2">
+            <span className="label">従業員規模</span>
+            <select
+              className="field"
+              value={info.employeeSize}
+              onChange={(event) => updateField("employeeSize", event.target.value)}
+            >
+              <option value="">選択してください</option>
+              {employeeSizes.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="space-y-2">
             <span className="label">この診断をどちらでお知りになりましたか？ *</span>
             <select
               className="field"
@@ -187,21 +197,6 @@ export default function BasicInfoPage() {
               />
             </label>
           ) : null}
-
-          <label className="space-y-2">
-            <span className="label">利用目的 *</span>
-            <select
-              className="field"
-              required
-              value={info.usagePurpose}
-              onChange={(event) => updateField("usagePurpose", event.target.value)}
-            >
-              <option value="">選択してください</option>
-              {usagePurposes.map((purpose) => (
-                <option key={purpose} value={purpose}>{purpose}</option>
-              ))}
-            </select>
-          </label>
 
           <div
             className={`rounded-md border p-4 text-sm font-bold leading-7 ${

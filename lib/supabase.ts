@@ -77,6 +77,7 @@ export async function saveSubmissionToSupabase(
           name: submission.basicInfo.representativeName,
           email: submission.basicInfo.email,
           industry: submission.basicInfo.industry,
+          employee_size: submission.basicInfo.employeeSize || null,
           user_type: submission.basicInfo.category
         },
         { onConflict: "id" }

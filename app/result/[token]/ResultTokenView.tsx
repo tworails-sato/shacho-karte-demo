@@ -21,6 +21,7 @@ type Respondent = {
   company_name: string | null;
   name: string | null;
   industry: string | null;
+  employee_size: string | null;
 };
 
 type ResultTokenViewProps = {
@@ -87,6 +88,7 @@ export default function ResultTokenView({
               ["会社名", respondent?.company_name || "-"],
               ["氏名", respondent?.name || "-"],
               ["業種", respondent?.industry || "-"],
+              ["従業員規模", respondent?.employee_size || "-"],
               ["診断日", new Date(createdAt).toLocaleDateString("ja-JP")]
             ].map(([label, value]) => (
               <div key={label} className="rounded-md bg-stone-50 p-3">

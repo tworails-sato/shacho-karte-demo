@@ -4,11 +4,13 @@ export type BasicInfo = {
   email: string;
   emailNormalized: string;
   industry: string;
+  employeeSize: string;
   category: string;
   trafficSource: string;
   referrerName: string;
   referrerCompany: string;
   referrerEmail: string;
+  /** Deprecated: retained for existing local/Supabase data compatibility. */
   usagePurpose: string;
   demoTermsAgreed: boolean;
   demoTermsAgreedAt: string;
