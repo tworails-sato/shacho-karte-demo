@@ -26,3 +26,1655 @@
  ○ Compiling /basic-info ...
  ✓ Compiled /basic-info in 1997ms (1658 modules)
  GET /basic-info 200 in 2712ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.4s (1677 modules)
+ GET / 404 in 3413ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\page.js'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\server\\app\\page.js',
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 4.1s (2024 modules)
+ GET / 500 in 5153ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app-paths-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\server\\app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\server\\pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\server\\pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 6835ms
+ GET / 500 in 87ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 1003ms
+ GET / 500 in 302ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 1002ms
+ GET / 500 in 362ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 1334ms
+ GET / 500 in 378ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 1099ms
+ GET / 500 in 364ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 878ms
+ GET / 500 in 393ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 860ms
+ GET / 500 in 375ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ GET / 500 in 758ms
+ GET / 500 in 318ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\routes-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ GET / 500 in 965ms
+ GET / 500 in 333ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ GET / 500 in 765ms
+ GET / 500 in 327ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open 'C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\prerender-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\user\\Documents\\Codex\\2026-05-13\\web-next-js-typescript-tailwind-css-2\\.next\\prerender-manifest.json'
+}
+ GET / 500 in 892ms
+ GET / 500 in 372ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 110ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 91ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 117ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 84ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 80ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 52ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 57ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 100ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 64ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 75ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 60ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 57ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 58ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 81ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 64ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 59ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 212ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 90ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 162ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 188ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 135ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 80ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 81ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 70ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 66ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 143ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 214ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 187ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 95ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 98ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 62ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 117ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 237ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 76ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 243ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 229ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 193ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 263ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 212ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 141ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 150ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 106ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 112ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 124ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 239ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 132ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 196ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 173ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 146ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 122ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 95ms
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\webpack-runtime.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\pages\_document.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\require.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\load-components.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\utils.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\options.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\swc\index.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8225)
+    at Object.<anonymous> (C:\Users\user\Documents\Codex\2026-05-13\web-next-js-typescript-tailwind-css-2\.next\server\app\_not-found\page.js:2:8275) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 114ms
+ ✓ Compiled in 7.3s (2036 modules)
+ GET / 200 in 8604ms
+ ✓ Compiled in 3.6s (2041 modules)
+ GET / 200 in 6124ms
+ GET / 404 in 255ms
+ GET / 404 in 254ms
+ GET / 404 in 265ms
+ GET / 404 in 244ms
+ GET / 404 in 241ms
+ GET / 404 in 237ms
+ GET / 404 in 240ms
+ GET / 404 in 248ms
+ GET / 404 in 244ms
+ GET / 404 in 240ms
+ GET / 404 in 238ms
+ GET / 404 in 237ms
+ GET / 404 in 241ms
+ GET / 404 in 247ms
+ GET / 404 in 240ms
+ GET / 404 in 260ms
+ GET / 404 in 234ms
+ GET / 404 in 237ms
+ GET / 404 in 249ms
+ GET / 404 in 239ms
+ GET / 404 in 245ms
+ GET / 404 in 245ms
+ GET / 404 in 235ms
+ GET / 404 in 238ms
+ GET / 404 in 240ms
+ GET / 404 in 255ms
+ GET / 404 in 236ms
+ GET / 404 in 235ms
+ GET / 404 in 241ms
+ GET / 404 in 240ms
+ GET / 404 in 256ms
+ GET / 404 in 238ms
+ GET / 404 in 240ms
+ GET / 404 in 232ms
+ GET / 404 in 238ms
+ GET / 404 in 239ms
+ GET / 404 in 239ms
+ GET / 404 in 249ms
+ GET / 404 in 237ms
+ GET / 404 in 249ms
+ GET / 404 in 231ms
+ GET / 404 in 240ms
+ GET / 404 in 241ms
+ GET / 404 in 250ms
+ GET / 404 in 243ms
+ GET / 404 in 244ms
+ GET / 404 in 247ms

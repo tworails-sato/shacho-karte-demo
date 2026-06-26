@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { BarChart3, ClipboardCheck, Lightbulb, UserRoundCheck } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, ClipboardCheck, FileText, Lightbulb, TrendingUp, UserRoundCheck } from "lucide-react";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -42,20 +43,23 @@ const features = [
   }
 ];
 
-const supportSteps = [
+const partnerItems = [
   {
-    title: "支援先へ案内",
-    body: "面談前や初回接点で、経営者にアセスメントを案内します。"
+    title: "クライアントへの提案に使えます",
+    body: "初回面談や提案前の論点整理として、経営者との対話を始めやすくします。",
+    icon: BriefcaseBusiness
   },
   {
-    title: "結果を一緒に読み解く",
-    body: "強み・差分・優先確認テーマを見ながら、論点をそろえます。"
+    title: "オリジナル診断の作成可能（OEM）",
+    body: "自社サービスや支援領域に合わせた診断設計への展開も相談できます。",
+    icon: FileText
   },
   {
-    title: "提案へ接続",
-    body: "整理したテーマを、支援メニューや具体的なアクションにつなげます。"
+    title: "商談創出、売上向上につながります",
+    body: "結果を共通言語にして、支援メニューや具体的な提案へ自然につなげます。",
+    icon: TrendingUp
   }
-];
+] as const;
 
 const sampleChartData = [
   { theme: "収益性", score: 9, target: 9 },
@@ -132,14 +136,21 @@ export default function HomePage() {
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link className="flex items-center gap-3" href="/">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-slate-950 text-xs font-black text-white">SK</span>
-            <span className="text-sm font-black tracking-wide text-slate-950 sm:text-base">社長カルテ Light</span>
+            <Image
+              alt="社長カルテ"
+              className="h-12 w-12 rounded-sm object-contain sm:h-14 sm:w-14"
+              height={110}
+              priority
+              src="/images/shacho-karte-logo.png"
+              width={300}
+            />
+            <span className="whitespace-nowrap text-xl font-black tracking-wide text-slate-950 sm:text-2xl">社長カルテ</span>
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-bold text-slate-600 lg:flex">
+            <a className="transition hover:text-teal-700" href="#flow">アセスメントの流れ</a>
             <a className="transition hover:text-teal-700" href="#features">特徴</a>
-            <a className="transition hover:text-teal-700" href="#findings">わかること</a>
             <a className="transition hover:text-teal-700" href="#result-image">結果イメージ</a>
-            <a className="transition hover:text-teal-700" href="#advisors">支援者の活用</a>
+            <a className="transition hover:text-teal-700" href="#partners">経営支援者の方へ</a>
           </nav>
           <Link className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-400 px-5 py-2 text-sm font-black text-slate-950 transition hover:bg-teal-300" href="/basic-info">
             診断を始める
@@ -199,7 +210,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section id="flow" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <SectionHeading eyebrow="FLOW" title="アセスメントの流れ" body="スマートフォンからでも、経営の現在地を短時間で整理できます。" />
         <div className="grid gap-4 md:grid-cols-4">
           {steps.map((step, index) => {
@@ -285,17 +296,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="advisors" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <SectionHeading eyebrow="FOR ADVISORS" title="経営支援の対話を、より具体的に" body="経営者との最初の接点から提案まで、結果を共通言語として活用できます。" />
-        <div className="grid gap-5 lg:grid-cols-3">
-          {supportSteps.map((step, index) => (
-            <article key={step.title} className="relative border-t border-slate-300 pt-6">
-              <p className="text-xs font-black tracking-[0.14em] text-teal-700">STEP 0{index + 1}</p>
-              <h3 className="mt-4 text-2xl font-black text-slate-950">{step.title}</h3>
-              <p className="mt-4 max-w-sm leading-8 text-slate-600">{step.body}</p>
-              {index < supportSteps.length - 1 ? <span className="absolute right-0 top-6 hidden text-slate-300 lg:block">→</span> : null}
-            </article>
-          ))}
+      <section id="partners" className="relative overflow-hidden bg-slate-50">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_10%,rgba(45,212,191,0.14),transparent_28rem),radial-gradient(circle_at_82%_70%,rgba(37,99,235,0.12),transparent_30rem)]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+          <SectionHeading
+            eyebrow="FOR PARTNERS"
+            title="社長カルテを支援ツールに使用できます"
+            body="経営支援者・士業・コンサルの方が、クライアントとの対話や提案前の論点整理に活用しやすい設計です。"
+          />
+          <div className="grid gap-5 lg:grid-cols-3">
+            {partnerItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-[0_14px_36px_rgba(15,23,42,0.07)]">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-md bg-slate-950 text-teal-300">
+                    <Icon aria-hidden="true" size={23} strokeWidth={1.8} />
+                  </span>
+                  <h3 className="mt-6 text-xl font-black leading-8 text-slate-950">{item.title}</h3>
+                  <p className="mt-4 leading-8 text-slate-600">{item.body}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div className="mt-10 text-center">
+            <a
+              className="inline-flex min-h-14 items-center justify-center rounded-md bg-slate-950 px-8 py-4 text-sm font-black text-white shadow-[0_16px_30px_rgba(15,23,42,0.16)] transition hover:-translate-y-0.5 hover:bg-teal-800"
+              href="https://ceo-sherpa.com/karte_program.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              もっと詳しく
+              <span aria-hidden="true" className="ml-3 text-lg leading-none">→</span>
+            </a>
+          </div>
         </div>
       </section>
 
