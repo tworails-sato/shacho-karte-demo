@@ -14,7 +14,6 @@ import type { ThemeScore } from "@/lib/diagnosis";
 import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
 import type { UsageSettings } from "@/lib/usage-settings";
 import ResultHowToReadCard from "../ResultHowToReadCard";
-import ResultUseCases from "../ResultUseCases";
 import ThemeGuideAccordion from "../ThemeGuideAccordion";
 import EmployeePhaseGuideSection from "../EmployeePhaseGuide";
 import { buildPhaseAwareSummary } from "@/lib/employee-phase";
@@ -199,8 +198,6 @@ export default function ResultTokenView({
       </section>
 
       <EmployeePhaseGuideSection employeeSize={respondent?.employee_size} />
-
-      <ResultUseCases />
 
       <ResultCopyright settings={usageSettings} />
 

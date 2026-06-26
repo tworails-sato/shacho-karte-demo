@@ -18,7 +18,6 @@ import {
 import { notifyDiagnosisCompleted } from "@/lib/notify";
 import ResultHowToReadCard from "./ResultHowToReadCard";
 import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
-import ResultUseCases from "./ResultUseCases";
 import ThemeGuideAccordion from "./ThemeGuideAccordion";
 import EmployeePhaseGuideSection from "./EmployeePhaseGuide";
 import { buildPhaseAwareSummary } from "@/lib/employee-phase";
@@ -305,8 +304,6 @@ export default function ResultPage() {
       </section>
 
       <EmployeePhaseGuideSection employeeSize={basicInfo.employeeSize} />
-
-      <ResultUseCases />
 
       <ResultCopyright settings={usageSettings} />
 
