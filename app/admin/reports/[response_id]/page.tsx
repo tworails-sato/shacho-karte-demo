@@ -13,6 +13,11 @@ import {
   Tooltip
 } from "recharts";
 import type { ThemeScore } from "@/lib/diagnosis";
+import {
+  generateFeedbackDraft,
+  mergeDraftIntoEmptyFields,
+  type FeedbackDraftForm
+} from "@/lib/feedback-draft";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 import { defaultUsageSettings, usageSettingsFromRow, type UsageSettings } from "@/lib/usage-settings";
 
@@ -51,17 +56,7 @@ type FeedbackReportRow = FeedbackReportForm & {
   updated_at: string;
 };
 
-type FeedbackReportForm = {
-  one_line_summary: string;
-  summary: string;
-  executive_type: string;
-  psychological_tendency: string;
-  strength: string;
-  gap: string;
-  short_term_action: string;
-  mid_long_term_action: string;
-  advisor_use_case: string;
-};
+type FeedbackReportForm = FeedbackDraftForm;
 
 const emptyReport: FeedbackReportForm = {
   one_line_summary: "",
@@ -302,7 +297,8 @@ export default function FeedbackReportPage() {
           .maybeSingle();
 
         if (respondentError) throw respondentError;
-        setRespondent((respondentData as RespondentRow | null) ?? null);
+        const typedRespondent = (respondentData as RespondentRow | null) ?? null;
+        setRespondent(typedRespondent);
 
         const { data: reportData, error: reportError } = await supabase
           .from("feedback_reports")
@@ -325,9 +321,18 @@ export default function FeedbackReportPage() {
           .maybeSingle();
 
         if (reportError) throw reportError;
+        const draft = generateFeedbackDraft({
+          totalScore: typedResponse.total_score,
+          achievementRate: typedResponse.achievement_rate,
+          themeScores: typedResponse.category_scores_json ?? [],
+          topThemes: typedResponse.top_categories_json ?? [],
+          priorityThemes: typedResponse.priority_categories_json ?? [],
+          employeeSize: typedRespondent?.employee_size
+        });
+
         if (reportData) {
           const savedReport = reportData as FeedbackReportRow;
-          setReport({
+          setReport(mergeDraftIntoEmptyFields({
             one_line_summary: savedReport.one_line_summary ?? "",
             summary: savedReport.summary ?? "",
             executive_type: savedReport.executive_type ?? "",
@@ -337,7 +342,9 @@ export default function FeedbackReportPage() {
             short_term_action: savedReport.short_term_action ?? "",
             mid_long_term_action: savedReport.mid_long_term_action ?? "",
             advisor_use_case: savedReport.advisor_use_case ?? ""
-          });
+          }, draft));
+        } else {
+          setReport(draft);
         }
 
         setErrorMessage(null);
@@ -490,6 +497,27 @@ export default function FeedbackReportPage() {
     setUsageSettings((current) => ({ ...current, [key]: value }));
   }
 
+  function handleRegenerateDraft() {
+    if (!response) return;
+    if (
+      !window.confirm(
+        "現在の入力内容を、診断スコアに基づく自動下書きで上書きします。\nよろしいですか？"
+      )
+    ) {
+      return;
+    }
+
+    setReport(generateFeedbackDraft({
+      totalScore: response.total_score,
+      achievementRate: response.achievement_rate,
+      themeScores: response.category_scores_json ?? [],
+      topThemes: response.top_categories_json ?? [],
+      priorityThemes: response.priority_categories_json ?? [],
+      employeeSize: respondent?.employee_size
+    }));
+    setStatusMessage("下書きを再生成しました。保存するとDBに反映されます。");
+  }
+
   if (loading) {
     return (
       <main className="page-shell">
@@ -548,8 +576,21 @@ export default function FeedbackReportPage() {
           <div>
             <h2 className="text-xl font-black text-ink">編集フォーム</h2>
             <p className="mt-1 text-sm leading-6 text-stone-600">
-              FB本文は管理者が入力してください。入力内容は右側のプレビューに反映されます。
+              FB本文は自動下書きを叩き台として、管理者が編集してください。入力内容は右側のプレビューに反映されます。
             </p>
+          </div>
+
+          <div className="flex flex-col gap-3 rounded-md border border-blue-100 bg-blue-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-bold leading-7 text-blue-900">
+              空欄には診断スコアに基づく自動下書きが入ります。内容を確認・編集してから保存してください。
+            </p>
+            <button
+              className="secondary-button shrink-0"
+              onClick={handleRegenerateDraft}
+              type="button"
+            >
+              下書きを再生成
+            </button>
           </div>
 
           <section className="rounded-lg border border-stone-200 bg-stone-50 p-4">
