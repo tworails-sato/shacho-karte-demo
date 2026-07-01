@@ -321,9 +321,7 @@ export default function HomePage() {
           <div className="mt-10 text-center">
             <a
               className="inline-flex min-h-14 items-center justify-center rounded-md bg-slate-950 px-8 py-4 text-sm font-black text-white shadow-[0_16px_30px_rgba(15,23,42,0.16)] transition hover:-translate-y-0.5 hover:bg-teal-800"
-              href="https://ceo-sherpa.com/karte_program.pdf"
-              rel="noopener noreferrer"
-              target="_blank"
+              href="/partners.html"
             >
               もっと詳しく
               <span aria-hidden="true" className="ml-3 text-lg leading-none">→</span>
