@@ -207,6 +207,24 @@ nav {
 .tag-ours { background: var(--red-light); color: var(--red); }
 .tag-theirs { background: var(--green-light); color: var(--green); }
 
+@media (max-width: 768px) {
+  .flow-steps { flex-direction: column; gap: 12px; }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    align-items: center;
+    text-align: left;
+    background: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .flow-step:not(:last-child)::after { display: none; }
+  .flow-num { margin: 0; flex-shrink: 0; }
+  .flow-title { margin-bottom: 4px; }
+}
+
 /* BEFORE AFTER */
 .ba-headline { font-family: 'Noto Serif JP', serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 700; text-align: center; color: var(--black); margin-bottom: 40px; line-height: 1.5; }
 .ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: start; }
@@ -290,8 +308,6 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .hero { padding: 100px 24px 0; }
   .section { padding: 64px 24px; }
   .weapon-card { grid-template-columns: 1fr; }
-  .flow-steps { flex-direction: column; gap: 32px; }
-  .flow-step:not(:last-child)::after { display: none; }
   .ba-grid { grid-template-columns: 1fr; }
   .ba-arrow { display: none; }
   .mockup-inner { grid-template-columns: 1fr; }
@@ -306,8 +322,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">社長カルテ <span>for Partners</span></div>
-  <a href="#cta" class="nav-cta">無料でデモ診断を試す</a>
+  <a href="https://karte.ceo-sherpa.com/" class="nav-logo">社長カルテ <span>for Partners</span></a>
+  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="nav-cta">無料でデモ診断を試す</a>
 </nav>
 
 <!-- HERO -->
@@ -316,8 +332,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <h1>経営者の課題を掘り起こし、<br><em>自社サービスへの提案導線</em>をつくる</h1>
   <p class="hero-sub2">コンサル・経営支援者・士業向け｜課題抽出から提案・案件化までを仕組み化</p>
   <p class="hero-sub">属人的な営業から、再現性のある提案プロセスへ。</p>
-  <a href="https://karte.ceo-sherpa.com/" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
-  <p class="hero-note">※ 所要時間約5分 / 登録不要 / 無料</p>
+  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
+  <p class="hero-note">※ 所要時間約5分</p>
 
   <div class="hero-mockup-wrap">
     <div class="mockup-bar">
@@ -487,7 +503,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <div class="section-inner">
     <div class="eyebrow">How it works</div>
     <h2 class="sec-title">活用フロー</h2>
-    <p class="sec-body">診断とフィードバックは弊社が担います。提案はあなたが担います。</p>
+    <p class="sec-body">診断とフィードバックは弊社が同席し、課題の掘り起こしをいたします。</p>
     <div class="flow-steps">
       <div class="flow-step">
         <div class="flow-num">01</div>
@@ -559,7 +575,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div class="case-card">
         <div class="case-badge">大手人材会社 P社</div>
         <div class="case-headline">女性活躍支援強化を背景に、診断を入口にリード獲得を実現</div>
-        <div class="case-result">+30件/月</div>
+        <div class="case-result">リード獲得 +30件/月</div>
         <div class="case-steps">
           <span class="case-step-item">課題：リード獲得強化</span>
           <span class="case-step-arrow">›</span>
@@ -572,7 +588,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div class="case-card">
         <div class="case-badge">大手研修会社 B社</div>
         <div class="case-headline">エグゼクティブ向け高単価サービス開発で売上を創出</div>
-        <div class="case-result">3か月で600万円</div>
+        <div class="case-result">開始3か月で売上600万円</div>
         <div class="case-steps">
           <span class="case-step-item">課題：高単価パッケージ設計</span>
           <span class="case-step-arrow">›</span>
@@ -628,19 +644,30 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div>
         <div class="price-card-opt">
           <div class="price-badge">オプション｜オリジナル診断作成</div>
-          <div class="price-amount">¥200,000<span>〜（税抜）</span></div>
-          <p class="price-note">合計3回（戦略・作成・テスト実装）</p>
-          <div class="campaign-box">
-            <div class="campaign-title">🎁 期間限定キャンペーン｜初期設計 50% OFF</div>
-            <div class="campaign-body">通常20万円 → <strong>10万円</strong>（2027年4月末まで）</div>
+          <div style="margin-bottom:6px;">
+            <span style="font-size:1rem;color:#9ca3af;text-decoration:line-through;">¥200,000</span>
+            <span style="font-size:0.76rem;color:var(--gray);margin-left:6px;">通常価格</span>
           </div>
+          <div style="margin-bottom:6px;">
+            <span style="font-size:1.6rem;font-weight:700;color:var(--gray);">¥150,000</span>
+            <span style="font-size:0.76rem;color:var(--gray);margin-left:6px;">（税抜）</span>
+          </div>
+          <div class="campaign-box" style="margin-top:12px;">
+            <div class="campaign-title">🎁 今なら 2027年3月末まで限定</div>
+            <div style="margin-top:6px;">
+              <span style="font-size:1.8rem;font-weight:700;font-family:'Noto Serif JP',serif;color:var(--red);">¥100,000</span>
+              <span style="font-size:0.8rem;color:var(--text);margin-left:6px;">（税抜）</span>
+            </div>
+            <div style="font-size:0.74rem;color:var(--yellow);margin-top:4px;">通常20万円から50%OFF</div>
+          </div>
+          <p class="price-note" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-light);padding-bottom:0;margin-bottom:0;">合計3回（戦略・作成・テスト実装）</p>
         </div>
         <div class="caution-box">
           <div class="caution-title">注意事項</div>
           <ul class="caution-list">
-            <li>毎月3回までの診断が含まれます</li>
-            <li>追加診断は1回あたり15,000円</li>
-            <li>最低契約期間は12か月です</li>
+            <li>月額には毎月3回までの診断が含まれます</li>
+            <li>月額は診断が発生しない月でも発生します（システム利用費として）</li>
+            <li>最低契約期間は3か月です</li>
           </ul>
         </div>
       </div>
@@ -666,8 +693,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div class="cta-card-body">診断から提案までの導線が設計できるか、現状を分析します</div>
     </div>
   </div>
-  <a href="https://karte.ceo-sherpa.com/" target="_blank" class="cta-btn">無料でデモ診断を試す</a>
-  <p class="cta-sub">登録不要 ・ 無料 ・ 約5分</p>
+  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="cta-btn">無料でデモ診断を試す</a>
+  <p class="cta-sub">所要時間約5分</p>
 
 </div>
 
