@@ -283,9 +283,9 @@ nav {
 }
 
 /* PRICE */
-.price-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; align-items: start; }
-.price-card { background: var(--white); border: 2px solid var(--black); border-radius: 8px; padding: 36px 32px; }
-.price-card-opt { background: var(--white); border: 1px solid var(--gray-light); border-radius: 8px; padding: 36px 32px; }
+.price-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; align-items: stretch; }
+.price-card { background: var(--white); border: 2px solid var(--black); border-radius: 8px; padding: 36px 32px; display: flex; flex-direction: column; }
+.price-card-opt { background: var(--white); border: 1px solid var(--gray-light); border-radius: 8px; padding: 36px 32px; display: flex; flex-direction: column; }
 .price-badge { display: inline-block; background: var(--red-light); color: var(--red); font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 2px; margin-bottom: 16px; text-transform: uppercase; }
 .price-amount { font-family: 'Noto Serif JP', serif; font-size: 2.4rem; font-weight: 700; color: var(--black); line-height: 1; margin-bottom: 6px; }
 .price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--gray); }
@@ -699,36 +699,31 @@ footer p { font-size: 0.74rem; color: #4b5563; }
           <li>診断実施・分析・カスタマイズ</li>
         </ul>
       </div>
-      <div>
-        <div class="price-card-opt">
-          <div class="price-badge">オプション｜オリジナル診断作成</div>
-          <div style="margin-bottom:6px;">
-            <span style="font-size:1rem;color:#9ca3af;text-decoration:line-through;">¥200,000</span>
-            <span style="font-size:0.76rem;color:var(--gray);margin-left:6px;">通常価格</span>
-          </div>
-          <div style="margin-bottom:6px;">
-            <span style="font-size:1.6rem;font-weight:700;color:var(--gray);">¥150,000</span>
-            <span style="font-size:0.76rem;color:var(--gray);margin-left:6px;">（税抜）</span>
-          </div>
-          <div class="campaign-box" style="margin-top:12px;">
-            <div class="campaign-title">🎁 今なら 2027年3月末まで限定</div>
-            <div style="margin-top:6px;">
-              <span style="font-size:1.8rem;font-weight:700;font-family:'Noto Serif JP',serif;color:var(--red);">¥100,000</span>
-              <span style="font-size:0.8rem;color:var(--text);margin-left:6px;">（税抜）</span>
-            </div>
-            <div style="font-size:0.74rem;color:var(--yellow);margin-top:4px;">通常20万円から50%OFF</div>
-          </div>
-          <p class="price-note" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-light);padding-bottom:0;margin-bottom:0;">合計3回（戦略・作成・テスト実装）</p>
+      <div class="price-card-opt">
+        <div class="price-badge">オプション｜オリジナル診断作成</div>
+        <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;">
+          <span style="font-size:1.3rem;font-weight:700;color:#9ca3af;text-decoration:line-through;">¥200,000</span>
+          <span style="font-size:1.1rem;color:var(--gray);">→</span>
+          <span class="price-amount" style="font-size:2.4rem;">¥150,000<span style="font-size:0.9rem;">（税抜）</span></span>
         </div>
-        <div class="caution-box">
-          <div class="caution-title">注意事項</div>
-          <ul class="caution-list">
-            <li>月額には毎月3回までの診断が含まれます</li>
-            <li>月額は診断が発生しない月でも発生します（システム利用費として）</li>
-            <li>最低契約期間は3か月です</li>
-          </ul>
+        <div class="campaign-box" style="margin-top:14px;">
+          <div class="campaign-title">🎁 さらに今なら 2026年8月末まで限定</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px;">
+            <span style="font-size:1.8rem;font-weight:700;font-family:'Noto Serif JP',serif;color:var(--red);">¥100,000</span>
+            <span style="font-size:0.8rem;color:var(--text);">（税抜）</span>
+          </div>
+          <div style="font-size:0.74rem;color:var(--yellow);margin-top:4px;">通常20万円から50%OFF</div>
         </div>
+        <p class="price-note" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-light);padding-bottom:0;margin-bottom:0;">内容：戦略策定・開発実装・オンボーディング支援を含みます</p>
       </div>
+    </div>
+    <div class="caution-box" style="margin-top:24px;">
+      <div class="caution-title">注意事項</div>
+      <ul class="caution-list">
+        <li>月額には毎月3回までの診断が含まれます</li>
+        <li>月額は診断が発生しない月でも発生します（システム利用費として）</li>
+        <li>最低契約期間は3か月です</li>
+      </ul>
     </div>
   </div>
 </div>
