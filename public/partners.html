@@ -45,6 +45,10 @@ nav {
 
 /* HERO */
 .hero { padding: 120px 48px 0; text-align: center; background: var(--white); overflow: hidden; }
+.hero-lead {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  margin-bottom: 20px; letter-spacing: 0.05em;
+}
 .hero-eyebrow {
   display: inline-block; background: var(--red-light); color: var(--red);
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
@@ -55,9 +59,27 @@ nav {
   font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--black);
   line-height: 1.5; margin-bottom: 16px; max-width: 720px; margin-left: auto; margin-right: auto;
 }
-.hero h1 em { font-style: normal; border-bottom: 3px solid var(--red); padding-bottom: 2px; }
-.hero-sub2 { font-size: 0.88rem; color: var(--gray); margin-bottom: 8px; letter-spacing: 0.05em; }
+.hero h1 em { font-style: normal; color: var(--red); border-bottom: 3px solid var(--red); padding-bottom: 2px; }
+.hero-sub2 { font-size: 0.88rem; color: var(--gray); margin-bottom: 32px; letter-spacing: 0.05em; }
 .hero-sub { font-size: 1rem; color: var(--gray); max-width: 540px; margin: 0 auto 40px; line-height: 2; }
+
+/* HERO BADGES */
+.hero-badges {
+  display: flex; justify-content: center; gap: 32px;
+  margin-bottom: 40px; flex-wrap: wrap;
+}
+.hero-badge {
+  display: flex; align-items: center; gap: 4px;
+}
+.laurel { font-size: 1.6rem; opacity: 0.85; transform: scaleX(-1); }
+.laurel-r { transform: scaleX(1); }
+.hero-badge-inner { display: flex; flex-direction: column; align-items: center; padding: 0 4px; }
+.hero-badge-label { font-size: 0.68rem; color: var(--gray); font-weight: 700; margin-bottom: 2px; }
+.hero-badge-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1;
+}
+.hero-badge-num small { font-size: 0.85rem; color: var(--black); font-weight: 700; margin-left: 2px; }
 .hero-cta {
   display: inline-block; background: var(--red); color: var(--white);
   font-size: 1rem; font-weight: 700; padding: 18px 52px; border-radius: 4px;
@@ -312,6 +334,9 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .hero { padding: 100px 24px 0; }
+  .hero-badges { gap: 16px; }
+  .hero-badge-num { font-size: 1.6rem; }
+  .laurel { font-size: 1.3rem; }
   .section { padding: 64px 24px; }
   .weapon-card { grid-template-columns: 1fr; }
   .ba-grid { grid-template-columns: 1fr; }
@@ -334,10 +359,37 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">For Consultants / 士業 / 経営支援者</div>
+  <p class="hero-lead">経営支援の提案導線にお悩みの方へ</p>
   <h1>経営者の課題を掘り起こし、<br><em>自社サービスへの提案導線</em>をつくる</h1>
   <p class="hero-sub2">コンサル・経営支援者・士業向け｜課題抽出から提案・案件化までを仕組み化</p>
-  <p class="hero-sub">属人的な営業から、再現性のある提案プロセスへ。</p>
+
+  <div class="hero-badges">
+    <div class="hero-badge">
+      <span class="laurel">🌿</span>
+      <div class="hero-badge-inner">
+        <span class="hero-badge-label">成長企業の社長データ</span>
+        <span class="hero-badge-num">800<small>名以上</small></span>
+      </div>
+      <span class="laurel laurel-r">🌿</span>
+    </div>
+    <div class="hero-badge">
+      <span class="laurel">🌿</span>
+      <div class="hero-badge-inner">
+        <span class="hero-badge-label">経営課題を網羅</span>
+        <span class="hero-badge-num">16<small>テーマ診断</small></span>
+      </div>
+      <span class="laurel laurel-r">🌿</span>
+    </div>
+    <div class="hero-badge">
+      <span class="laurel">🌿</span>
+      <div class="hero-badge-inner">
+        <span class="hero-badge-label">受検はたったの</span>
+        <span class="hero-badge-num">5<small>分</small></span>
+      </div>
+      <span class="laurel laurel-r">🌿</span>
+    </div>
+  </div>
+
   <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
   <p class="hero-note">※ 所要時間約5分</p>
 
