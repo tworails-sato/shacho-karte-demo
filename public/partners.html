@@ -56,10 +56,11 @@ nav {
 }
 .hero h1 {
   font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--black);
-  line-height: 1.5; margin-bottom: 16px; max-width: 720px; margin-left: auto; margin-right: auto;
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--black);
+  line-height: 1.5; margin-bottom: 16px; max-width: 900px; margin-left: auto; margin-right: auto;
 }
-.hero h1 em { font-style: normal; color: var(--red); border-bottom: 3px solid var(--red); padding-bottom: 2px; }
+.hero h1 em { font-style: normal; color: var(--red); border-bottom: 3px solid var(--red); padding-bottom: 2px; white-space: nowrap; }
+.sp-br { display: none; }
 .hero-sub2 { font-size: 0.88rem; color: var(--gray); margin-bottom: 32px; letter-spacing: 0.05em; }
 .hero-sub { font-size: 1rem; color: var(--gray); max-width: 540px; margin: 0 auto 40px; line-height: 2; }
 
@@ -334,6 +335,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .hero { padding: 100px 24px 0; }
+  .sp-br { display: inline; }
   .hero-badges { gap: 16px; }
   .hero-badge-num { font-size: 1.6rem; }
   .laurel { font-size: 1.3rem; }
@@ -359,9 +361,9 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-lead">経営支援の提案導線にお悩みの方へ</p>
-  <h1>経営者の課題を掘り起こし、<br><em>自社サービスへの提案導線</em>をつくる</h1>
-  <p class="hero-sub2">コンサル・経営支援者・士業向け｜課題抽出から提案・案件化までを仕組み化</p>
+  <p class="hero-lead">成長企業にアプローチしたい<br>コンサルタント・士業・経営支援者の方へ</p>
+  <h1>社長カルテが、<br class="sp-br"><em>商談のハードル</em>を下げる。</h1>
+  <p class="hero-sub2">営業が得意じゃなくても大丈夫。診断が、課題の深掘りまで運んでくれます。</p>
 
   <div class="hero-badges">
     <div class="hero-badge">
@@ -477,8 +479,37 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   </div>
 </div>
 
+<!-- WHY NOT DIY -->
+<div class="section">
+  <div class="section-inner">
+    <div class="eyebrow">Why 社長カルテ</div>
+    <h2 class="sec-title">「診断なら自社でも作れる」<br>——それでも社長カルテを使う理由</h2>
+    <p class="sec-body">診断ツール自体は目新しいものではありません。ただ、"提案につながる診断"を自作・運用するには、見えないハードルがあります。</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:48px;">
+      <div class="weapon-card" style="grid-template-columns:1fr;">
+        <div class="weapon-content">
+          <div class="weapon-title"><em>①</em> 800名の比較基準は、一社では作れない</div>
+          <p class="weapon-body">自作診断は「自社の主観で作った質問」になりがちです。社長カルテは800名以上の成長企業データが基準にあるため、「成長企業と比べてどうか」という相対評価で語れます。この客観性が、社長を動かします。</p>
+        </div>
+      </div>
+      <div class="weapon-card" style="grid-template-columns:1fr;">
+        <div class="weapon-content">
+          <div class="weapon-title"><em>②</em> "第三者の診断"だから、本音が出る</div>
+          <p class="weapon-body">自社で作った診断を自社の営業が配ると、社長は「営業ツール」だと見抜いて身構えます。第三者である社長カルテの診断だからこそ、中立的な"経営の健康診断"として本音で答えてもらえます。自作した瞬間、この中立性は失われます。</p>
+        </div>
+      </div>
+      <div class="weapon-card" style="grid-template-columns:1fr;">
+        <div class="weapon-content">
+          <div class="weapon-title"><em>③</em> 「作れる」と「運用し続けられる」は別</div>
+          <p class="weapon-body">設問設計・スコアリング・FBレポート生成・改善——診断を作って運用し続けるには相応の工数がかかります。社長カルテなら、その仕組みをそのまま使いながら、自社専用の診断にカスタマイズすることも可能です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FB SAMPLE -->
-<div class="section fb-section">
+<div class="section fb-section section-bg">
   <div class="section-inner">
     <div class="eyebrow">Output Sample</div>
     <h2 class="sec-title">実際のFBレポートはこう出る</h2>
@@ -557,7 +588,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- FLOW -->
-<div class="section section-bg">
+<div class="section">
   <div class="section-inner">
     <div class="eyebrow">How it works</div>
     <h2 class="sec-title">活用フロー</h2>
