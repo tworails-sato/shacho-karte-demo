@@ -45,18 +45,18 @@ const features = [
 
 const partnerItems = [
   {
-    title: "クライアントへの提案に使えます",
-    body: "初回面談や提案前の論点整理として、経営者との対話を始めやすくします。",
+    title: "「紹介待ち」から、能動的な提案へ",
+    body: "社長カルテを利用することで、自社でご提案のきっかけを生み出せます。",
     icon: BriefcaseBusiness
   },
   {
-    title: "オリジナル診断の作成可能（OEM）",
-    body: "自社サービスや支援領域に合わせた診断設計への展開も相談できます。",
+    title: "経営者の「気づき」を引き出し、会話の質が高まります",
+    body: "言語化しづらい課題の可視化や整理を通じて、ご支援の質を上がります",
     icon: FileText
   },
   {
-    title: "商談創出、売上向上につながります",
-    body: "結果を共通言語にして、支援メニューや具体的な提案へ自然につなげます。",
+    title: "自社の支援領域に合わせて広げられます。",
+    body: "自社の専門性に合わせて社長カルテをカスタム＆開発が可能です（OEM）",
     icon: TrendingUp
   }
 ] as const;
@@ -84,19 +84,21 @@ function SectionHeading({
   title,
   body,
   align = "center",
-  dark = false
+  dark = false,
+  eyebrowClassName = "text-xs"
 }: {
   eyebrow: string;
   title: string;
   body?: string;
   align?: "left" | "center";
   dark?: boolean;
+  eyebrowClassName?: string;
 }) {
   const alignment = align === "left" ? "max-w-2xl text-left" : "mx-auto max-w-3xl text-center";
 
   return (
     <div className={`mb-10 ${alignment} sm:mb-14`}>
-      <p className={`text-xs font-black tracking-[0.16em] ${dark ? "text-teal-300" : "text-teal-700"}`}>{eyebrow}</p>
+      <p className={`${eyebrowClassName} font-black tracking-[0.16em] ${dark ? "text-teal-300" : "text-teal-700"}`}>{eyebrow}</p>
       <h2 className={`mt-3 text-3xl font-black leading-tight sm:text-4xl ${dark ? "text-white" : "text-slate-950"}`}>{title}</h2>
       {body ? <p className={`mt-5 text-base leading-8 sm:text-lg ${dark ? "text-slate-300" : "text-slate-600"}`}>{body}</p> : null}
     </div>
@@ -150,7 +152,7 @@ export default function HomePage() {
             <a className="transition hover:text-teal-700" href="#flow">アセスメントの流れ</a>
             <a className="transition hover:text-teal-700" href="#features">特徴</a>
             <a className="transition hover:text-teal-700" href="#result-image">結果イメージ</a>
-            <a className="transition hover:text-teal-700" href="#partners">経営支援者の方へ</a>
+            <a className="inline-flex min-h-10 items-center justify-center rounded-md bg-slate-950 px-4 py-2 text-sm font-black text-white shadow-sm transition hover:bg-teal-800" href="#partners">支援者向けプランを見る</a>
           </nav>
           <Link className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-400 px-5 py-2 text-sm font-black text-slate-950 transition hover:bg-teal-300" href="/basic-info">
             診断を始める
@@ -300,9 +302,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_10%,rgba(45,212,191,0.14),transparent_28rem),radial-gradient(circle_at_82%_70%,rgba(37,99,235,0.12),transparent_30rem)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <SectionHeading
-            eyebrow="FOR PARTNERS"
-            title="社長カルテを支援ツールに使用できます"
-            body="経営支援者・士業・コンサルの方が、クライアントとの対話や提案前の論点整理に活用しやすい設計です。"
+            eyebrow="コンサルタント・士業・経営支援者の方へ"
+            eyebrowClassName="text-sm sm:text-base"
+            title="社長カルテを、経営者との対話のきっかけに"
+            body="過去接点を持った経営者と、会話のきっかけや課題について自然な対話が生まれます。"
           />
           <div className="grid gap-5 lg:grid-cols-3">
             {partnerItems.map((item) => {
@@ -320,7 +323,7 @@ export default function HomePage() {
           </div>
           <div className="mt-10 text-center">
             <a
-              className="inline-flex min-h-14 items-center justify-center rounded-md bg-slate-950 px-8 py-4 text-sm font-black text-white shadow-[0_16px_30px_rgba(15,23,42,0.16)] transition hover:-translate-y-0.5 hover:bg-teal-800"
+              className="inline-flex min-h-14 items-center justify-center rounded-md bg-teal-500 px-9 py-4 text-base font-black text-slate-950 shadow-[0_18px_36px_rgba(20,184,166,0.24)] transition hover:-translate-y-0.5 hover:bg-teal-400"
               href="/partners.html"
             >
               もっと詳しく
