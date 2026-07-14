@@ -26,6 +26,7 @@ export async function POST(request: Request) {
     .select("id,resubmission_allowed,created_at")
     .eq("email_normalized", normalized)
     .eq("is_demo", true)
+    .eq("status", "completed")
     .gte("created_at", since)
     .order("created_at", { ascending: false })
     .limit(1);

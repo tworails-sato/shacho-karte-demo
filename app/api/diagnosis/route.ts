@@ -59,6 +59,7 @@ export async function POST(request: Request) {
         .select("id,resubmission_allowed")
         .eq("email_normalized", normalizedEmail)
         .eq("is_demo", true)
+        .eq("status", "completed")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(1);
@@ -109,7 +110,12 @@ export async function POST(request: Request) {
           copyright_text: usageSettings.copyright_text,
           commercial_use_allowed: usageSettings.commercial_use_allowed,
           resubmission_allowed: usageSettings.resubmission_allowed,
-          usage_purpose: usageSettings.usage_purpose
+          usage_purpose: usageSettings.usage_purpose,
+          status: "completed",
+          progress_rate: 100,
+          last_answered_question_id: Object.keys(submission.answers).at(-1) || null,
+          last_answered_question_order: Object.keys(submission.answers).filter((id) => submission.answers[id]).length,
+          updated_at: new Date().toISOString()
         })
         .select(
           `
@@ -121,7 +127,8 @@ export async function POST(request: Request) {
           copyright_text,
           commercial_use_allowed,
           resubmission_allowed,
-          usage_purpose
+          usage_purpose,
+          participant_email_sent_at
         `
         )
         .single();
@@ -146,6 +153,67 @@ export async function POST(request: Request) {
         companyName: submission.basicInfo.companyName,
         representativeName: submission.basicInfo.representativeName
       });
+    } else {
+      resultToken = resultToken || createResultToken();
+      resultTokenExpiresAt =
+        resultTokenExpiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+      const { data, error } = await supabase
+        .from("diagnosis_responses")
+        .update({
+          respondent_id: respondentId,
+          answers_json: submission.answers,
+          total_score: submission.result.totalScore,
+          achievement_rate: submission.result.achievementRate,
+          category_scores_json: submission.result.themeScores,
+          top_categories_json: submission.result.topThemes,
+          low_categories_json: submission.result.lowThemes,
+          priority_categories_json: submission.result.priorityThemes,
+          email: normalizedEmail,
+          email_normalized: normalizedEmail,
+          traffic_source: submission.basicInfo.trafficSource,
+          referrer_name: submission.basicInfo.referrerName || null,
+          referrer_company: submission.basicInfo.referrerCompany || null,
+          referrer_email: submission.basicInfo.referrerEmail || null,
+          consent_agreed: submission.basicInfo.consentAgreed,
+          consent_agreed_at: submission.basicInfo.consentAgreedAt || null,
+          result_token: resultToken,
+          result_token_expires_at: resultTokenExpiresAt,
+          status: "completed",
+          progress_rate: 100,
+          last_answered_question_id: Object.keys(submission.answers).at(-1) || null,
+          last_answered_question_order: Object.keys(submission.answers).filter((id) => submission.answers[id]).length,
+          updated_at: new Date().toISOString()
+        })
+        .eq("id", responseId)
+        .select(
+          `
+          id,
+          is_demo,
+          watermark_enabled,
+          watermark_text,
+          copyright_enabled,
+          copyright_text,
+          commercial_use_allowed,
+          resubmission_allowed,
+          usage_purpose,
+          participant_email_sent_at
+        `
+        )
+        .single();
+
+      if (error) throw error;
+
+      if (!data?.participant_email_sent_at) {
+        await sendParticipantEmail({
+          supabase,
+          responseId,
+          recipientEmail: normalizedEmail,
+          resultToken,
+          companyName: submission.basicInfo.companyName,
+          representativeName: submission.basicInfo.representativeName
+        });
+      }
     }
 
     return NextResponse.json({

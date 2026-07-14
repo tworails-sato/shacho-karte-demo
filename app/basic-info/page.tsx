@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BasicInfo } from "@/lib/diagnosis";
 import { employeeSizeOptions } from "@/lib/employee-phase";
+import { saveLocalDraft, type StoredDraft } from "@/lib/storage";
 
 const initialInfo: BasicInfo = {
   companyName: "",
@@ -103,6 +104,38 @@ export default function BasicInfoPage() {
     }
 
     window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(submittedInfo));
+
+    try {
+      const draftResponse = await fetch("/api/assessment-draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ basicInfo: submittedInfo, answers: {} })
+      });
+
+      if (!draftResponse.ok) {
+        const payload = await draftResponse.json().catch(() => null);
+        throw new Error(payload?.error || "Draft create failed");
+      }
+
+      const payload = (await draftResponse.json()) as { draft: StoredDraft };
+      saveLocalDraft(payload.draft);
+    } catch (error) {
+      console.error("Assessment draft create failed", error);
+      const now = new Date().toISOString();
+      saveLocalDraft({
+        id: crypto.randomUUID(),
+        basicInfo: submittedInfo,
+        answers: {},
+        status: "draft",
+        progressRate: 0,
+        lastAnsweredQuestionId: "",
+        lastAnsweredQuestionOrder: 0,
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        createdAt: now,
+        updatedAt: now
+      });
+    }
+
     router.push("/diagnosis");
   }
 

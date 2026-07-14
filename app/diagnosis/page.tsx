@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   answerLabels,
@@ -10,12 +10,24 @@ import {
   themes,
   type BasicInfo
 } from "@/lib/diagnosis";
-import { saveLocalSubmission, type StoredSubmission } from "@/lib/storage";
+import {
+  clearLocalDraft,
+  getLocalDraft,
+  saveLocalDraft,
+  saveLocalSubmission,
+  type StoredDraft,
+  type StoredSubmission
+} from "@/lib/storage";
 
 export default function DiagnosisPage() {
   const router = useRouter();
   const [answers, setAnswers] = useState<Record<string, number>>(createEmptyAnswers);
+  const [draft, setDraft] = useState<StoredDraft | null>(null);
+  const [resumeDraft, setResumeDraft] = useState<StoredDraft | null>(null);
+  const [showResumePrompt, setShowResumePrompt] = useState(false);
   const [unansweredIds, setUnansweredIds] = useState<string[]>([]);
+  const [manualSaveMessage, setManualSaveMessage] = useState("");
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const answeredCount = Object.values(answers).filter(Boolean).length;
   const progress = Math.round((answeredCount / questions.length) * 100);
 
@@ -28,9 +40,117 @@ export default function DiagnosisPage() {
     []
   );
 
+  useEffect(() => {
+    const localDraft = getLocalDraft();
+    if (!localDraft || localDraft.status !== "draft") return;
+
+    const isExpired = new Date(localDraft.expiresAt).getTime() < Date.now();
+    if (isExpired) {
+      clearLocalDraft();
+      return;
+    }
+
+    setDraft(localDraft);
+    const savedAnswerCount = Object.values(localDraft.answers).filter(Boolean).length;
+    if (savedAnswerCount > 0) {
+      setResumeDraft(localDraft);
+      setShowResumePrompt(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    };
+  }, []);
+
   function handleAnswer(questionId: string, value: number) {
-    setAnswers((current) => ({ ...current, [questionId]: value }));
+    setAnswers((current) => {
+      const nextAnswers = { ...current, [questionId]: value };
+      persistDraft(nextAnswers);
+      return nextAnswers;
+    });
     setUnansweredIds((current) => current.filter((id) => id !== questionId));
+    setManualSaveMessage("");
+  }
+
+  function handleResumeDraft() {
+    if (!resumeDraft) return;
+    setAnswers({ ...createEmptyAnswers(), ...resumeDraft.answers });
+    setDraft(resumeDraft);
+    setShowResumePrompt(false);
+    setTimeout(() => scrollToResumeQuestion(resumeDraft), 100);
+  }
+
+  function handleRestartDraft() {
+    const nextAnswers = createEmptyAnswers();
+    setAnswers(nextAnswers);
+    setShowResumePrompt(false);
+    persistDraft(nextAnswers);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function scrollToResumeQuestion(targetDraft: StoredDraft) {
+    const nextQuestion = questions.find((question, index) => index + 1 > targetDraft.lastAnsweredQuestionOrder);
+    const targetQuestionId = nextQuestion?.id ?? questions[questions.length - 1]?.id;
+    if (!targetQuestionId) return;
+    document
+      .getElementById(`question-${targetQuestionId}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function buildDraft(nextAnswers: Record<string, number>): StoredDraft | null {
+    const rawBasicInfo = window.localStorage.getItem("shacho-karte-basic-info");
+    if (!rawBasicInfo) return null;
+
+    const basicInfo = JSON.parse(rawBasicInfo) as BasicInfo;
+    const answeredQuestionIndexes = questions
+      .map((question, index) => ({ question, index }))
+      .filter(({ question }) => Boolean(nextAnswers[question.id]));
+    const last = answeredQuestionIndexes.at(-1);
+    const now = new Date().toISOString();
+    const currentDraft = draft ?? getLocalDraft();
+
+    return {
+      id: currentDraft?.id ?? crypto.randomUUID(),
+      respondentId: currentDraft?.respondentId,
+      responseId: currentDraft?.responseId,
+      basicInfo,
+      answers: nextAnswers,
+      status: "draft",
+      progressRate: Math.round((answeredQuestionIndexes.length / questions.length) * 100),
+      lastAnsweredQuestionId: last?.question.id ?? "",
+      lastAnsweredQuestionOrder: last ? last.index + 1 : 0,
+      expiresAt:
+        currentDraft?.expiresAt ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      createdAt: currentDraft?.createdAt ?? now,
+      updatedAt: now
+    };
+  }
+
+  function persistDraft(nextAnswers: Record<string, number>) {
+    const nextDraft = buildDraft(nextAnswers);
+    if (!nextDraft) return;
+
+    setDraft(nextDraft);
+    saveLocalDraft(nextDraft);
+
+    if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    autosaveTimerRef.current = setTimeout(() => {
+      if (!nextDraft.responseId) return;
+      fetch("/api/assessment-draft", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nextDraft)
+      }).catch((error) => {
+        console.error("Assessment draft autosave failed", error);
+      });
+    }, 500);
+  }
+
+  function handleManualSave() {
+    persistDraft(answers);
+    setManualSaveMessage("途中保存しました。");
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -56,8 +176,11 @@ export default function DiagnosisPage() {
 
     const basicInfo = JSON.parse(rawBasicInfo) as BasicInfo;
     const result = calculateResult(answers);
+    const currentDraft = draft ?? getLocalDraft();
     const submission: StoredSubmission = {
-      id: crypto.randomUUID(),
+      id: currentDraft?.id ?? crypto.randomUUID(),
+      respondentId: currentDraft?.respondentId,
+      responseId: currentDraft?.responseId,
       basicInfo,
       answers,
       result,
@@ -66,11 +189,28 @@ export default function DiagnosisPage() {
     };
 
     saveLocalSubmission(submission);
+    clearLocalDraft();
     router.push("/result");
   }
 
   return (
     <main className="page-shell">
+      {showResumePrompt ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4">
+          <section className="panel max-w-md p-6 text-center shadow-2xl">
+            <h2 className="text-2xl font-black text-ink">前回の回答が保存されています。</h2>
+            <p className="mt-3 leading-7 text-stone-700">続きを回答しますか？</p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <button className="primary-button" type="button" onClick={handleResumeDraft}>
+                続きから回答
+              </button>
+              <button className="secondary-button" type="button" onClick={handleRestartDraft}>
+                最初からやり直す
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
       <form className="mx-auto max-w-4xl space-y-6" onSubmit={handleSubmit} noValidate>
         <div className="sticky top-0 z-10 -mx-4 border-b border-stone-200 bg-paper/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="mx-auto max-w-4xl">
@@ -157,10 +297,21 @@ export default function DiagnosisPage() {
 
         <div className="sticky bottom-0 -mx-4 border-t border-stone-200 bg-paper/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm font-bold text-stone-700">全問回答すると結果を表示できます。</p>
-            <button className="primary-button" type="submit">
-              結果を見る
-            </button>
+            <div>
+              <p className="text-sm font-bold text-stone-700">全問回答すると結果を表示できます。</p>
+              <p className="mt-1 text-xs font-bold text-stone-500">保存期間は最後の回答日から1か月です。</p>
+              {manualSaveMessage ? (
+                <p className="mt-1 text-xs font-black text-brand">{manualSaveMessage}</p>
+              ) : null}
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <button className="secondary-button" type="button" onClick={handleManualSave}>
+                回答を途中保存する
+              </button>
+              <button className="primary-button" type="submit">
+                結果を見る
+              </button>
+            </div>
           </div>
         </div>
       </form>

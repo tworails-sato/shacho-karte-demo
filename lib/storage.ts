@@ -16,6 +16,21 @@ export type StoredSubmission = {
   createdAt: string;
 };
 
+export type StoredDraft = {
+  id: string;
+  respondentId?: string;
+  responseId?: string;
+  basicInfo: BasicInfo;
+  answers: Record<string, number>;
+  status: "draft" | "completed";
+  progressRate: number;
+  lastAnsweredQuestionId: string;
+  lastAnsweredQuestionOrder: number;
+  expiresAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type StoredEvent = {
   id: string;
   respondentId: string;
@@ -26,6 +41,7 @@ export type StoredEvent = {
 const CURRENT_KEY = "shacho-karte-current";
 const LIST_KEY = "shacho-karte-submissions";
 const EVENTS_KEY = "shacho-karte-events";
+const DRAFT_KEY = "shacho-karte-draft";
 
 export function saveLocalSubmission(submission: StoredSubmission) {
   window.localStorage.setItem(CURRENT_KEY, JSON.stringify(submission));
@@ -42,6 +58,19 @@ export function getLocalSubmission(): StoredSubmission | null {
 export function getLocalSubmissions(): StoredSubmission[] {
   const raw = window.localStorage.getItem(LIST_KEY);
   return raw ? JSON.parse(raw) : [];
+}
+
+export function saveLocalDraft(draft: StoredDraft) {
+  window.localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+}
+
+export function getLocalDraft(): StoredDraft | null {
+  const raw = window.localStorage.getItem(DRAFT_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+export function clearLocalDraft() {
+  window.localStorage.removeItem(DRAFT_KEY);
 }
 
 export function markLocalCtaClicked(id: string) {

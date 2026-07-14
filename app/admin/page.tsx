@@ -53,6 +53,12 @@ type DiagnosisResponseRow = {
   top_categories_json: ThemeScore[];
   low_categories_json: ThemeScore[];
   priority_categories_json: ThemeScore[];
+  status: "draft" | "completed" | null;
+  progress_rate: number | null;
+  last_answered_question_id: string | null;
+  last_answered_question_order: number | null;
+  expires_at: string | null;
+  updated_at: string | null;
   is_demo: boolean | null;
   watermark_enabled: boolean | null;
   watermark_text: string | null;
@@ -110,6 +116,12 @@ type AdminRow = {
   topThemes: ThemeScore[];
   lowThemes: ThemeScore[];
   priorityThemes: ThemeScore[];
+  status: "draft" | "completed";
+  progressRate: number;
+  lastAnsweredQuestionId: string;
+  lastAnsweredQuestionOrder: number;
+  expiresAt: string;
+  updatedAt: string;
 };
 
 function csvEscape(value: string | number | boolean) {
@@ -341,12 +353,19 @@ function localRowsFromStorage(): AdminRow[] {
     themeScores: item.result.themeScores,
     topThemes: item.result.topThemes,
     lowThemes: item.result.lowThemes,
-    priorityThemes: item.result.priorityThemes
+    priorityThemes: item.result.priorityThemes,
+    status: "completed",
+    progressRate: 100,
+    lastAnsweredQuestionId: "",
+    lastAnsweredQuestionOrder: 48,
+    expiresAt: "",
+    updatedAt: item.createdAt
   }));
 }
 
 export default function AdminPage() {
   const [rows, setRows] = useState<AdminRow[]>([]);
+  const [draftRows, setDraftRows] = useState<AdminRow[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [eventCount, setEventCount] = useState(0);
   const [dataSource, setDataSource] = useState<"supabase" | "local">("local");
@@ -361,6 +380,7 @@ export default function AdminPage() {
       if (!isSupabaseConfigured) {
         const localRows = localRowsFromStorage();
         setRows(localRows);
+        setDraftRows([]);
         setSelectedId(localRows[0]?.id ?? null);
         setEventCount(getLocalEvents().length);
         setDataSource("local");
@@ -401,6 +421,12 @@ export default function AdminPage() {
             top_categories_json,
             low_categories_json,
             priority_categories_json,
+            status,
+            progress_rate,
+            last_answered_question_id,
+            last_answered_question_order,
+            expires_at,
+            updated_at,
             is_demo,
             watermark_enabled,
             watermark_text,
@@ -490,13 +516,23 @@ export default function AdminPage() {
               themeScores: response.category_scores_json ?? [],
               topThemes: response.top_categories_json ?? [],
               lowThemes: response.low_categories_json ?? [],
-              priorityThemes: response.priority_categories_json ?? []
+              priorityThemes: response.priority_categories_json ?? [],
+              status: response.status ?? "completed",
+              progressRate: response.progress_rate ?? 100,
+              lastAnsweredQuestionId: response.last_answered_question_id ?? "",
+              lastAnsweredQuestionOrder: response.last_answered_question_order ?? 0,
+              expiresAt: response.expires_at ?? "",
+              updatedAt: response.updated_at ?? response.created_at
             };
           })
           .filter((row): row is AdminRow => row !== null);
 
-        setRows(supabaseRows);
-        setSelectedId(supabaseRows[0]?.id ?? null);
+        const completedRows = supabaseRows.filter((row) => row.status !== "draft");
+        const nextDraftRows = supabaseRows.filter((row) => row.status === "draft");
+
+        setRows(completedRows);
+        setDraftRows(nextDraftRows);
+        setSelectedId(completedRows[0]?.id ?? null);
         setEventCount(events?.length ?? 0);
         setDataSource("supabase");
         setAdminError(null);
@@ -504,6 +540,7 @@ export default function AdminPage() {
         console.error("Supabase admin fetch failed", error);
         const localRows = localRowsFromStorage();
         setRows(localRows);
+        setDraftRows([]);
         setSelectedId(localRows[0]?.id ?? null);
         setEventCount(getLocalEvents().length);
         setDataSource("local");
@@ -651,7 +688,9 @@ export default function AdminPage() {
       if (responseDeleteError) throw responseDeleteError;
 
       const remainingRows = rows.filter((row) => row.id !== deleteTarget.id);
+      const remainingDraftRows = draftRows.filter((row) => row.id !== deleteTarget.id);
       setRows(remainingRows);
+      setDraftRows(remainingDraftRows);
       setSelectedId((currentSelectedId) => {
         if (currentSelectedId !== deleteTarget.id) return currentSelectedId;
         return remainingRows[0]?.id ?? null;
@@ -860,6 +899,73 @@ export default function AdminPage() {
           {adminMessage}
         </section>
       ) : null}
+
+      <section className="panel overflow-hidden">
+        <div className="border-b border-stone-200 p-5">
+          <h2 className="text-xl font-black text-ink">途中保存</h2>
+          <p className="mt-2 text-sm leading-6 text-stone-600">
+            未完了の回答データです。完了済み一覧、平均値計算、FBレポート作成対象には含めていません。
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[980px] text-left text-sm">
+            <thead className="bg-stone-50 text-stone-600">
+              <tr>
+                <th className="px-4 py-3">氏名</th>
+                <th className="px-4 py-3">会社名</th>
+                <th className="px-4 py-3">メール</th>
+                <th className="px-4 py-3">進捗率</th>
+                <th className="px-4 py-3">最後に回答した設問</th>
+                <th className="px-4 py-3">最終更新日時</th>
+                <th className="px-4 py-3">保存期限</th>
+                <th className="px-4 py-3">ステータス</th>
+                <th className="px-4 py-3">削除</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-200">
+              {draftRows.map((row) => (
+                <tr key={row.id}>
+                  <td className="px-4 py-3">{row.representativeName}</td>
+                  <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
+                  <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-bold">{Math.round(row.progressRate)}%</td>
+                  <td className="px-4 py-3">
+                    {row.lastAnsweredQuestionOrder > 0
+                      ? `${row.lastAnsweredQuestionOrder}問目`
+                      : "未回答"}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDate(row.updatedAt)}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">
+                    {row.expiresAt ? formatDate(row.expiresAt) : "-"}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className="rounded-full bg-amber-50 px-2 py-1 text-xs font-black text-accent">
+                      draft
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-black text-rose-700 hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={dataSource !== "supabase"}
+                      onClick={() => setDeleteTarget(row)}
+                      type="button"
+                    >
+                      削除
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {draftRows.length === 0 ? (
+                <tr>
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={9}>
+                    途中保存データはありません。
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section className="panel overflow-hidden">
         <div className="border-b border-stone-200 p-5">

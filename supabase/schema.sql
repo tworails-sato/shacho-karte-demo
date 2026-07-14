@@ -45,6 +45,11 @@ create table if not exists public.diagnosis_responses (
   commercial_use_allowed boolean not null default false,
   resubmission_allowed boolean not null default false,
   usage_purpose text,
+  status text not null default 'completed' check (status in ('draft', 'completed')),
+  progress_rate numeric not null default 100,
+  last_answered_question_id text,
+  last_answered_question_order integer not null default 0,
+  expires_at timestamptz,
   updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
@@ -74,6 +79,15 @@ create table if not exists public.feedback_reports (
 
 create index if not exists diagnosis_responses_result_token_idx
   on public.diagnosis_responses (result_token);
+
+create index if not exists diagnosis_responses_status_idx
+  on public.diagnosis_responses (status);
+
+create index if not exists diagnosis_responses_draft_email_idx
+  on public.diagnosis_responses (email_normalized, status, updated_at);
+
+create index if not exists diagnosis_responses_expires_at_idx
+  on public.diagnosis_responses (expires_at);
 
 create index if not exists feedback_reports_response_id_idx
   on public.feedback_reports (response_id);
