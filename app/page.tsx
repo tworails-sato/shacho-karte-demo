@@ -1,13 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const flowSteps = [
-  { step: "STEP 01", icon: "📝", title: "基本情報を入力" },
-  { step: "STEP 02", icon: "✅", title: "設問48問に回答" },
-  { step: "STEP 03", icon: "📊", title: "結果画面で強み・課題を確認" },
-  { step: "STEP 04", icon: "💡", title: "個別解説を申し込み" }
-] as const;
-
 const features = [
   {
     number: "01",
@@ -28,22 +21,6 @@ const features = [
     number: "04",
     title: "対話と支援の入口になる",
     body: "結果を共通言語にして、経営者・幹部・支援者との対話を具体的な次の一手につなげます。"
-  }
-] as const;
-
-const faqs = [
-  {
-    question: "できていないことを、ダメ出しされるのですか？",
-    answer:
-      "いいえ。社長カルテは、スコアの良し悪しを評価するものではありません。あくまで「いま優先すべきテーマ」を相対的に明らかにするための診断です。スコアは、伸びしろの発見にすぎません。"
-  },
-  {
-    question: "本当に無料ですか？",
-    answer: "WEB診断は完全無料・登録不要です。より深く、詳細な分析をする場合には、別途「社長カルテ詳細版」がございます。"
-  },
-  {
-    question: "忙しくて時間がとれないのですが、どれくらいかかりますか？",
-    answer: "診断自体は選択式のため、5分程度で完了します。また、途中保存も可能です。"
   }
 ] as const;
 
@@ -198,7 +175,8 @@ export default function HomePage() {
         .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
         .flow-step{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:26px 20px;text-align:center;position:relative;}
         .flow-num{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:var(--mint-deep);margin-bottom:14px;}
-        .flow-ic{width:46px;height:46px;margin:0 auto 14px;border-radius:12px;background:rgba(62,207,158,0.1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;}
+        .flow-ic{width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:rgba(62,207,158,0.1);display:flex;align-items:center;justify-content:center;}
+        .flow-ic svg{width:26px;height:26px;}
         .flow-h{font-size:0.95rem;font-weight:700;color:var(--ink);line-height:1.5;}
 
         .feat{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
@@ -209,13 +187,25 @@ export default function HomePage() {
 
         .result{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;}
         .result-panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:18px;padding:28px;}
-        .score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+        .score-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
         .score-label{width:120px;font-size:0.82rem;color:#dbe6ef;flex-shrink:0;}
         .score-bar{flex:1;height:9px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;}
         .score-fill{height:100%;border-radius:5px;}
         .score-val{width:28px;text-align:right;font-weight:700;font-size:0.86rem;}
         .result-lead h3{font-family:'Noto Serif JP',serif;font-size:1.3rem;margin:0 0 14px;line-height:1.5;}
         .result-lead p{color:var(--muted-light);font-size:0.9rem;line-height:1.9;margin:0 0 10px;}
+        .result-full{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:32px;}
+        .result-full-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.1);flex-wrap:wrap;gap:12px;}
+        .result-full-tag{font-size:0.68rem;color:#08312a;background:var(--mint);padding:3px 10px;border-radius:5px;margin-right:12px;font-weight:700;}
+        .result-full-ttl{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:700;color:#fff;}
+        .result-full-score{font-size:0.85rem;color:var(--muted-light);}
+        .result-full-score b{font-family:'Noto Serif JP',serif;font-size:1.8rem;color:var(--mint);margin:0 4px;}
+        .result-full-body{display:grid;grid-template-columns:0.85fr 1.15fr;gap:36px;align-items:center;}
+        .result-chart{display:flex;flex-direction:column;align-items:center;}
+        .result-legend{display:flex;gap:16px;margin-top:10px;font-size:0.72rem;color:var(--muted-light);}
+        .result-legend span{display:flex;align-items:center;gap:6px;}
+        .result-legend i{width:16px;height:3px;border-radius:2px;display:inline-block;}
+        .result-full-note{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.85rem;color:var(--muted-light);line-height:1.85;}
 
         .faq{max-width:760px;margin:0 auto;}
         .faq-item{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:12px;}
@@ -248,6 +238,9 @@ export default function HomePage() {
           .flow{grid-template-columns:1fr 1fr;}
           .feat{grid-template-columns:1fr;}
           .result{grid-template-columns:1fr;}
+          .result-full{padding:22px 18px;}
+          .result-full-body{grid-template-columns:1fr;gap:24px;}
+          .result-chart{max-width:320px;margin:0 auto;}
           .partner-grid{grid-template-columns:1fr;}
         }
         @media(max-width:560px){
@@ -348,13 +341,10 @@ export default function HomePage() {
           <h2 className="sec-ttl">アセスメントの流れ</h2>
           <p className="sec-desc">スマートフォンからでも、経営の現在地を短時間で整理できます。</p>
           <div className="flow">
-            {flowSteps.map((item) => (
-              <div className="flow-step" key={item.step}>
-                <div className="flow-num">{item.step}</div>
-                <div className="flow-ic">{item.icon}</div>
-                <div className="flow-h">{item.title}</div>
-              </div>
-            ))}
+            <div className="flow-step"><div className="flow-num">STEP 01</div><div className="flow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2bb488" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg></div><div className="flow-h">基本情報を入力</div></div>
+            <div className="flow-step"><div className="flow-num">STEP 02</div><div className="flow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2bb488" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /><path d="m9 14 2 2 4-4" /></svg></div><div className="flow-h">設問48問に回答</div></div>
+            <div className="flow-step"><div className="flow-num">STEP 03</div><div className="flow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2bb488" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><rect x="7" y="12" width="3" height="5" /><rect x="12" y="8" width="3" height="9" /><rect x="17" y="5" width="3" height="12" /></svg></div><div className="flow-h">結果画面で強み・課題を確認</div></div>
+            <div className="flow-step"><div className="flow-num">STEP 04</div><div className="flow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2bb488" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" /><path d="M8 9h8" /><path d="M8 13h5" /></svg></div><div className="flow-h">個別解説を申し込み</div></div>
           </div>
         </div>
       </section>
@@ -383,30 +373,47 @@ export default function HomePage() {
           <div className="eyebrow">RESULT SAMPLE</div>
           <h2 className="sec-ttl">結果は、次の意思決定のための資料になる</h2>
           <p className="sec-desc">レーダーチャートとスコア表で、強み・差分・優先度を一画面で確認できます。</p>
-          <div className="result">
-            <div className="result-panel">
-              <RadarSample dark />
-              <div className="score-row">
-                <span className="score-label">収益性</span>
-                <div className="score-bar"><div className="score-fill" style={{ width: "75%", background: "var(--high)" }} /></div>
-                <span className="score-val" style={{ color: "var(--high)" }}>9</span>
+          <div className="result-full">
+            <div className="result-full-head">
+              <div><span className="result-full-tag">結果サンプル</span><span className="result-full-ttl">16テーマ アセスメント結果</span></div>
+              <div className="result-full-score">総合スコア <b>107</b><span>/ 192</span></div>
+            </div>
+            <div className="result-full-body">
+              <div className="result-chart">
+                <svg viewBox="0 0 320 300" style={{ width: "100%", height: "auto" }}>
+                  <g transform="translate(160,150)">
+                    <polygon points="0,-110 78,-78 110,0 78,78 0,110 -78,78 -110,0 -78,-78" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                    <polygon points="0,-73 52,-52 73,0 52,52 0,73 -52,52 -73,0 -52,-52" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                    <polygon points="0,-37 26,-26 37,0 26,26 0,37 -26,26 -37,0 -26,-26" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
+                    <g stroke="rgba(255,255,255,0.14)" strokeWidth="1">
+                      <line x1="0" y1="0" x2="0" y2="-110" /><line x1="0" y1="0" x2="78" y2="-78" /><line x1="0" y1="0" x2="110" y2="0" /><line x1="0" y1="0" x2="78" y2="78" />
+                      <line x1="0" y1="0" x2="0" y2="110" /><line x1="0" y1="0" x2="-78" y2="78" /><line x1="0" y1="0" x2="-110" y2="0" /><line x1="0" y1="0" x2="-78" y2="-78" />
+                    </g>
+                    <polygon points="0,-58 40,-40 62,0 44,44 0,55 -46,46 -60,0 -42,-42" fill="rgba(240,166,62,0.15)" stroke="#f0a63e" strokeWidth="1.5" strokeDasharray="4 3" />
+                    <polygon points="0,-88 60,-60 92,0 58,58 0,70 -54,54 -78,0 -50,-50" fill="rgba(62,207,158,0.25)" stroke="#3ecf9e" strokeWidth="2.5" />
+                    <g fontSize="8" fill="#9fb2c4" textAnchor="middle" fontFamily="Noto Sans JP">
+                      <text x="0" y="-118">収益性</text><text x="92" y="-84">成長性</text><text x="124" y="3">組織</text><text x="92" y="92">意思決定</text>
+                      <text x="0" y="126">採用</text><text x="-92" y="92">事業継続</text><text x="-124" y="3">投資</text><text x="-92" y="-84">市場</text>
+                    </g>
+                  </g>
+                </svg>
+                <div className="result-legend">
+                  <span><i style={{ background: "#3ecf9e" }} />社長のスコア</span>
+                  <span><i style={{ background: "#f0a63e", borderStyle: "dashed" }} />受検者平均</span>
+                </div>
               </div>
-              <div className="score-row">
-                <span className="score-label">経営体制構築力</span>
-                <div className="score-bar"><div className="score-fill" style={{ width: "42%", background: "var(--low)" }} /></div>
-                <span className="score-val" style={{ color: "var(--low)" }}>5</span>
-              </div>
-              <div className="score-row">
-                <span className="score-label">意思決定力</span>
-                <div className="score-bar"><div className="score-fill" style={{ width: "67%", background: "var(--high)" }} /></div>
-                <span className="score-val" style={{ color: "var(--high)" }}>8</span>
+              <div className="result-scores">
+                <div className="score-row"><span className="score-label">収益性</span><div className="score-bar"><div className="score-fill" style={{ width: "75%", background: "var(--high)" }} /></div><span className="score-val" style={{ color: "var(--high)" }}>9</span></div>
+                <div className="score-row"><span className="score-label">成長性</span><div className="score-bar"><div className="score-fill" style={{ width: "58%", background: "var(--mid)" }} /></div><span className="score-val" style={{ color: "var(--mid)" }}>7</span></div>
+                <div className="score-row"><span className="score-label">組織機能</span><div className="score-bar"><div className="score-fill" style={{ width: "67%", background: "var(--high)" }} /></div><span className="score-val" style={{ color: "var(--high)" }}>8</span></div>
+                <div className="score-row"><span className="score-label">意思決定力</span><div className="score-bar"><div className="score-fill" style={{ width: "67%", background: "var(--high)" }} /></div><span className="score-val" style={{ color: "var(--high)" }}>8</span></div>
+                <div className="score-row"><span className="score-label">経営体制構築力</span><div className="score-bar"><div className="score-fill" style={{ width: "42%", background: "var(--low)" }} /></div><span className="score-val" style={{ color: "var(--low)" }}>5</span></div>
+                <div className="score-row"><span className="score-label">事業継続性</span><div className="score-bar"><div className="score-fill" style={{ width: "50%", background: "var(--mid)" }} /></div><span className="score-val" style={{ color: "var(--mid)" }}>6</span></div>
+                <div className="score-row"><span className="score-label">内部投資</span><div className="score-bar"><div className="score-fill" style={{ width: "42%", background: "var(--low)" }} /></div><span className="score-val" style={{ color: "var(--low)" }}>5</span></div>
+                <div className="score-row"><span className="score-label">市場性</span><div className="score-bar"><div className="score-fill" style={{ width: "58%", background: "var(--mid)" }} /></div><span className="score-val" style={{ color: "var(--mid)" }}>7</span></div>
               </div>
             </div>
-            <div className="result-lead">
-              <h3>「強み」と「優先確認テーマ」が、ひと目でわかる</h3>
-              <p>レーダーチャートで、社長のスコア・成長企業の目安・過去受検者平均を重ねて表示。感覚ではなく、相対的な位置づけで経営を捉えられます。</p>
-              <p>社長カルテ スタンダードでは、業種別・規模別・近しい社長タイプとの比較も可能です。</p>
-            </div>
+            <p className="result-full-note">レーダーチャートで、社長のスコア・成長企業の目安・過去受検者平均を重ねて表示。感覚ではなく、相対的な位置づけで経営を捉えられます。<br />社長カルテ Grande では、業種別・規模別・近しい社長タイプとの比較も可能です。</p>
           </div>
         </div>
       </section>
@@ -416,12 +423,12 @@ export default function HomePage() {
           <div className="eyebrow">FAQ</div>
           <h2 className="sec-ttl">よくある質問</h2>
           <div className="faq">
-            {faqs.map((faq) => (
-              <div className="faq-item" key={faq.question}>
-                <div className="faq-q">{faq.question}</div>
-                <div className="faq-a">{faq.answer}</div>
-              </div>
-            ))}
+            <div className="faq-item"><div className="faq-q">できていないことを、ダメ出しされるのですか？</div><div className="faq-a">いいえ。社長カルテは、スコアの良し悪しを評価するものではありません。あくまで「いま優先すべきテーマ」を相対的に明らかにするための診断です。スコアは、伸びしろの発見にすぎません。</div></div>
+            <div className="faq-item"><div className="faq-q">相対比較とは、何との比較ですか？どこまで信用できますか？</div><div className="faq-a">社長カルテが有する過去の診断者データ（業種・規模別）との比較です。診断や設問ロジックには、およそ800名分の成長企業の経営者の声を採用・体系化しております。</div></div>
+            <div className="faq-item"><div className="faq-q">本当に無料ですか？</div><div className="faq-a">WEB診断は完全無料・登録不要です。より深く、詳細な分析をする場合には、別途「社長カルテ詳細版」がございます。</div></div>
+            <div className="faq-item"><div className="faq-q">社長以外でも受検は可能ですか？</div><div className="faq-a">可能です。ただし経営者専用の設問が中心となりますので、精度の高い結果をお返しするのが難しい場合がございます。</div></div>
+            <div className="faq-item"><div className="faq-q">忙しくて時間がとれないのですが、どれくらいかかりますか？</div><div className="faq-a">診断自体は選択式のため、5分程度で完了します。また、途中保存も可能です。</div></div>
+            <div className="faq-item"><div className="faq-q">自分の顧客や知り合いに紹介したいのですが、大丈夫ですか？</div><div className="faq-a">はい、可能です。ご自身のビジネスに活用したいという場合は、<a href="#partner" style={{ color: "var(--mint-deep)", fontWeight: 700 }}>社長カルテ Partners</a> もあわせてご覧ください。</div></div>
           </div>
         </div>
       </section>
