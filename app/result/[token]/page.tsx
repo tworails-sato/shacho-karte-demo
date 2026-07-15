@@ -38,8 +38,6 @@ type RespondentRow = {
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const defaultTimerexUrl = "https://timerex.net/s/sato.motoki_765a/c6616a1a/";
-
 export default async function SharedResultPage({ params }: PageProps) {
   const { token } = await params;
 
@@ -128,14 +126,12 @@ export default async function SharedResultPage({ params }: PageProps) {
 
   return (
     <ResultTokenView
-      achievementRate={result.achievement_rate}
       createdAt={result.created_at}
       expiresAt={result.result_token_expires_at}
       priorityThemes={result.priority_categories_json ?? []}
+      respondentId={result.respondent_id}
       respondent={(respondent as RespondentRow | null) ?? null}
       themeScores={result.category_scores_json ?? []}
-      timerexUrl={process.env.TIMEREX_URL || defaultTimerexUrl}
-      totalScore={result.total_score}
       usageSettings={usageSettingsFromRow(result as Partial<UsageSettings>)}
     />
   );

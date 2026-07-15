@@ -73,7 +73,7 @@ export default function ThemeGuideAccordion() {
       <details className="group">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 transition hover:bg-stone-50">
           <div>
-            <p className="text-sm font-bold text-brand">16テーマのミカタ</p>
+            <p className="text-sm font-bold text-brand">THEME GUIDE</p>
             <h2 className="mt-1 text-xl font-black text-ink">16テーマの見方を確認する</h2>
           </div>
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-stone-100 text-lg font-black text-ink transition group-open:rotate-45">
@@ -96,7 +96,7 @@ export default function ThemeGuideAccordion() {
           </div>
 
           <p className="mt-4 rounded-md border border-amber-100 bg-amber-50 p-4 text-sm font-bold leading-7 text-amber-900">
-            結果に表示された「優先テーマ」については、スコアのみでは読み解けないため、必要に応じてアクションプランを一緒に整理いたします（以下から30分フィードバック面談をご予約ください）
+            結果に表示されたテーマについては、数字だけでは読み解けない背景があります。必要に応じて、アクションプランを一緒に整理できます。
           </p>
         </div>
       </details>
