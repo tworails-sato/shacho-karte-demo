@@ -288,24 +288,124 @@ nav {
 }
 
 /* PRICE */
-.price-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; align-items: stretch; }
-.price-card { background: var(--white); border: 2px solid var(--black); border-radius: 8px; padding: 36px 32px; display: flex; flex-direction: column; }
-.price-card-opt { background: var(--white); border: 1px solid var(--gray-light); border-radius: 8px; padding: 36px 32px; display: flex; flex-direction: column; }
-.price-badge { display: inline-block; background: var(--red-light); color: var(--red); font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 2px; margin-bottom: 16px; text-transform: uppercase; }
-.price-amount { font-family: 'Noto Serif JP', serif; font-size: 2.4rem; font-weight: 700; color: var(--black); line-height: 1; margin-bottom: 6px; }
-.price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--gray); }
-.price-note { font-size: 0.8rem; color: var(--gray); margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--gray-light); }
-.price-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.price-list li { font-size: 0.84rem; color: var(--text); display: flex; align-items: flex-start; gap: 8px; }
-.price-list li::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-.campaign-box { background: var(--yellow-light); border: 1px solid var(--yellow-border); border-radius: 6px; padding: 16px; margin-top: 20px; }
-.campaign-title { font-size: 0.78rem; font-weight: 700; color: var(--yellow); margin-bottom: 4px; }
-.campaign-body { font-size: 0.76rem; color: var(--text); }
-.caution-box { background: var(--bg-gray); border-radius: 6px; padding: 16px; margin-top: 16px; }
-.caution-title { font-size: 0.76rem; font-weight: 700; color: var(--black); margin-bottom: 8px; }
-.caution-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.caution-list li { font-size: 0.74rem; color: var(--gray); display: flex; gap: 6px; }
-.caution-list li::before { content: '・'; }
+:root{
+    --navy-top:#0a1622; --navy-mid:#12283d; --navy-btm:#1c3a52;
+    --mint:#3ecf9e; --mint-deep:#2bb488;
+    --ink:#0d1b2a; --paper:#ffffff; --bg:#f5f8fa; --line:#e7edf2;
+    --muted-light:#9fb2c4; --muted:#5b6b7a;
+    --amber:#f7b955;
+  }
+  .serif{font-family:'Noto Serif JP',serif;}
+
+  .sec{padding:88px 24px;}
+  .sec-in{max-width:1080px;margin:0 auto;}
+  .sec .eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.16em;color:var(--mint-deep);text-align:center;margin-bottom:14px;}
+  .sec-ttl{font-family:'Noto Serif JP',serif;font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:700;text-align:center;line-height:1.55;margin-bottom:16px;word-break:auto-phrase;}
+  .sec-desc{text-align:center;color:var(--muted);font-size:0.98rem;max-width:620px;margin:0 auto 56px;word-break:auto-phrase;}
+
+  /* ===== メインプランカード ===== */
+  .plan-card{
+    background:var(--paper); border-radius:22px; padding:44px 48px;
+    box-shadow:0 20px 60px rgba(20,40,60,0.08); border:1px solid var(--line);
+    max-width:760px; margin:0 auto 28px;
+  }
+  .plan-head{text-align:center; margin-bottom:8px;}
+  .plan-headline{font-family:'Noto Serif JP',serif; font-size:1.5rem; font-weight:700; color:var(--ink); line-height:1.5; margin-bottom:10px;}
+  .plan-sub{color:var(--muted); font-size:0.92rem; margin-bottom:34px; text-align:center;}
+
+  .plan-includes{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+    margin-bottom:26px;
+  }
+  .plan-item{
+    display:flex; align-items:flex-start; gap:10px;
+    background:var(--bg); border-radius:12px; padding:16px 18px;
+  }
+  .plan-item .ic{
+    width:22px; height:22px; border-radius:50%; background:var(--mint);
+    flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    margin-top:2px;
+  }
+  .plan-item .ic svg{width:12px; height:12px;}
+  .plan-item-txt{font-size:0.9rem; color:var(--ink); font-weight:500; line-height:1.5;}
+
+  .plan-note{
+    display:flex; align-items:center; gap:10px;
+    background:rgba(62,207,158,0.08); border:1px solid rgba(62,207,158,0.25);
+    border-radius:10px; padding:13px 18px; margin-bottom:34px;
+  }
+  .plan-note-ic{color:var(--mint-deep); font-size:1rem; flex-shrink:0;}
+  .plan-note-txt{font-size:0.85rem; color:var(--ink); line-height:1.6;}
+  .plan-note-txt b{color:var(--mint-deep);}
+
+  .plan-price-row{
+    display:flex; align-items:baseline; justify-content:center; gap:6px;
+    padding-top:30px; border-top:1px solid var(--line);
+  }
+  .plan-price{font-family:'Noto Serif JP',serif; font-size:2.6rem; font-weight:700; color:var(--ink);}
+  .plan-price-unit{font-size:1rem; color:var(--muted); font-weight:500;}
+  .plan-price-tax{font-size:0.75rem; color:var(--muted-light); margin-left:4px;}
+  .plan-price-hint{text-align:center; font-size:0.85rem; color:var(--muted); margin-top:10px;}
+
+  .plan-terms{
+    margin-top:28px; padding-top:22px; border-top:1px dashed var(--line);
+  }
+  .plan-terms-item{
+    display:flex; gap:8px; font-size:0.82rem; color:var(--muted);
+    margin-bottom:6px; line-height:1.6;
+  }
+  .plan-terms-item::before{content:"—"; color:var(--muted-light); flex-shrink:0;}
+
+  @media(max-width:640px){
+    .plan-card{padding:32px 22px;}
+    .plan-includes{grid-template-columns:1fr;}
+  }
+
+  /* ===== オプション：オリジナル診断 ===== */
+  .opt-card{
+    max-width:760px; margin:0 auto 28px;
+    background:linear-gradient(135deg,var(--navy-mid),var(--navy-btm));
+    border-radius:20px; padding:34px 44px; color:#fff;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    flex-wrap:wrap;
+  }
+  .opt-left{flex:1; min-width:260px;}
+  .opt-badge{
+    display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.06em;
+    background:var(--amber); color:#3a2a08; padding:3px 10px; border-radius:5px; margin-bottom:10px;
+  }
+  .opt-title{font-family:'Noto Serif JP',serif; font-size:1.2rem; font-weight:700; margin-bottom:8px;}
+  .opt-desc{font-size:0.85rem; color:var(--muted-light); line-height:1.7;}
+  .opt-right{text-align:right; flex-shrink:0;}
+  .opt-price-old{font-size:0.85rem; color:var(--muted-light); text-decoration:line-through; margin-bottom:2px;}
+  .opt-price-new{font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:var(--amber);}
+  .opt-price-tax{font-size:0.7rem; color:var(--muted-light);}
+
+  @media(max-width:640px){
+    .opt-card{flex-direction:column; align-items:flex-start; padding:28px 26px;}
+    .opt-right{text-align:left;}
+  }
+
+  /* ===== エンタープライズ ボックス ===== */
+  .ent-card{
+    max-width:760px; margin:0 auto;
+    background:var(--paper); border:1.5px dashed var(--mint-deep); border-radius:18px;
+    padding:32px 40px; text-align:center;
+  }
+  .ent-ttl{font-family:'Noto Serif JP',serif; font-size:1.15rem; font-weight:700; color:var(--ink); margin-bottom:12px;}
+  .ent-desc{font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:22px;}
+  .ent-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:#fff; font-size:0.9rem; font-weight:700;
+    padding:13px 32px; border-radius:10px; text-decoration:none;
+    transition:background .15s, transform .15s;
+  }
+  .ent-cta:hover{background:var(--navy-mid); transform:translateY(-1px);}
+  .ent-cta::after{content:"→";}
+
+  @media(max-width:640px){
+    .ent-card{padding:26px 22px;}
+  }
 
 /* VOICE */
 .voice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 48px; }
@@ -727,50 +827,81 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- PRICE -->
-<div class="section section-bg">
-  <div class="section-inner">
-    <div class="eyebrow">Pricing</div>
-    <h2 class="sec-title">明確な料金体系で、安心して導入いただけます</h2>
-    <div class="price-wrap">
-      <div class="price-card">
-        <div class="price-badge">月額プラン</div>
-        <div class="price-amount">¥35,000<span> / 月（税抜）</span></div>
-        <p class="price-note">毎月3回までフィードバック実施。4回目以降は1回15,000円/件</p>
-        <ul class="price-list">
-          <li>拡大戦略の設計</li>
-          <li>フィードバックの設計</li>
-          <li>定例MTGの実施</li>
-          <li>診断実施・分析・カスタマイズ</li>
-        </ul>
+<section class="sec" id="pricing">
+  <div class="sec-in">
+    <div class="eyebrow">PRICING</div>
+    <h2 class="sec-ttl">明確な料金体系で、安心して導入いただけます</h2>
+    <p class="sec-desc">診断ツールの提供だけでなく、実際に受検が生まれるところまでを一緒に作ります。</p>
+
+    <!-- メインプラン -->
+    <div class="plan-card">
+      <div class="plan-head">
+        <div class="plan-headline">月額35,000円で、<br class="sp-only">受検を増やすところまで伴走します</div>
       </div>
-      <div class="price-card-opt">
-        <div class="price-badge">オプション｜オリジナル診断作成</div>
-        <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;">
-          <span style="font-size:1.3rem;font-weight:700;color:#9ca3af;text-decoration:line-through;">¥200,000</span>
-          <span style="font-size:1.1rem;color:var(--gray);">→</span>
-          <span class="price-amount" style="font-size:2.4rem;">¥150,000<span style="font-size:0.9rem;">（税抜）</span></span>
+
+      <div class="plan-includes">
+        <div class="plan-item">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
+          <span class="plan-item-txt">FB面談（月3回分）</span>
         </div>
-        <div class="campaign-box" style="margin-top:14px;">
-          <div class="campaign-title">🎁 さらに今なら 2026年8月末まで限定</div>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px;">
-            <span style="font-size:1.8rem;font-weight:700;font-family:'Noto Serif JP',serif;color:var(--red);">¥100,000</span>
-            <span style="font-size:0.8rem;color:var(--text);">（税抜）</span>
-          </div>
-          <div style="font-size:0.74rem;color:var(--yellow);margin-top:4px;">通常20万円から50%OFF</div>
+        <div class="plan-item">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
+          <span class="plan-item-txt">オンボーディング支援</span>
         </div>
-        <p class="price-note" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-light);padding-bottom:0;margin-bottom:0;">内容：戦略策定・開発実装・オンボーディング支援を含みます</p>
+        <div class="plan-item">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
+          <span class="plan-item-txt">受検を増やす戦略MTG（月1回）</span>
+        </div>
+        <div class="plan-item">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
+          <span class="plan-item-txt">システム利用料</span>
+        </div>
+      </div>
+
+      <div class="plan-note">
+        <span class="plan-note-ic">💬</span>
+        <span class="plan-note-txt">面談枠は<b>翌月まで繰り越し</b>可能です（今月2件 → 来月4件まで。それ以降は失効）</span>
+      </div>
+
+      <div class="plan-price-row">
+        <span class="plan-price">¥35,000</span>
+        <span class="plan-price-unit">/ 月</span>
+        <span class="plan-price-tax">（税抜）</span>
+      </div>
+      <p class="plan-price-hint">面談3回分＋戦略伴走込みで、1回あたり1万円程度です</p>
+
+      <div class="plan-terms">
+        <div class="plan-terms-item">最低契約期間は6か月です</div>
+        <div class="plan-terms-item">4回目以降の面談は、1回15,000円で追加いただけます</div>
       </div>
     </div>
-    <div class="caution-box" style="margin-top:24px;">
-      <div class="caution-title">注意事項</div>
-      <ul class="caution-list">
-        <li>月額には毎月3回までの診断が含まれます</li>
-        <li>月額は診断が発生しない月でも発生します（システム利用費として）</li>
-        <li>最低契約期間は3か月です</li>
-      </ul>
+
+    <!-- オプション：オリジナル診断 -->
+    <div class="opt-card">
+      <div class="opt-left">
+        <span class="opt-badge">2026年8月末まで限定</span>
+        <div class="opt-title">オプション｜オリジナル診断作成</div>
+        <div class="opt-desc">戦略策定・開発実装・オンボーディング支援を含みます。自社専用の診断へ発展させたい方向けです。</div>
+      </div>
+      <div class="opt-right">
+        <div class="opt-price-old">通常 ¥200,000</div>
+        <div class="opt-price-new">¥100,000</div>
+        <div class="opt-price-tax">（税抜・50%OFF）</div>
+      </div>
     </div>
+
+    <!-- エンタープライズ -->
+    <div class="ent-card">
+      <div class="ent-ttl">エンタープライズ向けプランもございます</div>
+      <p class="ent-desc">
+        専用診断の作成、商談創出のオンボーディング、内製化のご支援。<br>
+        詳しい実績などお問い合わせください。
+      </p>
+      <a href="/contact" class="ent-cta">お問い合わせはこちら</a>
+    </div>
+
   </div>
-</div>
+</section>
 
 <!-- SUPPORT OPTIONS -->
 <div class="section">
