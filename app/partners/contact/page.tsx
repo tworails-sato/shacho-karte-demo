@@ -5,11 +5,21 @@ import { FormEvent, useState } from "react";
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
+const inquiryTypeOptions = [
+  "プラン・料金について知りたい",
+  "クライアントへの導入・提案について相談したい",
+  "OEM・カスタマイズについて相談したい",
+  "協業・提携について相談したい",
+  "打ち合わせを希望したい",
+  "その他"
+];
+
 type FormState = {
   companyName: string;
   contactName: string;
   email: string;
   phone: string;
+  inquiryType: string;
   message: string;
   privacyAgreed: boolean;
   website: string;
@@ -22,6 +32,7 @@ const initialForm: FormState = {
   contactName: "",
   email: "",
   phone: "",
+  inquiryType: "",
   message: "",
   privacyAgreed: false,
   website: ""
@@ -47,7 +58,10 @@ export default function PartnersContactPage() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
       nextErrors.email = "メールアドレスの形式で入力してください。";
     }
-    if (!form.message.trim()) nextErrors.message = "お問い合わせ内容を入力してください。";
+    if (!form.inquiryType) nextErrors.inquiryType = "お問い合わせ種別を選択してください。";
+    if (form.inquiryType === "その他" && !form.message.trim()) {
+      nextErrors.message = "その他を選択した場合は、ご相談内容を入力してください。";
+    }
     if (!form.privacyAgreed) nextErrors.privacyAgreed = "個人情報の取り扱いに同意してください。";
     return nextErrors;
   }
@@ -105,7 +119,7 @@ export default function PartnersContactPage() {
             社長カルテPartnersへのお問い合わせ
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-8 text-[#5b6b7a] sm:text-base">
-            導入相談、OEM、エンタープライズプランなどについて、お気軽にお問い合わせください。
+            導入相談、OEM、協業、エンタープライズプランなどについて、お気軽にお問い合わせください。
           </p>
         </div>
 
@@ -130,72 +144,58 @@ export default function PartnersContactPage() {
 
           <div className="grid gap-5">
             <Field label="会社名" required error={errors.companyName}>
-              <input
-                className="form-input"
-                maxLength={120}
-                onChange={(event) => updateField("companyName", event.target.value)}
-                value={form.companyName}
-              />
+              <input className="form-input" maxLength={120} onChange={(event) => updateField("companyName", event.target.value)} value={form.companyName} />
             </Field>
 
             <Field label="担当者名" required error={errors.contactName}>
-              <input
-                className="form-input"
-                maxLength={80}
-                onChange={(event) => updateField("contactName", event.target.value)}
-                value={form.contactName}
-              />
+              <input className="form-input" maxLength={80} onChange={(event) => updateField("contactName", event.target.value)} value={form.contactName} />
             </Field>
 
             <Field label="メールアドレス" required error={errors.email}>
-              <input
-                className="form-input"
-                inputMode="email"
-                maxLength={160}
-                onChange={(event) => updateField("email", event.target.value)}
-                type="email"
-                value={form.email}
-              />
+              <input className="form-input" inputMode="email" maxLength={160} onChange={(event) => updateField("email", event.target.value)} type="email" value={form.email} />
             </Field>
 
             <Field label="電話番号" error={errors.phone}>
-              <input
-                className="form-input"
-                inputMode="tel"
-                maxLength={40}
-                onChange={(event) => updateField("phone", event.target.value)}
-                value={form.phone}
-              />
+              <input className="form-input" inputMode="tel" maxLength={40} onChange={(event) => updateField("phone", event.target.value)} value={form.phone} />
             </Field>
 
-            <Field label="お問い合わせ内容" required error={errors.message}>
+            <Field label="お問い合わせ種別" required error={errors.inquiryType}>
+              <select className="form-input" onChange={(event) => updateField("inquiryType", event.target.value)} value={form.inquiryType}>
+                <option value="">選択してください</option>
+                {inquiryTypeOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field label="ご相談内容" required={form.inquiryType === "その他"} error={errors.message}>
               <textarea
                 className="form-input min-h-40 resize-y"
                 maxLength={2000}
                 onChange={(event) => updateField("message", event.target.value)}
+                placeholder={form.inquiryType === "その他" ? "ご相談内容を入力してください。" : "補足があればご記入ください。"}
                 value={form.message}
               />
             </Field>
 
+            {form.inquiryType === "その他" ? (
+              <p className="rounded-xl bg-amber-50 p-3 text-sm font-bold leading-7 text-amber-900">
+                「その他」を選択された場合は、ご相談内容の入力をお願いします。
+              </p>
+            ) : null}
+
             <div>
               <label className="flex gap-3 rounded-xl border border-[#e7edf2] bg-[#f5f8fa] p-4 text-sm font-bold leading-7 text-[#0d1b2a]">
-                <input
-                  checked={form.privacyAgreed}
-                  className="mt-1 h-4 w-4 shrink-0"
-                  onChange={(event) => updateField("privacyAgreed", event.target.checked)}
-                  type="checkbox"
-                />
+                <input checked={form.privacyAgreed} className="mt-1 h-4 w-4 shrink-0" onChange={(event) => updateField("privacyAgreed", event.target.checked)} type="checkbox" />
                 <span>個人情報の取り扱いに同意します <span className="text-red-600">必須</span></span>
               </label>
               {errors.privacyAgreed ? <p className="mt-2 text-sm font-bold text-red-600">{errors.privacyAgreed}</p> : null}
             </div>
           </div>
 
-          <button
-            className="mt-8 w-full rounded-xl bg-[#0d1b2a] px-6 py-4 text-base font-black text-white transition hover:bg-[#12283d] disabled:cursor-not-allowed disabled:opacity-60"
-            disabled={isSubmitting}
-            type="submit"
-          >
+          <button className="mt-8 w-full rounded-xl bg-[#0d1b2a] px-6 py-4 text-base font-black text-white transition hover:bg-[#12283d] disabled:cursor-not-allowed disabled:opacity-60" disabled={isSubmitting} type="submit">
             {isSubmitting ? "送信中…" : "お問い合わせを送信する"}
           </button>
         </form>

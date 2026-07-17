@@ -5,12 +5,22 @@ type ContactPayload = {
   contactName?: string;
   email?: string;
   phone?: string;
+  inquiryType?: string;
   message?: string;
   privacyAgreed?: boolean;
   website?: string;
 };
 
 type FieldErrors = Partial<Record<keyof ContactPayload, string>>;
+
+const inquiryTypeOptions = [
+  "プラン・料金について知りたい",
+  "クライアントへの導入・提案について相談したい",
+  "OEM・カスタマイズについて相談したい",
+  "協業・提携について相談したい",
+  "打ち合わせを希望したい",
+  "その他"
+];
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 3;
@@ -21,6 +31,7 @@ const limits = {
   contactName: 80,
   email: 160,
   phone: 40,
+  inquiryType: 80,
   message: 2000
 };
 
@@ -81,16 +92,19 @@ export async function POST(request: Request) {
 
   const sentAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const sourceUrl = request.headers.get("referer") || `${process.env.NEXT_PUBLIC_APP_URL || ""}/partners/contact`;
+  const messageForMail = values.message || "未入力";
+  const adminSubject = `【社長カルテPartners】${values.inquiryType}｜${values.companyName}｜${values.contactName}様`;
   const adminText = [
     "社長カルテPartnersにお問い合わせがありました。",
     "",
+    `お問い合わせ種別: ${values.inquiryType}`,
     `会社名: ${values.companyName}`,
     `担当者名: ${values.contactName}`,
     `メールアドレス: ${values.email}`,
     `電話番号: ${values.phone || "未入力"}`,
     "",
-    "お問い合わせ内容:",
-    values.message,
+    "ご相談内容:",
+    messageForMail,
     "",
     `送信日時: ${sentAt}`,
     `送信元URL: ${sourceUrl}`
@@ -102,8 +116,10 @@ export async function POST(request: Request) {
     "社長カルテPartnersへお問い合わせいただき、ありがとうございます。",
     "内容を確認のうえ、担当者よりご連絡いたします。",
     "",
+    `お問い合わせ種別: ${values.inquiryType}`,
+    "",
     "お問い合わせ内容の控え:",
-    values.message,
+    messageForMail,
     "",
     "このメールは自動送信です。"
   ].join("\n");
@@ -116,7 +132,7 @@ export async function POST(request: Request) {
         fromEmail,
         html: toHtml(adminText),
         replyTo: values.email,
-        subject: "【社長カルテPartners】お問い合わせがありました",
+        subject: adminSubject,
         text: adminText,
         to: adminEmail
       })
@@ -138,6 +154,7 @@ export async function POST(request: Request) {
       adminSuccessCount,
       adminTotal: adminEmails.length,
       userMailOk: userResult.ok,
+      inquiryType: values.inquiryType,
       companyNameLength: values.companyName.length,
       messageLength: values.message.length
     });
@@ -164,6 +181,7 @@ function validatePayload(payload: ContactPayload) {
     contactName: normalize(payload.contactName),
     email: normalize(payload.email).toLowerCase(),
     phone: normalize(payload.phone),
+    inquiryType: normalize(payload.inquiryType),
     message: normalize(payload.message)
   };
   const fieldErrors: FieldErrors = {};
@@ -174,7 +192,14 @@ function validatePayload(payload: ContactPayload) {
   if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
     fieldErrors.email = "メールアドレスの形式で入力してください。";
   }
-  if (!values.message) fieldErrors.message = "お問い合わせ内容を入力してください。";
+  if (!values.inquiryType) {
+    fieldErrors.inquiryType = "お問い合わせ種別を選択してください。";
+  } else if (!inquiryTypeOptions.includes(values.inquiryType)) {
+    fieldErrors.inquiryType = "お問い合わせ種別を選択肢から選んでください。";
+  }
+  if (values.inquiryType === "その他" && !values.message) {
+    fieldErrors.message = "その他を選択した場合は、ご相談内容を入力してください。";
+  }
   if (!payload.privacyAgreed) fieldErrors.privacyAgreed = "個人情報の取り扱いに同意してください。";
 
   for (const [key, maxLength] of Object.entries(limits) as Array<[keyof typeof values, number]>) {
