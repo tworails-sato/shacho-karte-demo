@@ -234,6 +234,42 @@ function scoreLabel(value: number) {
   return value.toFixed(2);
 }
 
+function gapLabel(value: number) {
+  return `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
+}
+
+function GapBadge({ value }: { value: number }) {
+  const style =
+    value >= 0
+      ? "border-teal-200 bg-teal-50 text-teal-800"
+      : value <= -0.75
+        ? "border-rose-200 bg-rose-50 text-rose-700"
+        : "border-amber-200 bg-amber-50 text-amber-700";
+
+  return (
+    <span className={`inline-flex rounded-full border px-2 py-1 text-xs font-black ${style}`}>
+      {gapLabel(value)}
+    </span>
+  );
+}
+
+function priorityTone(theme: ThemeScore) {
+  const score = averageQuestionScore(theme);
+  const targetDiff = targetGap(theme);
+  const averageDiff = pastAverageGap(theme);
+
+  if (score < 2 || targetDiff <= -1 || averageDiff <= -0.75) return "high";
+  if (score < 2.5 || targetDiff <= -0.5 || averageDiff <= -0.4) return "medium";
+  return "low";
+}
+
+function priorityRowClass(theme: ThemeScore) {
+  const tone = priorityTone(theme);
+  if (tone === "high") return "bg-rose-50/90";
+  if (tone === "medium") return "bg-amber-50/80";
+  return "bg-stone-50/40 text-stone-500";
+}
+
 export default function FeedbackReportPage() {
   const params = useParams<{ response_id: string }>();
   const responseId = params.response_id;
@@ -724,11 +760,14 @@ export default function FeedbackReportPage() {
             <h2 className="mt-2 text-3xl font-black leading-tight text-ink">
               社長カルテLight フィードバックレポート
             </h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-stone-600">
+              このレポートは、面談で確認したい論点と次のアクションを整理するための資料です。
+            </p>
           </div>
 
-          <section className="mt-6">
-            <h3 className="text-xl font-black text-ink">受検者情報</h3>
-            <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+          <section className="mt-5">
+            <h3 className="text-lg font-black text-ink">受検者情報</h3>
+            <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-3">
               {[
                 ["氏名", respondent?.name || "-"],
                 ["会社名", respondent?.company_name || "-"],
@@ -737,19 +776,68 @@ export default function FeedbackReportPage() {
                 ["従業員規模", respondent?.employee_size || "-"],
                 ["回答日時", formatDate(response.created_at)]
               ].map(([label, value]) => (
-                <div key={label} className="rounded-md bg-stone-50 p-3">
-                  <dt className="font-bold text-stone-500">{label}</dt>
+                <div key={label} className="rounded-md bg-stone-50 px-3 py-2">
+                  <dt className="text-xs font-bold text-stone-500">{label}</dt>
                   <dd className="mt-1 font-black text-ink">{value}</dd>
                 </div>
               ))}
             </dl>
           </section>
 
-          <section className="mt-6 break-inside-avoid rounded-lg border border-brand/20 bg-teal-50 p-5">
+          <section className="mt-5 break-inside-avoid rounded-lg border border-brand/20 bg-teal-50 p-5">
             <h3 className="text-xl font-black text-teal-950">レポートサマリ</h3>
             <p className="mt-3 whitespace-pre-wrap text-base font-bold leading-8 text-teal-900">
               {multilineText(report.one_line_summary)}
             </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border-2 border-rose-100 bg-rose-50 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-rose-700">Meeting Focus</p>
+            <h3 className="mt-1 text-2xl font-black text-rose-950">最も強く表れているGAP</h3>
+            <p className="mt-3 whitespace-pre-wrap text-base font-bold leading-8 text-rose-950">
+              {multilineText(report.gap)}
+            </p>
+          </section>
+
+          <section className="mt-5 grid gap-4 md:grid-cols-2">
+            <article className="break-inside-avoid rounded-lg border border-teal-100 bg-teal-50 p-4">
+              <h3 className="text-lg font-black text-teal-950">強み</h3>
+              <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-teal-900">
+                {multilineText(report.strength)}
+              </p>
+            </article>
+            <article className="break-inside-avoid rounded-lg border border-blue-100 bg-blue-50 p-4">
+              <h3 className="text-lg font-black text-blue-950">経営者タイプ</h3>
+              <p className="mt-1 text-xs font-bold leading-5 text-blue-700">
+                断定ではなく、面談で確認したい仮分類です。
+              </p>
+              <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-blue-950">
+                {multilineText(report.executive_type)}
+              </p>
+            </article>
+          </section>
+
+          <section className="mt-6 break-before-page space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <article className="break-inside-avoid rounded-lg border border-stone-200 p-4">
+                <h3 className="text-lg font-black text-ink">アクションプラン：短期</h3>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.short_term_action)}
+                </p>
+              </article>
+              <article className="break-inside-avoid rounded-lg border border-stone-200 p-4">
+                <h3 className="text-lg font-black text-ink">アクションプラン：中長期</h3>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.mid_long_term_action)}
+                </p>
+              </article>
+            </div>
+            <article className="break-inside-avoid rounded-lg border border-stone-200 bg-stone-50 p-4">
+              <h3 className="text-lg font-black text-ink">経営者の心理的傾向</h3>
+              <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                {multilineText(report.psychological_tendency)}
+              </p>
+            </article>
           </section>
 
           <section className="mt-6 grid gap-4 md:grid-cols-2">
@@ -773,22 +861,12 @@ export default function FeedbackReportPage() {
             </div>
           </section>
 
-          <section className="report-chart-section mt-6 break-inside-avoid rounded-lg border border-stone-200 p-4">
-            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-              <div>
-                <h3 className="text-xl font-black text-ink">16テーマ別レーダーチャート</h3>
-                <p className="mt-1 text-sm leading-6 text-stone-600">
-                  レーダーチャートでは、16テーマの実スコア・目標値・過去平均値を比較できます。
-                </p>
-              </div>
-              <div className="rounded-lg border border-stone-200 p-4">
-                <p className="text-sm font-bold text-stone-600">総合スコア</p>
-                <p className="mt-1 text-3xl font-black text-ink">
-                  {response.total_score}
-                  <span className="text-base text-stone-500"> / 192点</span>
-                </p>
-                <p className="mt-1 text-sm font-bold text-brand">達成率：{response.achievement_rate}%</p>
-              </div>
+          <section className="report-chart-section mt-6 break-before-page break-inside-avoid rounded-lg border border-stone-200 p-4">
+            <div>
+              <h3 className="text-xl font-black text-ink">16テーマ別レーダーチャート</h3>
+              <p className="mt-1 text-sm leading-6 text-stone-600">
+                16テーマの実スコア・目標値・過去平均値を比較しています。
+              </p>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-3 text-sm font-bold">
@@ -797,9 +875,9 @@ export default function FeedbackReportPage() {
               <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-amber-600" />平均値：過去受検者の平均スコア</span>
             </div>
 
-            <div className="report-chart mt-3 h-80">
+            <div className="report-chart mt-3 h-96">
               <ResponsiveContainer height="100%" width="100%">
-                <RadarChart data={chartData} margin={{ top: 24, right: 42, bottom: 24, left: 42 }}>
+                <RadarChart data={chartData} margin={{ top: 28, right: 48, bottom: 28, left: 48 }}>
                   <PolarGrid />
                   <PolarAngleAxis dataKey="label" tick={{ fontSize: 10, fill: "#17212b" }} />
                   <PolarRadiusAxis angle={90} domain={[0, 4]} tickCount={5} tick={{ fontSize: 10 }} />
@@ -810,10 +888,60 @@ export default function FeedbackReportPage() {
                 </RadarChart>
               </ResponsiveContainer>
             </div>
-
           </section>
 
-          <section className="mt-6 break-inside-avoid">
+          <section className="mt-6">
+            <h3 className="text-xl font-black text-ink">16テーマ別スコア表</h3>
+            <p className="mt-2 rounded-md bg-stone-50 p-3 text-sm font-bold leading-7 text-stone-700">
+              優先度は、実スコアだけでなく、目標値や過去受検者平均との差分を参考に、今後確認すると打ち手につながりやすいテーマを示しています。
+            </p>
+            <div className="mt-3 overflow-x-auto">
+              <table className="report-score-table w-full text-left text-sm">
+                <thead className="bg-stone-100 text-stone-700">
+                  <tr>
+                    <th className="px-3 py-2">テーマ名</th>
+                    <th className="px-3 py-2">グループ</th>
+                    <th className="px-3 py-2">実スコア</th>
+                    <th className="px-3 py-2">目標値</th>
+                    <th className="px-3 py-2">過去平均値</th>
+                    <th className="px-3 py-2">目標差分</th>
+                    <th className="px-3 py-2">平均との差分</th>
+                    <th className="px-3 py-2">優先度</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-200">
+                  {response.category_scores_json.map((theme) => (
+                    <tr key={theme.id} className={priorityRowClass(theme)}>
+                      <td className="px-3 py-2 font-black text-ink">
+                        <a className="text-brand underline-offset-2 hover:underline" href={`/theme-guide#theme-guide-${theme.id}`}>
+                          {displayThemeName(theme)}
+                        </a>
+                      </td>
+                      <td className="px-3 py-2"><GroupBadge theme={theme} /></td>
+                      <td className="px-3 py-2 font-bold">{scoreLabel(averageQuestionScore(theme))}</td>
+                      <td className="px-3 py-2">{scoreLabel(targetAverageScore(theme))}</td>
+                      <td className="px-3 py-2">{scoreLabel(pastAverageScore(theme))}</td>
+                      <td className="px-3 py-2"><GapBadge value={targetGap(theme)} /></td>
+                      <td className="px-3 py-2"><GapBadge value={pastAverageGap(theme)} /></td>
+                      <td className="px-3 py-2"><PriorityBadge priority={getReportPriority(theme)} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="mt-6 break-inside-avoid rounded-md border border-stone-200 bg-stone-50 p-3 text-sm font-bold leading-6 text-stone-700">
+            <p>各テーマの詳しい見方は、以下をご参照ください。</p>
+            <p className="mt-1">
+              16テーマの見方：
+              <a className="text-brand underline-offset-2 hover:underline" href={themeGuideUrl}>
+                {themeGuideUrl}
+              </a>
+            </p>
+          </section>
+
+          <section className="mt-6 break-before-page break-inside-avoid">
             <h3 className="text-xl font-black text-ink">4つの観点</h3>
             <p className="mt-2 text-sm font-bold leading-6 text-stone-600">
               社長カルテでは、16テーマを以下の4つの観点で整理しています。
@@ -826,64 +954,6 @@ export default function FeedbackReportPage() {
                 </div>
               ))}
             </div>
-          </section>
-
-          <section className="mt-6">
-            <h3 className="text-xl font-black text-ink">16テーマ別スコア表</h3>
-            <p className="mt-2 rounded-md bg-stone-50 p-3 text-sm font-bold leading-7 text-stone-700">
-              優先度は、実スコアだけでなく、目標値や過去受検者平均との差分を参考に、今後確認すると打ち手につながりやすいテーマを示しています。
-            </p>
-            <div className="mt-3 overflow-x-auto">
-              <table className="report-score-table w-full text-left text-sm">
-                <thead className="bg-stone-50 text-stone-600">
-                  <tr>
-                    <th className="px-3 py-2">テーマ名</th>
-                    <th className="px-3 py-2">グループ</th>
-                    <th className="px-3 py-2">実スコア</th>
-                    <th className="px-3 py-2">目標値</th>
-                    <th className="px-3 py-2">過去平均値</th>
-                    <th className="px-3 py-2">優先度</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-200">
-                  {response.category_scores_json.map((theme) => (
-                    <tr key={theme.id}>
-                      <td className="px-3 py-2 font-black text-ink">
-                        <a className="text-brand underline-offset-2 hover:underline" href={`/theme-guide#theme-guide-${theme.id}`}>
-                          {displayThemeName(theme)}
-                        </a>
-                      </td>
-                      <td className="px-3 py-2"><GroupBadge theme={theme} /></td>
-                      <td className="px-3 py-2 font-bold">{scoreLabel(averageQuestionScore(theme))}</td>
-                      <td className="px-3 py-2">{scoreLabel(targetAverageScore(theme))}</td>
-                      <td className="px-3 py-2">{scoreLabel(pastAverageScore(theme))}</td>
-                      <td className="px-3 py-2"><PriorityBadge priority={getReportPriority(theme)} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="mt-3 rounded-md border border-stone-200 bg-stone-50 p-3 text-sm font-bold leading-6 text-stone-700">
-              <p>各テーマの詳しい見方は、以下をご参照ください。</p>
-              <p className="mt-1">
-                16テーマの見方：
-                <a className="text-brand underline-offset-2 hover:underline" href={themeGuideUrl}>
-                  {themeGuideUrl}
-                </a>
-              </p>
-            </div>
-          </section>
-
-          <section className="mt-6 space-y-4">
-            <h3 className="text-xl font-black text-ink">フィードバック本文</h3>
-            {fields.map((field) => (
-              <article key={field.key} className="break-inside-avoid rounded-lg border border-stone-200 p-4">
-                <h4 className="font-black text-ink">{field.label}</h4>
-                <p className="mt-2 whitespace-pre-wrap leading-7 text-stone-700">
-                  {multilineText(report[field.key])}
-                </p>
-              </article>
-            ))}
           </section>
         </section>
       </div>
