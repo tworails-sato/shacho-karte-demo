@@ -302,6 +302,7 @@ nav {
   .sec .eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.16em;color:var(--mint-deep);text-align:center;margin-bottom:14px;}
   .sec-ttl{font-family:'Noto Serif JP',serif;font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:700;text-align:center;line-height:1.55;margin-bottom:16px;word-break:auto-phrase;}
   .sec-desc{text-align:center;color:var(--muted);font-size:0.98rem;max-width:620px;margin:0 auto 56px;word-break:auto-phrase;}
+  .sec-lead{text-align:center;color:var(--muted);font-size:0.9rem;max-width:680px;margin:0 auto 36px;word-break:auto-phrase;}
 
   /* ===== メインプランカード ===== */
   .plan-card{
@@ -453,6 +454,88 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .cta-section { padding: 64px 24px; }
   footer { padding: 24px 20px; }
 }
+
+
+  /* ===== PRICING 4 PLANS TABLE ===== */
+  .ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .ptable{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;}
+  .ptable col.c-label{width:22%;}
+  .ptable col.c-plan{width:19.5%;}
+  .ptable th,.ptable td{text-align:center;padding:11px 8px;border-bottom:1px solid var(--line);}
+  .ptable thead th{vertical-align:top;background:var(--paper);position:relative;}
+  .ptable thead th:first-child{background:transparent;}
+  .ptable .rowlabel{
+    text-align:left;font-size:0.8rem;color:var(--ink);font-weight:500;
+    background:var(--bg);line-height:1.4;
+  }
+
+  /* 列ヘッダー（高さ揃え） */
+  .col-name{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;color:var(--ink);height:1.5em;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+  .col-for{font-size:0.7rem;color:var(--muted);line-height:1.5;font-weight:400;height:3em;display:flex;align-items:center;justify-content:center;text-align:center;margin-bottom:12px;}
+  .col-price{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:700;color:var(--ink);height:1.4em;display:flex;align-items:center;justify-content:center;}
+  .col-price small{font-size:0.68rem;color:var(--muted);font-weight:400;}
+  .col-price.est{font-size:1rem;}
+
+  /* おすすめ列（強調のみ、バッジなし） */
+  .featured-col{background:linear-gradient(180deg,rgba(62,207,158,0.08),rgba(62,207,158,0.02))!important;}
+  th.featured-col{border-top:3px solid var(--mint);}
+  .featured-col .col-price{color:var(--mint-deep);}
+
+  /* マーク */
+  .mk-yes{color:var(--mint-deep);font-weight:700;font-size:1rem;}
+  .mk-no{color:var(--muted-light);}
+  .mk-txt{font-size:0.78rem;color:var(--ink);}
+
+  /* ツールチップ */
+  .tip{display:inline-flex;align-items:center;gap:6px;}
+  .tip-ic{
+    width:15px;height:15px;border-radius:50%;background:var(--muted-light);color:#fff;
+    font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;
+    cursor:help;flex-shrink:0;position:relative;
+  }
+  .tip-ic:hover{background:var(--mint-deep);}
+  .tip-ic .tip-box{
+    visibility:hidden;opacity:0;position:absolute;left:50%;bottom:150%;transform:translateX(-50%);
+    width:230px;background:var(--navy-mid);color:#fff;font-size:0.72rem;font-weight:400;line-height:1.65;
+    text-align:left;padding:11px 13px;border-radius:9px;z-index:10;transition:opacity .15s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);letter-spacing:0.01em;
+  }
+  .tip-ic .tip-box::after{
+    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:var(--navy-mid);
+  }
+  .tip-ic:hover .tip-box{visibility:visible;opacity:1;}
+
+  .select-note{
+    max-width:840px;margin:0 auto 32px;padding:16px 22px;
+    background:rgba(62,207,158,0.07);border:1px solid rgba(62,207,158,0.22);border-radius:10px;
+    font-size:0.9rem;color:var(--ink);text-align:center;font-weight:500;
+  }
+
+  .foot-note{max-width:840px;margin:26px auto 0;font-size:0.76rem;color:var(--muted);line-height:1.9;}
+  .foot-note div{display:flex;gap:6px;}
+  .foot-note div::before{content:"※";flex-shrink:0;}
+
+  @media(max-width:680px){
+    .sec{padding:44px 10px;}
+    .ptable th,.ptable td{padding:9px 3px;}
+    .ptable .rowlabel{font-size:0.66rem;}
+    .col-name{font-size:0.78rem;}
+    .col-for{font-size:0.56rem;height:3.4em;}
+    .col-price{font-size:0.9rem;}
+    .col-price.est{font-size:0.72rem;}
+    .col-price small{font-size:0.55rem;}
+    .mk-txt{font-size:0.62rem;}
+    .mk-yes{font-size:0.85rem;}
+    .tip-ic{width:13px;height:13px;font-size:9px;}
+    .tip-ic .tip-box{width:160px;font-size:0.66rem;}
+    .foot-note{font-size:0.66rem;}
+  }
+  @media(max-width:400px){
+    .ptable .rowlabel{font-size:0.6rem;}
+    .col-for{font-size:0.52rem;}
+  }
+
 </style>
 </head>
 <body>
@@ -830,74 +913,104 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <section class="sec" id="pricing">
   <div class="sec-in">
     <div class="eyebrow">PRICING</div>
-    <h2 class="sec-ttl">明確な料金体系で、安心して導入いただけます</h2>
-    <p class="sec-desc">診断ツールの提供だけでなく、実際に受検が生まれるところまでを一緒に作ります。</p>
+    <h2 class="sec-ttl">目的に合わせて選べる、4つのプラン</h2>
+    <p class="sec-lead">まずは診断を試すところから、自社専用の診断で本格展開するところまで。段階的にご活用いただけます。</p>
 
-    <!-- メインプラン -->
-    <div class="plan-card">
-      <div class="plan-head">
-        <div class="plan-headline">月額35,000円で、<br class="sp-only">受検を増やすところまで伴走します</div>
-      </div>
-
-      <div class="plan-includes">
-        <div class="plan-item">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
-          <span class="plan-item-txt">FB面談（月3回分）</span>
-        </div>
-        <div class="plan-item">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
-          <span class="plan-item-txt">オンボーディング支援</span>
-        </div>
-        <div class="plan-item">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
-          <span class="plan-item-txt">受検を増やす戦略MTG（月1回）</span>
-        </div>
-        <div class="plan-item">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#08312a" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></span>
-          <span class="plan-item-txt">システム利用料</span>
-        </div>
-      </div>
-
-      <div class="plan-note">
-        <span class="plan-note-ic">💬</span>
-        <span class="plan-note-txt">面談枠は<b>翌月まで繰り越し</b>可能です（今月2件 → 来月4件まで。それ以降は失効）</span>
-      </div>
-
-      <div class="plan-price-row">
-        <span class="plan-price">¥35,000</span>
-        <span class="plan-price-unit">/ 月</span>
-        <span class="plan-price-tax">（税抜）</span>
-      </div>
-      <p class="plan-price-hint">面談3回分＋戦略伴走込みで、1回あたり1万円程度です</p>
-
-      <div class="plan-terms">
-        <div class="plan-terms-item">最低契約期間は6か月です</div>
-        <div class="plan-terms-item">4回目以降の面談は、1回15,000円で追加いただけます</div>
-      </div>
+    <div class="select-note">
+      社長カルテ Partners は、支援者ご自身の営業・提案活動を補助するプログラムです。
     </div>
 
-    <!-- オプション：オリジナル診断 -->
-    <div class="opt-card">
-      <div class="opt-left">
-        <span class="opt-badge">2026年8月末まで限定</span>
-        <div class="opt-title">オプション｜オリジナル診断作成</div>
-        <div class="opt-desc">戦略策定・開発実装・オンボーディング支援を含みます。自社専用の診断へ発展させたい方向けです。</div>
-      </div>
-      <div class="opt-right">
-        <div class="opt-price-old">通常 ¥200,000</div>
-        <div class="opt-price-new">¥100,000</div>
-        <div class="opt-price-tax">（税抜・50%OFF）</div>
-      </div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <colgroup>
+          <col class="c-label">
+          <col class="c-plan">
+          <col class="c-plan">
+          <col class="c-plan">
+          <col class="c-plan">
+        </colgroup>
+        <thead>
+          <tr>
+            <th></th>
+            <th>
+              <div class="col-name">エントリー</div>
+              <div class="col-for">まず手軽に試したい／<br>一人でも導入しやすい</div>
+              <div class="col-price">¥35,000<small> /月</small></div>
+            </th>
+            <th class="featured-col">
+              <div class="col-name">スタンダード</div>
+              <div class="col-for">商談を増やしたい、<br>本気で成果を上げたい</div>
+              <div class="col-price">¥70,000<small> /月</small></div>
+            </th>
+            <th>
+              <div class="col-name">プロ</div>
+              <div class="col-for">ハウスリストや営業機能があり、<br>商談を加速したい</div>
+              <div class="col-price">¥150,000<small> /月</small></div>
+            </th>
+            <th>
+              <div class="col-name">エンタープライズ</div>
+              <div class="col-for">大手向け／新たな切り口での<br>営業や提案の型を確立したい</div>
+              <div class="col-price est">別途お見積り</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rowlabel"><span class="tip">汎用診断の活用 <span class="tip-ic">?<span class="tip-box">社長カルテ（標準の16テーマ診断）を、貴社の顧客にご案内いただけます。</span></span></span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td class="featured-col"><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">戦略MTG <span class="tip-ic">?<span class="tip-box">受検の増やし方や案内の改善を、一緒に考える定例ミーティングです。</span></span></span></td>
+            <td><span class="mk-txt">月1回</span></td>
+            <td class="featured-col"><span class="mk-txt">月1回</span></td>
+            <td><span class="mk-txt">月2回</span></td>
+            <td><span class="mk-txt">月2回〜</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">フィードバック面談代行 <span class="tip-ic">?<span class="tip-box">診断結果をもとに、経営者と課題を整理する面談を、貴社に代わって実施します。</span></span></span></td>
+            <td><span class="mk-txt">月3回</span></td>
+            <td class="featured-col"><span class="mk-txt">月5回</span></td>
+            <td><span class="mk-txt">月9回</span></td>
+            <td><span class="mk-txt">月10回〜</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">活用オンボーディング <span class="tip-ic">?<span class="tip-box">導入初期に、診断の使い方や案内の型を一緒に設計する、立ち上げ支援です。</span></span></span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td class="featured-col"><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">内製化・型化の支援 <span class="tip-ic">?<span class="tip-box">貴社の中で診断活用が回るよう、運用の型づくりをご支援します。</span></span></span></td>
+            <td><span class="mk-no">–</span></td>
+            <td class="featured-col"><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">オリジナル診断（OEM）<span class="tip-ic">?<span class="tip-box">貴社専用にカスタマイズした診断を作成します。貴社の看板商品としてご活用いただけます。</span></span></span></td>
+            <td><span class="mk-no">–</span></td>
+            <td class="featured-col"><span class="mk-no">–</span></td>
+            <td><span class="mk-yes">○</span></td>
+            <td><span class="mk-yes">○</span></td>
+          </tr>
+          <tr>
+            <td class="rowlabel"><span class="tip">リード開拓・商談創出の代行支援 <span class="tip-ic">?<span class="tip-box">受検を増やす施策の実行や、アプローチ先の開拓までを、当社が伴走して支援します。</span></span></span></td>
+            <td><span class="mk-no">–</span></td>
+            <td class="featured-col"><span class="mk-no">–</span></td>
+            <td><span class="mk-no">–</span></td>
+            <td><span class="mk-yes">○</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- エンタープライズ -->
-    <div class="ent-card">
-      <div class="ent-ttl">エンタープライズ向けプランもございます</div>
-      <p class="ent-desc">
-        専用診断の作成、商談創出のオンボーディング、内製化のご支援。<br>
-        詳しい実績などお問い合わせください。
-      </p>
-      <a href="/partners/contact" class="ent-cta">お問い合わせはこちら</a>
+    <div class="foot-note">
+      <div>フィードバック面談は翌月まで繰り越し可能です。規定回数を超える場合は、1回15,000円で追加いただけます。</div>
+      <div>最低契約期間は6か月となります。表示価格はすべて税抜きです。</div>
     </div>
 
   </div>
