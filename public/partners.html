@@ -29,19 +29,59 @@ body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: 
 /* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0;
-  background: var(--white); border-bottom: 1px solid var(--gray-light);
-  z-index: 100; padding: 0 48px; height: 64px;
+  background: rgba(255,255,255,0.94); border-bottom: 1px solid var(--gray-light);
+  backdrop-filter: blur(12px);
+  z-index: 100; padding: 0 36px; min-height: 68px;
   display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(17,17,17,0.04);
 }
-.nav-logo { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--black); }
-.nav-logo span { color: var(--red); }
+.nav-logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700;
+  color: var(--black); text-decoration: none; white-space: nowrap;
+}
+.nav-logo-img { width: 52px; height: auto; display: block; }
+.nav-logo > span { color: var(--black); }
+.nav-logo > span > span { color: var(--red); }
+.nav-right { display: flex; align-items: center; gap: 18px; }
+.nav-links { display: flex; align-items: center; gap: 18px; }
+.nav-link {
+  color: var(--text); font-size: 0.82rem; font-weight: 700;
+  text-decoration: none; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--red); }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-cta, .nav-cta-sub {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; line-height: 1;
+  padding: 11px 16px; border-radius: 4px; text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
 .nav-cta {
   background: var(--red); color: var(--white);
-  font-size: 0.82rem; font-weight: 700;
-  padding: 10px 24px; border-radius: 4px; text-decoration: none;
-  transition: background 0.2s;
 }
-.nav-cta:hover { background: var(--red-hover); }
+.nav-cta:hover { background: var(--red-hover); transform: translateY(-1px); }
+.nav-cta-sub {
+  background: var(--white); color: var(--red);
+  border: 1px solid rgba(185,28,28,0.35);
+}
+.nav-cta-sub:hover { background: var(--red-light); border-color: var(--red); }
+.nav-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid var(--gray-light);
+  border-radius: 6px; background: var(--white); cursor: pointer;
+  align-items: center; justify-content: center; flex-direction: column; gap: 5px;
+}
+.nav-toggle span {
+  display: block; width: 18px; height: 2px; border-radius: 999px; background: var(--black);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { display: none; }
+body.menu-open { overflow: hidden; }
+[id] { scroll-margin-top: 88px; }
 
 /* HERO */
 .hero { padding: 120px 48px 0; text-align: center; background: var(--white); overflow: hidden; }
@@ -438,7 +478,33 @@ footer { background: #1a1a1a; padding: 28px 48px; text-align: center; border-top
 footer p { font-size: 0.74rem; color: #4b5563; }
 
 @media (max-width: 768px) {
-  nav { padding: 0 20px; }
+  nav { padding: 0 16px; min-height: 64px; }
+  .nav-logo { font-size: 0.9rem; gap: 8px; }
+  .nav-logo-img { width: 44px; }
+  .nav-right { gap: 10px; }
+  .nav-links, .nav-actions { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .mobile-menu {
+    display: flex; position: fixed; top: 64px; left: 0; right: 0;
+    z-index: 99;
+    flex-direction: column; gap: 0; padding: 12px 20px 20px;
+    background: rgba(255,255,255,0.98); border-bottom: 1px solid var(--gray-light);
+    box-shadow: 0 18px 40px rgba(17,17,17,0.1);
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .mobile-menu.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .mobile-menu a {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 46px; color: var(--text); text-decoration: none;
+    font-size: 0.92rem; font-weight: 700; border-bottom: 1px solid var(--gray-light);
+  }
+  .mobile-menu .mobile-main-cta,
+  .mobile-menu .mobile-sub-cta {
+    justify-content: center; min-height: 48px; margin-top: 12px; border-radius: 4px; border-bottom: none;
+  }
+  .mobile-menu .mobile-main-cta { background: var(--red); color: var(--white); }
+  .mobile-menu .mobile-sub-cta { color: var(--red); border: 1px solid rgba(185,28,28,0.35); }
   .hero { padding: 100px 24px 0; }
   .sp-br { display: inline; }
   .hero-badges { gap: 16px; }
@@ -542,9 +608,36 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- NAV -->
 <nav>
-  <a href="https://karte.ceo-sherpa.com/" class="nav-logo">社長カルテ <span>for Partners</span></a>
-  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="nav-cta">無料でデモ診断を試す</a>
+  <a href="https://karte.ceo-sherpa.com/" class="nav-logo">
+    <img src="/images/shacho-karte-logo.png" alt="社長カルテ" class="nav-logo-img">
+    <span>社長カルテ <span>for Partners</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links" aria-label="グローバルメニュー">
+      <a href="#features" class="nav-link">特徴</a>
+      <a href="#cases" class="nav-link">導入事例</a>
+      <a href="#pricing" class="nav-link">料金</a>
+      <a href="/partners/contact" class="nav-link">お問い合わせ</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="nav-cta">無料デモ診断</a>
+      <a href="/partners/contact" class="nav-cta-sub">無料相談</a>
+    </div>
+    <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-controls="mobile-menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features">特徴</a>
+  <a href="#cases">導入事例</a>
+  <a href="#pricing">料金</a>
+  <a href="/partners/contact">お問い合わせ</a>
+  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="mobile-main-cta">無料デモ診断</a>
+  <a href="/partners/contact" class="mobile-sub-cta">無料相談</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -641,7 +734,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- 3 KEY WEAPONS -->
-<div class="section">
+<div class="section" id="features">
   <div class="section-inner">
     <div class="eyebrow">Why it works</div>
     <h2 class="sec-title">支援者にとっての「武器」になる3つの理由</h2>
@@ -852,7 +945,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- CASES -->
-<div class="section section-bg">
+<div class="section section-bg" id="cases">
   <div class="section-inner">
     <div class="eyebrow">Case Study</div>
     <h2 class="sec-title">導入事例</h2>
@@ -1101,6 +1194,33 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <footer>
   <p>© <a href="https://www.t-rails.com/" target="_blank" style="color:#6b7280;text-decoration:underline;">Two Rails</a></p>
 </footer>
+
+<script>
+  (() => {
+    const toggle = document.querySelector(".nav-toggle");
+    const menu = document.querySelector("#mobile-menu");
+    if (!toggle || !menu) return;
+
+    const setOpen = (open) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+      menu.classList.toggle("is-open", open);
+      document.body.classList.toggle("menu-open", open);
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+  })();
+</script>
 
 </body>
 </html>
