@@ -280,6 +280,7 @@ export default function FeedbackReportPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savingUsageSettings, setSavingUsageSettings] = useState(false);
+  const [showReportScreen, setShowReportScreen] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const themeGuideUrl = `${process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || ""}/theme-guide`;
@@ -421,6 +422,11 @@ export default function FeedbackReportPage() {
           return rank[getReportPriority(a)] - rank[getReportPriority(b)] || targetGap(a) - targetGap(b);
         })
         .slice(0, 5),
+    [response]
+  );
+
+  const sortedLowThemes = useMemo(
+    () => [...(response?.category_scores_json ?? [])].sort((a, b) => averageQuestionScore(a) - averageQuestionScore(b)).slice(0, 3),
     [response]
   );
 
@@ -586,9 +592,20 @@ export default function FeedbackReportPage() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <button className="secondary-button" onClick={() => window.print()} type="button">
-            印刷する
-          </button>
+          {showReportScreen ? (
+            <>
+              <button className="secondary-button" onClick={() => setShowReportScreen(false)} type="button">
+                編集に戻る
+              </button>
+              <button className="secondary-button" onClick={() => window.print()} type="button">
+                印刷する
+              </button>
+            </>
+          ) : (
+            <button className="secondary-button" onClick={() => setShowReportScreen(true)} type="button">
+              レポート画面で確認
+            </button>
+          )}
           <Link className="secondary-button" href="/admin">
             管理画面へ戻る
           </Link>
@@ -607,7 +624,8 @@ export default function FeedbackReportPage() {
         </section>
       ) : null}
 
-      <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className={showReportScreen ? "grid gap-5" : "grid gap-5 xl:grid-cols-[0.9fr_1.1fr]"}>
+        {!showReportScreen ? (
         <form className="report-screen-only panel space-y-4 p-5" onSubmit={handleSave}>
           <div>
             <h2 className="text-xl font-black text-ink">編集フォーム</h2>
@@ -753,8 +771,9 @@ export default function FeedbackReportPage() {
             {saving ? "保存中..." : "FBレポートを保存"}
           </button>
         </form>
+        ) : null}
 
-        <section className="report-preview rounded-lg bg-white p-6 shadow-soft">
+        <section className={`report-preview rounded-lg bg-white p-6 shadow-soft ${showReportScreen ? "mx-auto w-full max-w-5xl" : ""}`}>
           <div className="border-b border-stone-200 pb-5">
             <p className="text-sm font-bold text-brand">SHACHO KARTE LIGHT</p>
             <h2 className="mt-2 text-3xl font-black leading-tight text-ink">
@@ -764,6 +783,137 @@ export default function FeedbackReportPage() {
               このレポートは、面談で確認したい論点と次のアクションを整理するための資料です。
             </p>
           </div>
+
+          <section className="mt-5 break-inside-avoid rounded-lg border border-brand/20 bg-teal-50 p-5">
+            <h3 className="text-xl font-black text-teal-950">サマリ</h3>
+            <p className="mt-3 whitespace-pre-wrap text-base font-bold leading-8 text-teal-900">
+              {multilineText(report.one_line_summary || report.summary)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-lg border border-blue-100 bg-blue-50 p-5">
+            <h3 className="text-xl font-black text-blue-950">経営者タイプ</h3>
+            <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-blue-950">
+              {multilineText(report.executive_type)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <h3 className="text-xl font-black text-ink">経営者心理</h3>
+            <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+              {multilineText(report.psychological_tendency)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-lg border border-teal-100 bg-teal-50 p-5">
+            <h3 className="text-xl font-black text-teal-950">強み</h3>
+            <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-teal-900">
+              {multilineText(report.strength)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border-2 border-rose-100 bg-rose-50 p-5">
+            <h3 className="text-xl font-black text-rose-950">GAP</h3>
+            <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-rose-950">
+              {multilineText(report.gap)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-lg border border-stone-200 p-5">
+            <h3 className="text-xl font-black text-ink">アクションプラン</h3>
+            <div className="mt-3 grid gap-4 md:grid-cols-2">
+              <article className="rounded-lg bg-stone-50 p-4">
+                <h4 className="font-black text-ink">短期</h4>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.short_term_action)}
+                </p>
+              </article>
+              <article className="rounded-lg bg-stone-50 p-4">
+                <h4 className="font-black text-ink">中長期</h4>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.mid_long_term_action)}
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section className="report-chart-section mt-6 break-inside-avoid rounded-lg border border-stone-200 p-4">
+            <div>
+              <h3 className="text-xl font-black text-ink">レーダーチャート</h3>
+              <p className="mt-1 text-sm leading-6 text-stone-600">
+                16テーマの実スコア・目標値・過去平均値を比較しています。
+              </p>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm font-bold">
+              <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-teal-700" />実スコア</span>
+              <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-blue-700" />目標値</span>
+              <span className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-amber-600" />過去平均値</span>
+            </div>
+            <div className="report-chart mt-3 h-96">
+              <ResponsiveContainer height="100%" width="100%">
+                <RadarChart data={chartData} margin={{ top: 28, right: 48, bottom: 28, left: 48 }}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="label" tick={{ fontSize: 10, fill: "#17212b" }} />
+                  <PolarRadiusAxis angle={90} domain={[0, 4]} tickCount={5} tick={{ fontSize: 10 }} />
+                  <Radar dataKey="target" fill="#2563eb" fillOpacity={0.08} name="目標値" stroke="#2563eb" />
+                  <Radar dataKey="average" fill="#d97706" fillOpacity={0.08} name="過去平均値" stroke="#d97706" />
+                  <Radar dataKey="score" fill="#0f766e" fillOpacity={0.3} name="実スコア" stroke="#0f766e" />
+                  <Tooltip />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+
+          <section className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="break-inside-avoid rounded-lg bg-teal-50 p-4">
+              <h3 className="font-black text-teal-950">高スコア</h3>
+              <div className="mt-3">
+                <ThemeTagList themes={sortedTopThemes} />
+              </div>
+            </div>
+            <div className="break-inside-avoid rounded-lg bg-amber-50 p-4">
+              <h3 className="font-black text-amber-950">低スコア</h3>
+              <div className="mt-3">
+                <ThemeTagList themes={sortedLowThemes} />
+              </div>
+            </div>
+          </section>
+
+          <section className="mt-6">
+            <h3 className="text-xl font-black text-ink">16スコア表</h3>
+            <div className="mt-3 overflow-x-auto">
+              <table className="report-score-table w-full text-left text-sm">
+                <thead className="bg-stone-100 text-stone-700">
+                  <tr>
+                    <th className="px-3 py-2">テーマ名</th>
+                    <th className="px-3 py-2">グループ</th>
+                    <th className="px-3 py-2">実スコア</th>
+                    <th className="px-3 py-2">目標値</th>
+                    <th className="px-3 py-2">過去平均値</th>
+                    <th className="px-3 py-2">目標差分</th>
+                    <th className="px-3 py-2">平均との差分</th>
+                    <th className="px-3 py-2">優先度</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-200">
+                  {response.category_scores_json.map((theme) => (
+                    <tr key={theme.id} className={priorityRowClass(theme)}>
+                      <td className="px-3 py-2 font-black text-ink">{displayThemeName(theme)}</td>
+                      <td className="px-3 py-2"><GroupBadge theme={theme} /></td>
+                      <td className="px-3 py-2 font-bold">{scoreLabel(averageQuestionScore(theme))}</td>
+                      <td className="px-3 py-2">{scoreLabel(targetAverageScore(theme))}</td>
+                      <td className="px-3 py-2">{scoreLabel(pastAverageScore(theme))}</td>
+                      <td className="px-3 py-2"><GapBadge value={targetGap(theme)} /></td>
+                      <td className="px-3 py-2"><GapBadge value={pastAverageGap(theme)} /></td>
+                      <td className="px-3 py-2"><PriorityBadge priority={getReportPriority(theme)} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div className="hidden">
 
           <section className="mt-5">
             <h3 className="text-lg font-black text-ink">受検者情報</h3>
@@ -955,6 +1105,7 @@ export default function FeedbackReportPage() {
               ))}
             </div>
           </section>
+          </div>
         </section>
       </div>
     </main>
