@@ -112,7 +112,10 @@ export async function POST(request: Request) {
           resubmission_allowed: usageSettings.resubmission_allowed,
           usage_purpose: usageSettings.usage_purpose,
           status: "completed",
+          completed_at: new Date().toISOString(),
           progress_rate: 100,
+          answered_count: 48,
+          completion_rate: 100,
           last_answered_question_id: Object.keys(submission.answers).at(-1) || null,
           last_answered_question_order: Object.keys(submission.answers).filter((id) => submission.answers[id]).length,
           updated_at: new Date().toISOString()
@@ -180,7 +183,10 @@ export async function POST(request: Request) {
           result_token: resultToken,
           result_token_expires_at: resultTokenExpiresAt,
           status: "completed",
+          completed_at: new Date().toISOString(),
           progress_rate: 100,
+          answered_count: 48,
+          completion_rate: 100,
           last_answered_question_id: Object.keys(submission.answers).at(-1) || null,
           last_answered_question_order: Object.keys(submission.answers).filter((id) => submission.answers[id]).length,
           updated_at: new Date().toISOString()

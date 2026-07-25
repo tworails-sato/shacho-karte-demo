@@ -20,12 +20,16 @@ export type StoredDraft = {
   id: string;
   respondentId?: string;
   responseId?: string;
+  resumeKey?: string;
   basicInfo: BasicInfo;
   answers: Record<string, number>;
   status: "draft" | "completed";
   progressRate: number;
+  answeredCount?: number;
+  completionRate?: number;
   lastAnsweredQuestionId: string;
   lastAnsweredQuestionOrder: number;
+  startedAt?: string;
   expiresAt: string;
   createdAt: string;
   updatedAt: string;

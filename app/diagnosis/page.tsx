@@ -27,6 +27,7 @@ export default function DiagnosisPage() {
   const [showResumePrompt, setShowResumePrompt] = useState(false);
   const [unansweredIds, setUnansweredIds] = useState<string[]>([]);
   const [manualSaveMessage, setManualSaveMessage] = useState("");
+  const [draftErrorMessage, setDraftErrorMessage] = useState("");
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const answeredCount = Object.values(answers).filter(Boolean).length;
   const progress = Math.round((answeredCount / questions.length) * 100);
@@ -41,21 +42,60 @@ export default function DiagnosisPage() {
   );
 
   useEffect(() => {
-    const localDraft = getLocalDraft();
-    if (!localDraft || localDraft.status !== "draft") return;
+    async function loadActiveDraft() {
+      const localDraft = getLocalDraft();
+      if (!localDraft || localDraft.status !== "draft") return;
 
-    const isExpired = new Date(localDraft.expiresAt).getTime() < Date.now();
-    if (isExpired) {
-      clearLocalDraft();
-      return;
+      const isExpired = new Date(localDraft.expiresAt).getTime() < Date.now();
+      if (isExpired) {
+        clearLocalDraft();
+        setDraftErrorMessage("保存期限が終了しました。最初から回答してください。");
+        return;
+      }
+
+      if (!localDraft.responseId) {
+        setDraft(localDraft);
+        return;
+      }
+
+      try {
+        const params = new URLSearchParams({
+          responseId: localDraft.responseId,
+          respondentId: localDraft.respondentId || "",
+          resumeKey: localDraft.resumeKey || ""
+        });
+        const response = await fetch(`/api/assessment-draft?${params.toString()}`);
+        const payload = await response.json().catch(() => null);
+
+        if (response.status === 410) {
+          clearLocalDraft();
+          setDraftErrorMessage("保存期限が終了しました。最初から回答してください。");
+          return;
+        }
+
+        if (!response.ok || !payload?.draft) {
+          setDraft(localDraft);
+          setDraftErrorMessage("途中保存の確認に失敗しました。回答は続けられます。");
+          return;
+        }
+
+        const nextDraft = payload.draft as StoredDraft;
+        saveLocalDraft(nextDraft);
+        window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(nextDraft.basicInfo));
+        setDraft(nextDraft);
+        const savedAnswerCount = Object.values(nextDraft.answers).filter(Boolean).length;
+        if (savedAnswerCount > 0) {
+          setResumeDraft(nextDraft);
+          setShowResumePrompt(true);
+        }
+      } catch (error) {
+        console.error("Assessment draft fetch failed", error);
+        setDraft(localDraft);
+        setDraftErrorMessage("途中保存の確認に失敗しました。回答は続けられます。");
+      }
     }
 
-    setDraft(localDraft);
-    const savedAnswerCount = Object.values(localDraft.answers).filter(Boolean).length;
-    if (savedAnswerCount > 0) {
-      setResumeDraft(localDraft);
-      setShowResumePrompt(true);
-    }
+    loadActiveDraft();
   }, []);
 
   useEffect(() => {
@@ -82,11 +122,33 @@ export default function DiagnosisPage() {
     setTimeout(() => scrollToResumeQuestion(resumeDraft), 100);
   }
 
-  function handleRestartDraft() {
+  async function handleRestartDraft() {
+    const ok = window.confirm("前回の途中保存データを削除して、最初からやり直しますか？");
+    if (!ok) return;
+
+    const currentDraft = resumeDraft ?? draft ?? getLocalDraft();
+    if (currentDraft?.responseId) {
+      try {
+        await fetch("/api/assessment-draft", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            responseId: currentDraft.responseId,
+            respondentId: currentDraft.respondentId,
+            resumeKey: currentDraft.resumeKey
+          })
+        });
+      } catch (error) {
+        console.error("Assessment draft delete failed", error);
+      }
+    }
+
+    clearLocalDraft();
     const nextAnswers = createEmptyAnswers();
     setAnswers(nextAnswers);
+    setDraft(null);
+    setResumeDraft(null);
     setShowResumePrompt(false);
-    persistDraft(nextAnswers);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -115,12 +177,16 @@ export default function DiagnosisPage() {
       id: currentDraft?.id ?? crypto.randomUUID(),
       respondentId: currentDraft?.respondentId,
       responseId: currentDraft?.responseId,
+      resumeKey: currentDraft?.resumeKey,
       basicInfo,
       answers: nextAnswers,
       status: "draft",
       progressRate: Math.round((answeredQuestionIndexes.length / questions.length) * 100),
+      answeredCount: answeredQuestionIndexes.length,
+      completionRate: Math.round((answeredQuestionIndexes.length / questions.length) * 100),
       lastAnsweredQuestionId: last?.question.id ?? "",
       lastAnsweredQuestionOrder: last ? last.index + 1 : 0,
+      startedAt: currentDraft?.startedAt ?? now,
       expiresAt:
         currentDraft?.expiresAt ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       createdAt: currentDraft?.createdAt ?? now,
@@ -137,20 +203,42 @@ export default function DiagnosisPage() {
 
     if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
     autosaveTimerRef.current = setTimeout(() => {
-      if (!nextDraft.responseId) return;
-      fetch("/api/assessment-draft", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nextDraft)
-      }).catch((error) => {
+      syncDraftToSupabase(nextDraft).catch((error) => {
         console.error("Assessment draft autosave failed", error);
+        setDraftErrorMessage("途中保存に失敗しました。通信状況を確認して、もう一度保存してください。");
       });
     }, 500);
   }
 
-  function handleManualSave() {
-    persistDraft(answers);
-    setManualSaveMessage("途中保存しました。");
+  async function syncDraftToSupabase(nextDraft: StoredDraft) {
+    const response = await fetch("/api/assessment-draft", {
+      method: nextDraft.responseId ? "PATCH" : "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nextDraft)
+    });
+
+    const payload = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(payload?.error || "Assessment draft save failed");
+
+    const savedDraft = payload.draft as StoredDraft;
+    saveLocalDraft(savedDraft);
+    setDraft(savedDraft);
+    setDraftErrorMessage("");
+    return savedDraft;
+  }
+
+  async function handleManualSave() {
+    const nextDraft = buildDraft(answers);
+    if (!nextDraft) return;
+    saveLocalDraft(nextDraft);
+    setDraft(nextDraft);
+    try {
+      await syncDraftToSupabase(nextDraft);
+      setManualSaveMessage("途中保存しました。");
+    } catch (error) {
+      console.error("Assessment draft manual save failed", error);
+      setDraftErrorMessage("途中保存に失敗しました。時間をおいてもう一度お試しください。");
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -302,6 +390,9 @@ export default function DiagnosisPage() {
               <p className="mt-1 text-xs font-bold text-stone-500">保存期間は最後の回答日から1か月です。</p>
               {manualSaveMessage ? (
                 <p className="mt-1 text-xs font-black text-brand">{manualSaveMessage}</p>
+              ) : null}
+              {draftErrorMessage ? (
+                <p className="mt-1 text-xs font-bold text-amber-700">{draftErrorMessage}</p>
               ) : null}
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">

@@ -55,6 +55,8 @@ type DiagnosisResponseRow = {
   priority_categories_json: ThemeScore[];
   status: "draft" | "completed" | null;
   progress_rate: number | null;
+  answered_count: number | null;
+  completion_rate: number | null;
   last_answered_question_id: string | null;
   last_answered_question_order: number | null;
   expires_at: string | null;
@@ -118,6 +120,8 @@ type AdminRow = {
   priorityThemes: ThemeScore[];
   status: "draft" | "completed";
   progressRate: number;
+  answeredCount: number;
+  completionRate: number;
   lastAnsweredQuestionId: string;
   lastAnsweredQuestionOrder: number;
   expiresAt: string;
@@ -356,6 +360,8 @@ function localRowsFromStorage(): AdminRow[] {
     priorityThemes: item.result.priorityThemes,
     status: "completed",
     progressRate: 100,
+    answeredCount: 48,
+    completionRate: 100,
     lastAnsweredQuestionId: "",
     lastAnsweredQuestionOrder: 48,
     expiresAt: "",
@@ -423,6 +429,8 @@ export default function AdminPage() {
             priority_categories_json,
             status,
             progress_rate,
+            answered_count,
+            completion_rate,
             last_answered_question_id,
             last_answered_question_order,
             expires_at,
@@ -519,6 +527,8 @@ export default function AdminPage() {
               priorityThemes: response.priority_categories_json ?? [],
               status: response.status ?? "completed",
               progressRate: response.progress_rate ?? 100,
+              answeredCount: response.answered_count ?? response.last_answered_question_order ?? 0,
+              completionRate: response.completion_rate ?? response.progress_rate ?? 0,
               lastAnsweredQuestionId: response.last_answered_question_id ?? "",
               lastAnsweredQuestionOrder: response.last_answered_question_order ?? 0,
               expiresAt: response.expires_at ?? "",
@@ -928,6 +938,7 @@ export default function AdminPage() {
                   <td className="px-4 py-3">{row.representativeName}</td>
                   <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
                   <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-bold">{row.answeredCount}/48問</td>
                   <td className="whitespace-nowrap px-4 py-3 font-bold">{Math.round(row.progressRate)}%</td>
                   <td className="px-4 py-3">
                     {row.lastAnsweredQuestionOrder > 0

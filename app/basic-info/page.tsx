@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BasicInfo } from "@/lib/diagnosis";
 import { employeeSizeOptions } from "@/lib/employee-phase";
-import { saveLocalDraft, type StoredDraft } from "@/lib/storage";
+import { clearLocalDraft, getLocalDraft, saveLocalDraft, type StoredDraft } from "@/lib/storage";
 
 const initialInfo: BasicInfo = {
   companyName: "",
@@ -52,8 +52,50 @@ export default function BasicInfoPage() {
   const [eligibilityError, setEligibilityError] = useState("");
   const [demoTermsError, setDemoTermsError] = useState("");
   const [checkingEligibility, setCheckingEligibility] = useState(false);
+  const [resumeDraft, setResumeDraft] = useState<StoredDraft | null>(null);
+  const [resumeMessage, setResumeMessage] = useState("");
   const shouldShowReferrerName = referralSources.includes(info.trafficSource);
   const shouldRequireConsent = info.category === "経営支援者";
+
+  useEffect(() => {
+    async function loadActiveDraft() {
+      const localDraft = getLocalDraft();
+      if (!localDraft || localDraft.status !== "draft" || !localDraft.responseId) return;
+
+      if (new Date(localDraft.expiresAt).getTime() < Date.now()) {
+        clearLocalDraft();
+        setResumeMessage("保存期限が終了しました。最初から入力してください。");
+        return;
+      }
+
+      try {
+        const params = new URLSearchParams({
+          responseId: localDraft.responseId,
+          respondentId: localDraft.respondentId || "",
+          resumeKey: localDraft.resumeKey || ""
+        });
+        const response = await fetch(`/api/assessment-draft?${params.toString()}`);
+        const payload = await response.json().catch(() => null);
+
+        if (response.status === 410) {
+          clearLocalDraft();
+          setResumeMessage("保存期限が終了しました。最初から入力してください。");
+          return;
+        }
+
+        if (!response.ok || !payload?.draft) return;
+
+        const nextDraft = payload.draft as StoredDraft;
+        saveLocalDraft(nextDraft);
+        window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(nextDraft.basicInfo));
+        setResumeDraft(nextDraft);
+      } catch (error) {
+        console.error("Assessment draft resume check failed", error);
+      }
+    }
+
+    loadActiveDraft();
+  }, []);
 
   function updateField(key: keyof BasicInfo, value: string | boolean) {
     if (key === "demoTermsAgreed" && value === true) {
@@ -139,9 +181,61 @@ export default function BasicInfoPage() {
     router.push("/diagnosis");
   }
 
+  function handleResumeDraft() {
+    if (!resumeDraft) return;
+    saveLocalDraft(resumeDraft);
+    window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(resumeDraft.basicInfo));
+    router.push("/diagnosis");
+  }
+
+  async function handleRestartDraft() {
+    if (!resumeDraft) return;
+    const ok = window.confirm("前回の途中保存データを削除して、最初からやり直しますか？");
+    if (!ok) return;
+
+    try {
+      if (resumeDraft.responseId) {
+        await fetch("/api/assessment-draft", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            responseId: resumeDraft.responseId,
+            respondentId: resumeDraft.respondentId,
+            resumeKey: resumeDraft.resumeKey
+          })
+        });
+      }
+    } catch (error) {
+      console.error("Assessment draft restart delete failed", error);
+    }
+
+    clearLocalDraft();
+    setResumeDraft(null);
+    setResumeMessage("最初から入力できます。");
+  }
+
   return (
     <main className="page-shell">
       <div className="mx-auto max-w-3xl">
+        {resumeDraft ? (
+          <section className="panel mb-6 border-amber-200 bg-amber-50 p-5">
+            <h2 className="text-xl font-black text-ink">前回の回答が保存されています。</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-stone-700">続きを回答しますか？</p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <button className="primary-button" type="button" onClick={handleResumeDraft}>
+                続きから回答
+              </button>
+              <button className="secondary-button" type="button" onClick={handleRestartDraft}>
+                最初からやり直す
+              </button>
+            </div>
+          </section>
+        ) : null}
+        {resumeMessage ? (
+          <p className="mb-6 rounded-md border border-stone-200 bg-white px-4 py-3 text-sm font-bold text-stone-700">
+            {resumeMessage}
+          </p>
+        ) : null}
         <div className="mb-6">
           <p className="text-sm font-bold text-brand">STEP 1</p>
           <h1 className="mt-2 text-3xl font-black text-ink">基本情報</h1>
