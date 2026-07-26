@@ -21,6 +21,10 @@ export type StoredDraft = {
   respondentId?: string;
   responseId?: string;
   resumeKey?: string;
+  resumeToken?: string;
+  resumeUrl?: string;
+  resumeMailSentAt?: string;
+  resumeMailError?: string;
   basicInfo: BasicInfo;
   answers: Record<string, number>;
   status: "draft" | "completed";

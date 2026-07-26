@@ -178,6 +178,10 @@ export default function DiagnosisPage() {
       respondentId: currentDraft?.respondentId,
       responseId: currentDraft?.responseId,
       resumeKey: currentDraft?.resumeKey,
+      resumeToken: currentDraft?.resumeToken,
+      resumeUrl: currentDraft?.resumeUrl,
+      resumeMailSentAt: currentDraft?.resumeMailSentAt,
+      resumeMailError: currentDraft?.resumeMailError,
       basicInfo,
       answers: nextAnswers,
       status: "draft",
@@ -210,11 +214,11 @@ export default function DiagnosisPage() {
     }, 500);
   }
 
-  async function syncDraftToSupabase(nextDraft: StoredDraft) {
+  async function syncDraftToSupabase(nextDraft: StoredDraft, options?: { sendResumeMail?: boolean }) {
     const response = await fetch("/api/assessment-draft", {
       method: nextDraft.responseId ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nextDraft)
+      body: JSON.stringify({ ...nextDraft, sendResumeMail: options?.sendResumeMail ?? false })
     });
 
     const payload = await response.json().catch(() => null);
@@ -224,7 +228,7 @@ export default function DiagnosisPage() {
     saveLocalDraft(savedDraft);
     setDraft(savedDraft);
     setDraftErrorMessage("");
-    return savedDraft;
+    return { draft: savedDraft, resumeMailStatus: payload.resumeMailStatus as string | undefined };
   }
 
   async function handleManualSave() {
@@ -233,8 +237,14 @@ export default function DiagnosisPage() {
     saveLocalDraft(nextDraft);
     setDraft(nextDraft);
     try {
-      await syncDraftToSupabase(nextDraft);
-      setManualSaveMessage("途中保存しました。");
+      const result = await syncDraftToSupabase(nextDraft, { sendResumeMail: true });
+      if (result.resumeMailStatus === "sent") {
+        setManualSaveMessage("回答を途中保存しました。ご登録のメールアドレスへ再開用URLをお送りしました。");
+      } else if (result.resumeMailStatus === "failed") {
+        setManualSaveMessage("回答は保存されましたが、再開用メールを送信できませんでした。時間をおいて再度お試しください。");
+      } else {
+        setManualSaveMessage("回答を途中保存しました。以前お送りした再開用URLから、最新の保存位置より再開できます。");
+      }
     } catch (error) {
       console.error("Assessment draft manual save failed", error);
       setDraftErrorMessage("途中保存に失敗しました。時間をおいてもう一度お試しください。");

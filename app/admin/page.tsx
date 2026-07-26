@@ -60,6 +60,9 @@ type DiagnosisResponseRow = {
   last_answered_question_id: string | null;
   last_answered_question_order: number | null;
   expires_at: string | null;
+  resume_token: string | null;
+  resume_mail_sent_at: string | null;
+  resume_mail_error: string | null;
   updated_at: string | null;
   is_demo: boolean | null;
   watermark_enabled: boolean | null;
@@ -125,6 +128,9 @@ type AdminRow = {
   lastAnsweredQuestionId: string;
   lastAnsweredQuestionOrder: number;
   expiresAt: string;
+  resumeToken: string;
+  resumeMailSentAt: string;
+  resumeMailError: string;
   updatedAt: string;
 };
 
@@ -135,6 +141,12 @@ function csvEscape(value: string | number | boolean) {
 
 function formatDate(value: string) {
   return new Date(value).toLocaleString("ja-JP");
+}
+
+function buildAdminResumeUrl(token: string) {
+  if (!token) return "";
+  if (typeof window === "undefined") return `/assessment/resume/${token}`;
+  return `${window.location.origin}/assessment/resume/${token}`;
 }
 
 function themeNames(themes: ThemeScore[]) {
@@ -365,6 +377,9 @@ function localRowsFromStorage(): AdminRow[] {
     lastAnsweredQuestionId: "",
     lastAnsweredQuestionOrder: 48,
     expiresAt: "",
+    resumeToken: "",
+    resumeMailSentAt: "",
+    resumeMailError: "",
     updatedAt: item.createdAt
   }));
 }
@@ -434,6 +449,9 @@ export default function AdminPage() {
             last_answered_question_id,
             last_answered_question_order,
             expires_at,
+            resume_token,
+            resume_mail_sent_at,
+            resume_mail_error,
             updated_at,
             is_demo,
             watermark_enabled,
@@ -532,6 +550,9 @@ export default function AdminPage() {
               lastAnsweredQuestionId: response.last_answered_question_id ?? "",
               lastAnsweredQuestionOrder: response.last_answered_question_order ?? 0,
               expiresAt: response.expires_at ?? "",
+              resumeToken: response.resume_token ?? "",
+              resumeMailSentAt: response.resume_mail_sent_at ?? "",
+              resumeMailError: response.resume_mail_error ?? "",
               updatedAt: response.updated_at ?? response.created_at
             };
           })
@@ -712,6 +733,23 @@ export default function AdminPage() {
       setAdminError(formatAdminError(error));
     } finally {
       setIsDeleting(false);
+    }
+  }
+
+  async function handleCopyResumeUrl(row: AdminRow) {
+    if (!row.resumeToken) {
+      setAdminError("再開URLがまだ発行されていません。");
+      return;
+    }
+
+    const resumeUrl = buildAdminResumeUrl(row.resumeToken);
+    try {
+      await navigator.clipboard.writeText(resumeUrl);
+      setAdminMessage("再開URLをコピーしました。");
+      setAdminError(null);
+    } catch (error) {
+      console.error("Resume URL copy failed", error);
+      setAdminError(resumeUrl);
     }
   }
 
@@ -940,6 +978,31 @@ export default function AdminPage() {
                   <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-bold">{row.answeredCount}/48問</td>
                   <td className="whitespace-nowrap px-4 py-3 font-bold">{Math.round(row.progressRate)}%</td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <div className="space-y-2">
+                      <span
+                        className={`rounded-full px-2 py-1 text-xs font-black ${
+                          row.resumeMailSentAt
+                            ? "bg-teal-50 text-teal-700"
+                            : "bg-stone-100 text-stone-600"
+                        }`}
+                      >
+                        {row.resumeMailSentAt ? "送信済み" : "未送信"}
+                      </span>
+                      {row.resumeMailSentAt ? (
+                        <p className="text-xs text-stone-500">{formatDate(row.resumeMailSentAt)}</p>
+                      ) : null}
+                      {row.resumeToken ? (
+                        <button
+                          className="rounded-md border border-stone-300 px-2 py-1 text-xs font-black text-ink hover:border-brand hover:text-brand"
+                          onClick={() => handleCopyResumeUrl(row)}
+                          type="button"
+                        >
+                          URLコピー
+                        </button>
+                      ) : null}
+                    </div>
+                  </td>
                   <td className="px-4 py-3">
                     {row.lastAnsweredQuestionOrder > 0
                       ? `${row.lastAnsweredQuestionOrder}問目`
