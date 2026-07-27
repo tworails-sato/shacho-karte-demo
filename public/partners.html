@@ -448,6 +448,64 @@ body.menu-open { overflow: hidden; }
     .ent-card{padding:26px 22px;}
   }
 
+/* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:14px;}
+
+  .faq-item{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;transition:box-shadow .18s, border-color .18s;
+  }
+  .faq-item:hover{border-color:#d6e0ea;box-shadow:0 8px 26px rgba(20,40,60,0.06);}
+  .faq-item[open]{border-color:rgba(62,207,158,0.4);box-shadow:0 10px 30px rgba(20,40,60,0.08);}
+
+  .faq-q{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:22px 26px;cursor:pointer;list-style:none;
+    font-size:1rem;font-weight:700;color:var(--ink);line-height:1.65;
+  }
+  .faq-q::-webkit-details-marker{display:none;}
+  .faq-q .qmark{
+    flex-shrink:0;width:26px;height:26px;border-radius:7px;
+    background:var(--navy-mid);color:#fff;
+    font-family:'Noto Serif JP',serif;font-size:0.82rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;margin-top:1px;
+  }
+  .faq-q .qtext{flex:1;}
+  .faq-q .chev{
+    flex-shrink:0;width:20px;height:20px;margin-top:4px;
+    transition:transform .2s;color:var(--muted-light);
+  }
+  .faq-item[open] .faq-q .chev{transform:rotate(180deg);color:var(--mint-deep);}
+  .faq-item[open] .faq-q .qmark{background:var(--mint-deep);}
+
+  .faq-a{
+    display:flex;gap:14px;
+    padding:0 26px 24px 26px;
+  }
+  .faq-a .amark{
+    flex-shrink:0;width:26px;height:26px;border-radius:7px;
+    background:var(--bg);color:var(--mint-deep);border:1px solid rgba(62,207,158,0.35);
+    font-family:'Noto Serif JP',serif;font-size:0.82rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .faq-a .atext{
+    flex:1;font-size:0.92rem;color:var(--muted);line-height:1.95;padding-top:1px;
+  }
+  .faq-a .atext b{color:var(--ink);font-weight:700;}
+  .faq-a .atext .note{
+    display:block;margin-top:10px;padding:12px 15px;
+    background:rgba(62,207,158,0.07);border-left:2px solid var(--mint);
+    border-radius:0 7px 7px 0;font-size:0.86rem;color:var(--ink);
+  }
+
+  @media(max-width:640px){
+    .sec{padding:56px 18px;}
+    .faq-q{padding:18px 18px;font-size:0.94rem;gap:11px;}
+    .faq-a{padding:0 18px 20px 18px;gap:11px;}
+    .faq-a .atext{font-size:0.87rem;}
+  }
+
+
 /* VOICE */
 .voice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 48px; }
 .voice-card { background: var(--white); border: 1px solid var(--gray-light); border-radius: 4px; padding: 24px; }
@@ -779,6 +837,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         <div class="weapon-content">
           <div class="weapon-title"><em>①</em> 800名の比較基準は、一社では作れない</div>
           <p class="weapon-body">自作診断は「自社の主観で作った質問」になりがちです。社長カルテは800名以上の成長企業データが基準にあるため、「成長企業と比べてどうか」という相対評価で語れます。この客観性が、社長を動かします。</p>
+          <p class="weapon-body" style="font-size:0.76rem;margin-top:12px;color:var(--gray);">※社長カルテが採用する経営テーマ、設問内容、目標値データは、一人社長～社員数30名程度、年少は創業から10年以内で売上を連続的に成長させているベンチャー・スタートアップ・中小企業の経営者の行動特性が中心となります。</p>
         </div>
       </div>
       <div class="weapon-card" style="grid-template-columns:1fr;">
@@ -1108,6 +1167,106 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
   </div>
 </section>
+
+<section class="sec" id="faq">
+  <div class="sec-in">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="sec-ttl">よくいただくご質問</h2>
+    <p class="sec-lead">導入をご検討いただく際に、多くいただくご質問をまとめました。</p>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">コンスタントに診断を実施できるか不安です。</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            診断を商談にスムーズにつなげる導線や伝え方は、企業様によって千差万別です。だからこそ、月1回の戦略ミーティングを含め「どなたに、どのように案内するか」を一緒に設計する伴走までを、サービスに含めています。
+            <span class="note"><b>費用は、診断そのものへの対価ではありません。</b>受検が生まれる状態をつくるための伴走への対価とお考えください。</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">フィードバック面談は、自社で実施することもできますか？</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            フィードバック面談は、<b>当社が支援者様に代わって実施する形</b>を標準としています。診断結果の読み解きには一定の経験が必要なこと、また第三者が入ることで経営者側も本音を話しやすくなるためです。
+            <span class="note">ご自身で実施できるようになりたい場合は、<b>内製化・型化のご支援</b>（スタンダードプラン以上）にて、面談の進め方やレポートの読み解き方までお伝えします。将来的に、貴社のメンバーの方が実施できる状態を目指せます。</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">最低契約期間が6か月なのはなぜですか？</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            診断が生まれ、商談につながり、成果として見えるまでには一定の期間が必要なためです。3か月では導線の設計と検証が終わらないまま契約満了となり、支援者様にとっても成果を判断できないまま終わってしまいます。<b>だからこそ、最低6か月とさせていただいております。</b>
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">成約時の成果報酬という形での取り組みは可能ですか？</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            申し訳ございませんが、成果報酬でのご提供は行っておりません。成果を出すためには、<b>支援者様と当社の双方が主体的に動く協力体制</b>が不可欠だと考えているためです。
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">社長カルテを活用して、自社サービスの紹介代理店として動いていただくことはできますか？</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            申し訳ございません。<b>当社が支援者様のサービスや商品を直接販売・リード紹介といった形でのご提供は行っておりません。</b>
+            <span class="note">リードのご紹介など営業支援・代行をご希望の場合は、<b>エンタープライズプラン</b>にてご提供いたします。</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">
+          <span class="qmark">Q</span>
+          <span class="qtext">エンドユーザー（経営者）へ有償で提供することは可能ですか？</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="faq-a">
+          <span class="amark">A</span>
+          <div class="atext">
+            可能です。価格設定は支援者様にお任せしています。参考として、多くの支援者様は<b>1.5万円〜2万円程度</b>で提供されるケースが多くなっています。
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
 
 <!-- CTA -->
 <div class="cta-section" id="cta">
