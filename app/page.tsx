@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const knowSectionHtml = "<section class=\"know\" id=\"know\">\n  <div class=\"know-in\">\n    <div class=\"eyebrow\">WHAT YOU GET</div>\n    <h2 class=\"sec-ttl\">社長カルテで、わかること</h2>\n    <p class=\"sec-lead\">経営者が向き合う「カネ・モノ・ヒト」。そのどこに、いま優先して手を打つべきかを整理します。</p>\n\n    <div class=\"kmh\">\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">カネ</span>\n          <span>\n            <span class=\"kmh-en\">SALES</span>\n            <span class=\"kmh-theme\">売上の伸ばし方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">いま一番売上に効く<br>打ち手は、どれか。</div>\n          <div class=\"kmh-state\">やることは10個見えている。でも、どれが先かが決まらない。</div>\n          <div class=\"kmh-desc\">課題を新しく見つけるのではなく、<b>すでに見えている課題の順番</b>を、約800名の成長企業と比べて示します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">モノ</span>\n          <span>\n            <span class=\"kmh-en\">BUSINESS</span>\n            <span class=\"kmh-theme\">事業の広げ方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">この規模で、次に<br>何を仕込むべきか。</div>\n          <div class=\"kmh-state\">広げたい気持ちはある。でも、足元が耐えられるか分からない。</div>\n          <div class=\"kmh-desc\">拡大の前提が整っているか。<b>どこから着手すれば無理なく広げられるか</b>を、マイルストーンとして整理します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">ヒト</span>\n          <span>\n            <span class=\"kmh-en\">ORGANIZATION</span>\n            <span class=\"kmh-theme\">組織と採用</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">なぜ人が育たず、<br>定着しないのか。</div>\n          <div class=\"kmh-state\">採っても辞める。任せたいのに、任せきれない。</div>\n          <div class=\"kmh-desc\">現場との認識のズレは、どこで生まれているか。<b>採用が機能しない要素</b>も含めて可視化します。</div>\n        </div>\n      </div>\n\n    </div>\n\n    <div class=\"know-foot\">\n      課題が見えていない社長は、ほとんどいません。むしろ10個も20個も見えているからこそ、<br>\n      <b>「どれが今、一番効くのか」</b>が決まらなくなる。社長カルテは、その順番を決めるための診断です。\n    </div>\n\n  </div>\n</section>";
+
 const features = [
   {
     number: "01",
@@ -172,6 +174,63 @@ export default function HomePage() {
         .sec-desc{text-align:center;color:var(--muted);font-size:0.95rem;max-width:640px;margin:0 auto 48px;word-break:auto-phrase;}
         .sec.navy .sec-desc{color:var(--muted-light);}
 
+        .know{padding:92px 24px;background:var(--paper);}
+        .know-in{max-width:1080px;margin:0 auto;}
+        .know .eyebrow{
+          font-size:0.72rem;font-weight:700;letter-spacing:0.16em;
+          color:var(--mint-deep);text-align:center;margin-bottom:14px;
+        }
+        .know .sec-ttl{
+          font-family:'Noto Serif JP',serif;font-size:clamp(1.55rem,3.2vw,2.05rem);
+          font-weight:700;text-align:center;line-height:1.55;margin-bottom:16px;
+        }
+        .know .sec-lead{
+          text-align:center;color:var(--muted);font-size:0.96rem;
+          max-width:660px;margin:0 auto 58px;line-height:1.95;word-break:auto-phrase;
+        }
+        .kmh{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+        .kmh-card{
+          background:var(--paper);border:1px solid var(--line);border-radius:18px;
+          padding:0;overflow:hidden;
+          transition:transform .2s, box-shadow .2s, border-color .2s;
+          display:flex;flex-direction:column;
+        }
+        .kmh-card:hover{
+          transform:translateY(-5px);
+          box-shadow:0 20px 46px rgba(20,40,60,0.10);
+          border-color:rgba(62,207,158,0.4);
+        }
+        .kmh-top{
+          background:linear-gradient(150deg,var(--navy-mid),var(--navy-btm));
+          padding:22px 26px 20px;display:flex;align-items:center;gap:13px;
+        }
+        .kmh-mark{
+          width:42px;height:42px;border-radius:12px;flex-shrink:0;
+          background:rgba(62,207,158,0.16);border:1px solid rgba(62,207,158,0.45);
+          display:flex;align-items:center;justify-content:center;
+          font-family:'Noto Serif JP',serif;font-size:1.02rem;font-weight:700;color:var(--mint);
+        }
+        .kmh-en{font-size:0.66rem;font-weight:700;letter-spacing:0.13em;color:var(--mint);display:block;}
+        .kmh-theme{font-size:1rem;font-weight:700;color:#fff;line-height:1.4;}
+        .kmh-body{padding:26px 26px 28px;flex:1;display:flex;flex-direction:column;}
+        .kmh-q{
+          font-family:'Noto Serif JP',serif;font-size:1.16rem;font-weight:700;
+          color:var(--ink);line-height:1.7;margin-bottom:16px;
+        }
+        .kmh-state{
+          background:var(--bg);border-left:3px solid var(--mint);
+          border-radius:0 8px 8px 0;padding:11px 15px;margin-bottom:18px;
+          font-size:0.84rem;color:var(--muted);line-height:1.75;
+        }
+        .kmh-desc{font-size:0.88rem;color:var(--ink);line-height:1.9;margin-top:auto;}
+        .kmh-desc b{color:var(--mint-deep);font-weight:700;}
+        .know-foot{
+          margin-top:44px;padding:22px 28px;
+          background:var(--bg);border-radius:14px;border:1px solid var(--line);
+          text-align:center;font-size:0.92rem;color:var(--ink);line-height:1.9;
+        }
+        .know-foot b{color:var(--mint-deep);}
+
         .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
         .flow-step{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:26px 20px;text-align:center;position:relative;}
         .flow-num{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:var(--mint-deep);margin-bottom:14px;}
@@ -233,6 +292,9 @@ export default function HomePage() {
           .hd-logo-img{height:36px;}
           .kv-in{grid-template-columns:1fr;gap:32px;}
           .kv-card{order:2;}
+          .kmh{grid-template-columns:1fr;gap:16px;}
+          .know{padding:64px 20px;}
+          .kmh-body{padding:22px;}
         }
         @media(max-width:760px){
           .flow{grid-template-columns:1fr 1fr;}
@@ -334,6 +396,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <div dangerouslySetInnerHTML={{ __html: knowSectionHtml }} />
 
       <section className="sec bg" id="flow">
         <div className="sec-in">
