@@ -47,9 +47,22 @@ create table if not exists public.diagnosis_responses (
   usage_purpose text,
   status text not null default 'completed' check (status in ('draft', 'completed')),
   progress_rate numeric not null default 100,
+  answered_count integer not null default 48,
+  completion_rate numeric not null default 100,
   last_answered_question_id text,
   last_answered_question_order integer not null default 0,
+  started_at timestamptz,
   expires_at timestamptz,
+  completed_at timestamptz,
+  resume_key_hash text,
+  resume_token text,
+  resume_mail_sent_at timestamptz,
+  resume_mail_error text,
+  reminder_1_sent_at timestamptz,
+  reminder_2_sent_at timestamptz,
+  reminder_3_sent_at timestamptz,
+  manual_reminder_sent_at timestamptz,
+  manual_reminder_count integer not null default 0,
   updated_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
@@ -88,6 +101,26 @@ create index if not exists diagnosis_responses_draft_email_idx
 
 create index if not exists diagnosis_responses_expires_at_idx
   on public.diagnosis_responses (expires_at);
+
+create unique index if not exists diagnosis_responses_resume_token_uidx
+  on public.diagnosis_responses (resume_token)
+  where resume_token is not null;
+
+create index if not exists diagnosis_responses_resume_mail_sent_idx
+  on public.diagnosis_responses (resume_mail_sent_at);
+
+create index if not exists diagnosis_responses_draft_reminder_idx
+  on public.diagnosis_responses (status, updated_at, expires_at)
+  where status = 'draft';
+
+create index if not exists diagnosis_responses_reminder_1_sent_idx
+  on public.diagnosis_responses (reminder_1_sent_at);
+
+create index if not exists diagnosis_responses_reminder_2_sent_idx
+  on public.diagnosis_responses (reminder_2_sent_at);
+
+create index if not exists diagnosis_responses_reminder_3_sent_idx
+  on public.diagnosis_responses (reminder_3_sent_at);
 
 create index if not exists feedback_reports_response_id_idx
   on public.feedback_reports (response_id);

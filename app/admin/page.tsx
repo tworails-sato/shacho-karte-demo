@@ -63,6 +63,11 @@ type DiagnosisResponseRow = {
   resume_token: string | null;
   resume_mail_sent_at: string | null;
   resume_mail_error: string | null;
+  reminder_1_sent_at: string | null;
+  reminder_2_sent_at: string | null;
+  reminder_3_sent_at: string | null;
+  manual_reminder_sent_at: string | null;
+  manual_reminder_count: number | null;
   updated_at: string | null;
   is_demo: boolean | null;
   watermark_enabled: boolean | null;
@@ -131,6 +136,11 @@ type AdminRow = {
   resumeToken: string;
   resumeMailSentAt: string;
   resumeMailError: string;
+  reminder1SentAt: string;
+  reminder2SentAt: string;
+  reminder3SentAt: string;
+  manualReminderSentAt: string;
+  manualReminderCount: number;
   updatedAt: string;
 };
 
@@ -143,10 +153,24 @@ function formatDate(value: string) {
   return new Date(value).toLocaleString("ja-JP");
 }
 
+function formatOptionalDate(value: string) {
+  return value ? formatDate(value) : "-";
+}
+
+function elapsedDays(value: string) {
+  if (!value) return "-";
+  const elapsed = Date.now() - new Date(value).getTime();
+  return `${Math.max(0, Math.floor(elapsed / (24 * 60 * 60 * 1000)))}日`;
+}
+
 function buildAdminResumeUrl(token: string) {
   if (!token) return "";
   if (typeof window === "undefined") return `/assessment/resume/${token}`;
   return `${window.location.origin}/assessment/resume/${token}`;
+}
+
+function automaticReminderCount(row: AdminRow) {
+  return [row.reminder1SentAt, row.reminder2SentAt, row.reminder3SentAt].filter(Boolean).length;
 }
 
 function themeNames(themes: ThemeScore[]) {
@@ -380,6 +404,11 @@ function localRowsFromStorage(): AdminRow[] {
     resumeToken: "",
     resumeMailSentAt: "",
     resumeMailError: "",
+    reminder1SentAt: "",
+    reminder2SentAt: "",
+    reminder3SentAt: "",
+    manualReminderSentAt: "",
+    manualReminderCount: 0,
     updatedAt: item.createdAt
   }));
 }
@@ -395,6 +424,7 @@ export default function AdminPage() {
   const [deleteTarget, setDeleteTarget] = useState<AdminRow | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [savingUsageSettings, setSavingUsageSettings] = useState(false);
+  const [sendingReminderId, setSendingReminderId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadRows() {
@@ -452,6 +482,11 @@ export default function AdminPage() {
             resume_token,
             resume_mail_sent_at,
             resume_mail_error,
+            reminder_1_sent_at,
+            reminder_2_sent_at,
+            reminder_3_sent_at,
+            manual_reminder_sent_at,
+            manual_reminder_count,
             updated_at,
             is_demo,
             watermark_enabled,
@@ -553,6 +588,11 @@ export default function AdminPage() {
               resumeToken: response.resume_token ?? "",
               resumeMailSentAt: response.resume_mail_sent_at ?? "",
               resumeMailError: response.resume_mail_error ?? "",
+              reminder1SentAt: response.reminder_1_sent_at ?? "",
+              reminder2SentAt: response.reminder_2_sent_at ?? "",
+              reminder3SentAt: response.reminder_3_sent_at ?? "",
+              manualReminderSentAt: response.manual_reminder_sent_at ?? "",
+              manualReminderCount: response.manual_reminder_count ?? 0,
               updatedAt: response.updated_at ?? response.created_at
             };
           })
@@ -753,6 +793,51 @@ export default function AdminPage() {
     }
   }
 
+  async function handleSendManualReminder(row: AdminRow) {
+    if (dataSource !== "supabase") {
+      setAdminError("Supabase??????????????????");
+      return;
+    }
+
+    if (!window.confirm("???????????????????")) return;
+
+    setSendingReminderId(row.id);
+    setAdminError(null);
+    setAdminMessage(null);
+
+    try {
+      const response = await fetch("/api/assessment-reminders/manual", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ responseId: row.responseId ?? row.id })
+      });
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) throw new Error(payload?.error || "????????????????");
+
+      const manualReminderSentAt = payload.manualReminderSentAt ?? new Date().toISOString();
+      const manualReminderCount = payload.manualReminderCount ?? row.manualReminderCount + 1;
+
+      setDraftRows((currentRows) =>
+        currentRows.map((currentRow) =>
+          currentRow.id === row.id
+            ? {
+                ...currentRow,
+                manualReminderSentAt,
+                manualReminderCount
+              }
+            : currentRow
+        )
+      );
+      setAdminMessage("?????????????");
+    } catch (error) {
+      console.error("Manual reminder send failed", error);
+      setAdminError(formatAdminError(error));
+    } finally {
+      setSendingReminderId(null);
+    }
+  }
+
   async function handleSaveUsageSettings(nextSettings: UsageSettings) {
     if (!selectedRow) return;
 
@@ -950,24 +1035,28 @@ export default function AdminPage() {
 
       <section className="panel overflow-hidden">
         <div className="border-b border-stone-200 p-5">
-          <h2 className="text-xl font-black text-ink">途中保存</h2>
+          <h2 className="text-xl font-black text-ink">????</h2>
           <p className="mt-2 text-sm leading-6 text-stone-600">
-            未完了の回答データです。完了済み一覧、平均値計算、FBレポート作成対象には含めていません。
+            ?????????????????????????FB??????????????????
           </p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] text-left text-sm">
+          <table className="w-full min-w-[1320px] text-left text-sm">
             <thead className="bg-stone-50 text-stone-600">
               <tr>
-                <th className="px-4 py-3">氏名</th>
-                <th className="px-4 py-3">会社名</th>
-                <th className="px-4 py-3">メール</th>
-                <th className="px-4 py-3">進捗率</th>
-                <th className="px-4 py-3">最後に回答した設問</th>
-                <th className="px-4 py-3">最終更新日時</th>
-                <th className="px-4 py-3">保存期限</th>
-                <th className="px-4 py-3">ステータス</th>
-                <th className="px-4 py-3">削除</th>
+                <th className="px-4 py-3">??</th>
+                <th className="px-4 py-3">???</th>
+                <th className="px-4 py-3">???</th>
+                <th className="px-4 py-3">??</th>
+                <th className="px-4 py-3">?????</th>
+                <th className="px-4 py-3">??????</th>
+                <th className="px-4 py-3">????</th>
+                <th className="px-4 py-3">????</th>
+                <th className="px-4 py-3">???????</th>
+                <th className="px-4 py-3">???????</th>
+                <th className="px-4 py-3">??????</th>
+                <th className="px-4 py-3">??</th>
+                <th className="px-4 py-3">??</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
@@ -976,46 +1065,70 @@ export default function AdminPage() {
                   <td className="px-4 py-3">{row.representativeName}</td>
                   <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
                   <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
-                  <td className="whitespace-nowrap px-4 py-3 font-bold">{row.answeredCount}/48問</td>
-                  <td className="whitespace-nowrap px-4 py-3 font-bold">{Math.round(row.progressRate)}%</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-bold">
+                    {row.answeredCount}/48?
+                    <span className="ml-1 text-xs text-stone-500">({Math.round(row.progressRate)}%)</span>
+                  </td>
+                  <td className="px-4 py-3">
+                    {row.lastAnsweredQuestionOrder > 0
+                      ? String(row.lastAnsweredQuestionOrder) + "??"
+                      : "???"}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDate(row.updatedAt)}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-bold text-stone-700">{elapsedDays(row.updatedAt)}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">
+                    {row.expiresAt ? formatDate(row.expiresAt) : "-"}
+                  </td>
                   <td className="whitespace-nowrap px-4 py-3">
                     <div className="space-y-2">
                       <span
-                        className={`rounded-full px-2 py-1 text-xs font-black ${
+                        className={"rounded-full px-2 py-1 text-xs font-black " + (
                           row.resumeMailSentAt
                             ? "bg-teal-50 text-teal-700"
                             : "bg-stone-100 text-stone-600"
-                        }`}
+                        )}
                       >
-                        {row.resumeMailSentAt ? "送信済み" : "未送信"}
+                        {row.resumeMailSentAt ? "????" : "???"}
                       </span>
                       {row.resumeMailSentAt ? (
                         <p className="text-xs text-stone-500">{formatDate(row.resumeMailSentAt)}</p>
                       ) : null}
-                      {row.resumeToken ? (
-                        <button
-                          className="rounded-md border border-stone-300 px-2 py-1 text-xs font-black text-ink hover:border-brand hover:text-brand"
-                          onClick={() => handleCopyResumeUrl(row)}
-                          type="button"
-                        >
-                          URLコピー
-                        </button>
-                      ) : null}
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <div className="space-y-1">
+                      <p className="text-sm font-black text-ink">{automaticReminderCount(row)}?</p>
+                      <p className="text-xs text-stone-500">7??: {formatOptionalDate(row.reminder1SentAt)}</p>
+                      <p className="text-xs text-stone-500">??7??: {formatOptionalDate(row.reminder2SentAt)}</p>
+                      <p className="text-xs text-stone-500">??3??: {formatOptionalDate(row.reminder3SentAt)}</p>
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <div className="space-y-1">
+                      <p className="text-sm font-black text-ink">{row.manualReminderCount}?</p>
+                      <p className="text-xs text-stone-500">{formatOptionalDate(row.manualReminderSentAt)}</p>
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    {row.lastAnsweredQuestionOrder > 0
-                      ? `${row.lastAnsweredQuestionOrder}問目`
-                      : "未回答"}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDate(row.updatedAt)}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">
-                    {row.expiresAt ? formatDate(row.expiresAt) : "-"}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="rounded-full bg-amber-50 px-2 py-1 text-xs font-black text-accent">
-                      draft
-                    </span>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        className="rounded-md border border-teal-200 bg-teal-50 px-3 py-2 text-xs font-black text-teal-700 hover:bg-teal-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={dataSource !== "supabase" || sendingReminderId === row.id || !row.resumeToken}
+                        onClick={() => handleSendManualReminder(row)}
+                        type="button"
+                      >
+                        {sendingReminderId === row.id ? "???..." : "???????"}
+                      </button>
+                      {row.resumeToken ? (
+                        <button
+                          className="rounded-md border border-stone-300 px-3 py-2 text-xs font-black text-ink hover:border-brand hover:text-brand"
+                          onClick={() => handleCopyResumeUrl(row)}
+                          type="button"
+                        >
+                          URL???
+                        </button>
+                      ) : null}
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <button
@@ -1024,15 +1137,15 @@ export default function AdminPage() {
                       onClick={() => setDeleteTarget(row)}
                       type="button"
                     >
-                      削除
+                      ??
                     </button>
                   </td>
                 </tr>
               ))}
               {draftRows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-center text-stone-600" colSpan={9}>
-                    途中保存データはありません。
+                  <td className="px-4 py-8 text-center text-stone-600" colSpan={13}>
+                    ??????????????
                   </td>
                 </tr>
               ) : null}
