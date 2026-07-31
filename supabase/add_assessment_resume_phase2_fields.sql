@@ -42,6 +42,11 @@ set
   end,
   updated_at = coalesce(updated_at, created_at);
 
+update public.diagnosis_responses
+set resume_token = encode(gen_random_bytes(32), 'hex')
+where status = 'draft'
+  and resume_token is null;
+
 create unique index if not exists diagnosis_responses_resume_token_uidx
   on public.diagnosis_responses (resume_token)
   where resume_token is not null;

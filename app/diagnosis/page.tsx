@@ -55,6 +55,15 @@ export default function DiagnosisPage() {
 
       if (!localDraft.responseId) {
         setDraft(localDraft);
+        setAnswers({ ...createEmptyAnswers(), ...localDraft.answers });
+        return;
+      }
+
+      if (localDraft.resumeToken && Object.values(localDraft.answers).filter(Boolean).length > 0) {
+        setDraft(localDraft);
+        setAnswers({ ...createEmptyAnswers(), ...localDraft.answers });
+        setResumeDraft(localDraft);
+        setShowResumePrompt(true);
         return;
       }
 
@@ -62,7 +71,8 @@ export default function DiagnosisPage() {
         const params = new URLSearchParams({
           responseId: localDraft.responseId,
           respondentId: localDraft.respondentId || "",
-          resumeKey: localDraft.resumeKey || ""
+          resumeKey: localDraft.resumeKey || "",
+          resumeToken: localDraft.resumeToken || ""
         });
         const response = await fetch(`/api/assessment-draft?${params.toString()}`);
         const payload = await response.json().catch(() => null);
@@ -75,6 +85,11 @@ export default function DiagnosisPage() {
 
         if (!response.ok || !payload?.draft) {
           setDraft(localDraft);
+          setAnswers({ ...createEmptyAnswers(), ...localDraft.answers });
+          if (Object.values(localDraft.answers).filter(Boolean).length > 0) {
+            setResumeDraft(localDraft);
+            setShowResumePrompt(true);
+          }
           setDraftErrorMessage("途中保存の確認に失敗しました。回答は続けられます。");
           return;
         }
@@ -83,6 +98,7 @@ export default function DiagnosisPage() {
         saveLocalDraft(nextDraft);
         window.localStorage.setItem("shacho-karte-basic-info", JSON.stringify(nextDraft.basicInfo));
         setDraft(nextDraft);
+        setAnswers({ ...createEmptyAnswers(), ...nextDraft.answers });
         const savedAnswerCount = Object.values(nextDraft.answers).filter(Boolean).length;
         if (savedAnswerCount > 0) {
           setResumeDraft(nextDraft);
@@ -91,6 +107,11 @@ export default function DiagnosisPage() {
       } catch (error) {
         console.error("Assessment draft fetch failed", error);
         setDraft(localDraft);
+        setAnswers({ ...createEmptyAnswers(), ...localDraft.answers });
+        if (Object.values(localDraft.answers).filter(Boolean).length > 0) {
+          setResumeDraft(localDraft);
+          setShowResumePrompt(true);
+        }
         setDraftErrorMessage("途中保存の確認に失敗しました。回答は続けられます。");
       }
     }

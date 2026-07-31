@@ -5,6 +5,7 @@ import type { BasicInfo } from "@/lib/diagnosis";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const QUESTION_COUNT = 48;
 
 type DraftPayload = {
@@ -61,6 +62,7 @@ export async function GET(request: Request) {
     const responseId = url.searchParams.get("responseId");
     const respondentId = url.searchParams.get("respondentId");
     const resumeKey = url.searchParams.get("resumeKey");
+    const resumeToken = url.searchParams.get("resumeToken");
 
     if (!responseId) {
       return NextResponse.json({ error: "responseId is required." }, { status: 400 });
@@ -78,7 +80,7 @@ export async function GET(request: Request) {
     if (isExpired(response.expires_at)) {
       return NextResponse.json({ error: "保存期限が終了しました。", expired: true }, { status: 410 });
     }
-    if (!isDraftAccessAllowed(response, resumeKey, respondentId)) {
+    if (!isDraftAccessAllowed(response, resumeKey, respondentId, resumeToken)) {
       return NextResponse.json({ error: "Draft access is not allowed." }, { status: 403 });
     }
 
@@ -359,8 +361,9 @@ export async function DELETE(request: Request) {
 }
 
 function getServerSupabaseClient() {
-  if (!supabaseUrl || !supabaseAnonKey) return null;
-  return createClient<any>(supabaseUrl, supabaseAnonKey);
+  const supabaseKey = supabaseServiceRoleKey || supabaseAnonKey;
+  if (!supabaseUrl || !supabaseKey) return null;
+  return createClient<any>(supabaseUrl, supabaseKey);
 }
 
 function normalizeBasicInfo(info: BasicInfo): BasicInfo {
@@ -465,7 +468,7 @@ async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, resp
 }
 
 function rowToDraft(row: any, basicInfo: BasicInfo, resumeKey?: string) {
-  const answers = row.answers_json ?? {};
+  const answers = normalizeAnswers(row.answers_json);
   const answeredCount = row.answered_count ?? countAnswered(answers);
 
   return {
@@ -490,6 +493,21 @@ function rowToDraft(row: any, basicInfo: BasicInfo, resumeKey?: string) {
     createdAt: row.created_at,
     updatedAt: row.updated_at ?? row.created_at
   };
+}
+
+function normalizeAnswers(value: unknown): Record<string, number> {
+  if (!value) return {};
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+        ? (parsed as Record<string, number>)
+        : {};
+    } catch {
+      return {};
+    }
+  }
+  return typeof value === "object" && !Array.isArray(value) ? (value as Record<string, number>) : {};
 }
 
 async function sendResumeMail({

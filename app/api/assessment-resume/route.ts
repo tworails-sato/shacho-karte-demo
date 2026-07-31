@@ -4,6 +4,7 @@ import type { BasicInfo } from "@/lib/diagnosis";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const QUESTION_COUNT = 48;
 
 const RESUME_SELECT = `
@@ -42,7 +43,7 @@ export async function GET(request: Request) {
     const token = new URL(request.url).searchParams.get("token");
     if (!token) return NextResponse.json({ error: "token is required." }, { status: 400 });
 
-    const supabase = createClient<any>(supabaseUrl, supabaseAnonKey);
+    const supabase = createClient<any>(supabaseUrl, supabaseServiceRoleKey || supabaseAnonKey);
     const { data: response, error } = await supabase
       .from("diagnosis_responses")
       .select(RESUME_SELECT)
@@ -107,7 +108,7 @@ async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, resp
 }
 
 function rowToDraft(row: any, basicInfo: BasicInfo, request: Request) {
-  const answers = row.answers_json ?? {};
+  const answers = normalizeAnswers(row.answers_json);
   const answeredCount = row.answered_count ?? Object.values(answers).filter(Boolean).length;
   const resumeToken = row.resume_token ?? "";
 
@@ -132,6 +133,21 @@ function rowToDraft(row: any, basicInfo: BasicInfo, request: Request) {
     createdAt: row.created_at,
     updatedAt: row.updated_at ?? row.created_at
   };
+}
+
+function normalizeAnswers(value: unknown): Record<string, number> {
+  if (!value) return {};
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+        ? (parsed as Record<string, number>)
+        : {};
+    } catch {
+      return {};
+    }
+  }
+  return typeof value === "object" && !Array.isArray(value) ? (value as Record<string, number>) : {};
 }
 
 function getAppUrl(request: Request) {
