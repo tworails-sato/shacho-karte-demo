@@ -795,11 +795,11 @@ export default function AdminPage() {
 
   async function handleSendManualReminder(row: AdminRow) {
     if (dataSource !== "supabase") {
-      setAdminError("Supabase??????????????????");
+      setAdminError("Supabase接続時のみ再開メールを送信できます。");
       return;
     }
 
-    if (!window.confirm("???????????????????")) return;
+    if (!window.confirm("この受検者へ再開メールを送信しますか？")) return;
 
     setSendingReminderId(row.id);
     setAdminError(null);
@@ -813,7 +813,7 @@ export default function AdminPage() {
       });
       const payload = await response.json().catch(() => null);
 
-      if (!response.ok) throw new Error(payload?.error || "????????????????");
+      if (!response.ok) throw new Error(payload?.error || "再開メールの送信に失敗しました。");
 
       const manualReminderSentAt = payload.manualReminderSentAt ?? new Date().toISOString();
       const manualReminderCount = payload.manualReminderCount ?? row.manualReminderCount + 1;
@@ -829,7 +829,7 @@ export default function AdminPage() {
             : currentRow
         )
       );
-      setAdminMessage("?????????????");
+      setAdminMessage("再開メールを送信しました。");
     } catch (error) {
       console.error("Manual reminder send failed", error);
       setAdminError(formatAdminError(error));
@@ -1035,28 +1035,28 @@ export default function AdminPage() {
 
       <section className="panel overflow-hidden">
         <div className="border-b border-stone-200 p-5">
-          <h2 className="text-xl font-black text-ink">????</h2>
+          <h2 className="text-xl font-black text-ink">途中保存</h2>
           <p className="mt-2 text-sm leading-6 text-stone-600">
-            ?????????????????????????FB??????????????????
+            未完了の回答データです。完了済み一覧、平均値計算、FBレポート作成対象には含めていません。
           </p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1320px] text-left text-sm">
             <thead className="bg-stone-50 text-stone-600">
               <tr>
-                <th className="px-4 py-3">??</th>
-                <th className="px-4 py-3">???</th>
-                <th className="px-4 py-3">???</th>
-                <th className="px-4 py-3">??</th>
-                <th className="px-4 py-3">?????</th>
-                <th className="px-4 py-3">??????</th>
-                <th className="px-4 py-3">????</th>
-                <th className="px-4 py-3">????</th>
-                <th className="px-4 py-3">???????</th>
-                <th className="px-4 py-3">???????</th>
-                <th className="px-4 py-3">??????</th>
-                <th className="px-4 py-3">??</th>
-                <th className="px-4 py-3">??</th>
+                <th className="px-4 py-3">氏名</th>
+                <th className="px-4 py-3">会社名</th>
+                <th className="px-4 py-3">メール</th>
+                <th className="px-4 py-3">進捗</th>
+                <th className="px-4 py-3">最後の設問</th>
+                <th className="px-4 py-3">最終更新日時</th>
+                <th className="px-4 py-3">経過日数</th>
+                <th className="px-4 py-3">保存期限</th>
+                <th className="px-4 py-3">初回保存メール</th>
+                <th className="px-4 py-3">自動リマインド</th>
+                <th className="px-4 py-3">手動送信日時</th>
+                <th className="px-4 py-3">操作</th>
+                <th className="px-4 py-3">削除</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
@@ -1066,13 +1066,13 @@ export default function AdminPage() {
                   <td className="px-4 py-3 font-black text-ink">{row.companyName}</td>
                   <td className="max-w-64 truncate px-4 py-3" title={row.email}>{row.email}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-bold">
-                    {row.answeredCount}/48?
+                    {row.answeredCount}/48問
                     <span className="ml-1 text-xs text-stone-500">({Math.round(row.progressRate)}%)</span>
                   </td>
                   <td className="px-4 py-3">
                     {row.lastAnsweredQuestionOrder > 0
-                      ? String(row.lastAnsweredQuestionOrder) + "??"
-                      : "???"}
+                      ? String(row.lastAnsweredQuestionOrder) + "問目"
+                      : "未回答"}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDate(row.updatedAt)}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-bold text-stone-700">{elapsedDays(row.updatedAt)}</td>
@@ -1088,7 +1088,7 @@ export default function AdminPage() {
                             : "bg-stone-100 text-stone-600"
                         )}
                       >
-                        {row.resumeMailSentAt ? "????" : "???"}
+                        {row.resumeMailSentAt ? "送信済み" : "未送信"}
                       </span>
                       {row.resumeMailSentAt ? (
                         <p className="text-xs text-stone-500">{formatDate(row.resumeMailSentAt)}</p>
@@ -1097,15 +1097,15 @@ export default function AdminPage() {
                   </td>
                   <td className="whitespace-nowrap px-4 py-3">
                     <div className="space-y-1">
-                      <p className="text-sm font-black text-ink">{automaticReminderCount(row)}?</p>
-                      <p className="text-xs text-stone-500">7??: {formatOptionalDate(row.reminder1SentAt)}</p>
-                      <p className="text-xs text-stone-500">??7??: {formatOptionalDate(row.reminder2SentAt)}</p>
-                      <p className="text-xs text-stone-500">??3??: {formatOptionalDate(row.reminder3SentAt)}</p>
+                      <p className="text-sm font-black text-ink">{automaticReminderCount(row)}回</p>
+                      <p className="text-xs text-stone-500">7日後: {formatOptionalDate(row.reminder1SentAt)}</p>
+                      <p className="text-xs text-stone-500">期限7日前: {formatOptionalDate(row.reminder2SentAt)}</p>
+                      <p className="text-xs text-stone-500">期限3日前: {formatOptionalDate(row.reminder3SentAt)}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-4 py-3">
                     <div className="space-y-1">
-                      <p className="text-sm font-black text-ink">{row.manualReminderCount}?</p>
+                      <p className="text-sm font-black text-ink">{row.manualReminderCount}回</p>
                       <p className="text-xs text-stone-500">{formatOptionalDate(row.manualReminderSentAt)}</p>
                     </div>
                   </td>
@@ -1117,7 +1117,7 @@ export default function AdminPage() {
                         onClick={() => handleSendManualReminder(row)}
                         type="button"
                       >
-                        {sendingReminderId === row.id ? "???..." : "???????"}
+                        {sendingReminderId === row.id ? "送信中..." : "再開メール送信"}
                       </button>
                       {row.resumeToken ? (
                         <button
@@ -1125,7 +1125,7 @@ export default function AdminPage() {
                           onClick={() => handleCopyResumeUrl(row)}
                           type="button"
                         >
-                          URL???
+                          URLコピー
                         </button>
                       ) : null}
                     </div>
@@ -1137,7 +1137,7 @@ export default function AdminPage() {
                       onClick={() => setDeleteTarget(row)}
                       type="button"
                     >
-                      ??
+                      削除
                     </button>
                   </td>
                 </tr>
@@ -1145,7 +1145,7 @@ export default function AdminPage() {
               {draftRows.length === 0 ? (
                 <tr>
                   <td className="px-4 py-8 text-center text-stone-600" colSpan={13}>
-                    ??????????????
+                    途中保存データはありません。
                   </td>
                 </tr>
               ) : null}
