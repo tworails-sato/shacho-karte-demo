@@ -13,13 +13,13 @@ import {
 import { ResultCopyright, ResultWatermark } from "@/components/ResultUsageNotice";
 import type { ThemeScore } from "@/lib/diagnosis";
 import type { UsageSettings } from "@/lib/usage-settings";
-import ThemeGuideAccordion from "./ThemeGuideAccordion";
 
 type ResultInfo = {
   companyName: string;
   representativeName: string;
-  industry: string;
   employeeSize?: string | null;
+  foundingYears?: string | null;
+  annualRevenueRange?: string | null;
   diagnosisDate: string;
 };
 
@@ -36,7 +36,26 @@ type ExpectationResultViewProps = {
   onFeedbackRequest?: () => Promise<void> | void;
 };
 
-function ThemeTagList({ themes, tone }: { themes: ThemeScore[]; tone: "strength" | "growth" }) {
+const growthReasonByThemeId: Record<string, string> = {
+  profitability: "売上が伸びるほど、利益構造の確認が次の成長を左右しやすいテーマです。",
+  "market-growth": "次の成長余地を見極めるうえで、市場や顧客の変化を確認したいテーマです。",
+  scalability: "事業が広がるタイミングで、再現性や仕組み化の差が出やすいテーマです。",
+  advantage: "選ばれる理由を明確にすることで、営業や採用の会話にもつながりやすいテーマです。",
+  "business-risk": "成長の途中で見落としやすい依存や変化への備えを確認したいテーマです。",
+  investment: "次の成長に向けて、人や仕組みへどこまで投資するかを考えるテーマです。",
+  functionality: "人数や案件が増えるほど、役割分担や連携の状態が表れやすいテーマです。",
+  continuity: "特定の人や取引先に依存しすぎていないかを確認したいテーマです。",
+  "social-impact": "自社が届けている価値を言語化することで、共感や採用にもつながるテーマです。",
+  branding: "顧客や採用候補者からどう認識されているかを確認したいテーマです。",
+  "internal-engagement": "組織が広がるほど、方針への納得感や一体感が重要になりやすいテーマです。",
+  "customer-engagement": "継続的に選ばれる状態をつくるうえで、顧客接点を確認したいテーマです。",
+  "organization-building": "採用・育成・配置が、次の成長スピードに影響しやすいテーマです。",
+  "management-structure": "社長以外でも判断できる体制づくりに関わるテーマです。",
+  "decision-making": "組織が成長するタイミングで、次のボトルネックになりやすいテーマです。",
+  "business-creation": "既存事業の先を考えるうえで、新しい打ち手の余地を確認したいテーマです。"
+};
+
+function ThemeTagList({ themes, tone, showReason = false }: { themes: ThemeScore[]; tone: "strength" | "growth"; showReason?: boolean }) {
   const toneClass =
     tone === "strength"
       ? "border-emerald-200 bg-emerald-50 text-emerald-950"
@@ -48,6 +67,11 @@ function ThemeTagList({ themes, tone }: { themes: ThemeScore[]; tone: "strength"
         <div key={theme.id} className={`rounded-2xl border p-5 ${toneClass}`}>
           <p className="text-sm font-black tracking-[0.18em] text-stone-700">TOP {index + 1}</p>
           <p className="mt-2 text-xl font-black leading-snug">{theme.name}</p>
+          {showReason ? (
+            <p className="mt-3 text-sm font-bold leading-7 text-stone-800">
+              {growthReasonByThemeId[theme.id] ?? "今後の成長に向けて、優先順位を確認したいテーマです。"}
+            </p>
+          ) : null}
         </div>
       ))}
     </div>
@@ -90,15 +114,18 @@ export default function ExpectationResultView({
   ]).slice(0, 3);
   const chartData = themeScores.map((theme) => ({
     theme: theme.name,
-    score: theme.score,
-    average: theme.average
+    score: theme.score
   }));
 
   const strengthNames = strengths.map((theme) => theme.name).join("・");
   const growthNames = growthThemes.map((theme) => theme.name).join("・");
+  const currentPositionSummary =
+    strengths[0] && growthThemes[0]
+      ? `今回の診断では、${strengths[0].name}を中心に強みの形が見えています。一方で、${growthThemes[0].name}は今後の成長を考えるうえで、優先的に確認したいテーマとして表れています。`
+      : "今回の診断では、自社の経営テーマの形が見えています。強みとして表れている領域と、次に確認したい領域を分けて見ることが大切です。";
   const unexpectedFinding =
     strengths[0] && growthThemes[0]
-      ? `今回、特に興味深いのは「${strengths[0].name}」が強みとして表れている一方で、「${growthThemes[0].name}」には伸びしろがある、という組み合わせです。強みを活かしながら、このテーマを整理することで、次の打ち手が見えやすくなる可能性があります。`
+      ? `今回の結果では、「${strengths[0].name}」に強みの形が見られる一方で、「${growthThemes[0].name}」は次に確認したいテーマとして表れています。この組み合わせは、現在の経営フェーズや社長の関心によって意味合いが変わります。背景や優先順位については、フィードバック面談で詳しく整理します。`
       : "今回の結果には、強みとして表れているテーマと、次に整理すると前に進みやすいテーマの両方が表れています。";
 
   async function handleFeedbackRequest() {
@@ -152,60 +179,44 @@ export default function ExpectationResultView({
         </section>
       ) : null}
 
-      <section className="panel relative z-10 p-5">
-        <h2 className="text-2xl font-black text-ink">基本情報</h2>
-        <dl className="mt-4 grid gap-3 text-base sm:grid-cols-2 lg:grid-cols-5">
-          {[
-            ["会社名", info.companyName],
-            ["氏名", info.representativeName],
-            ["業種", info.industry || "-"],
-            ["規模", info.employeeSize || "-"],
-            ["受検日", info.diagnosisDate]
-          ].map(([label, value]) => (
-            <div key={label} className="rounded-xl bg-stone-50 p-4">
-              <dt className="font-black text-stone-700">{label}</dt>
-              <dd className="mt-1 font-black text-stone-950">{value}</dd>
-            </div>
-          ))}
-        </dl>
+      <section className="panel relative z-10 p-5 sm:p-7">
+        <p className="text-sm font-black tracking-[0.18em] text-brand">RADAR PREVIEW</p>
+        <h2 className="mt-2 text-3xl font-black text-ink">16テーマ レーダーチャート</h2>
+        <p className="mt-2 text-base font-semibold leading-7 text-stone-800">
+          48問の回答から、現在の経営テーマの形を表示しています。
+        </p>
+        <div className="mt-5 h-[32rem] w-full sm:h-[42rem]">
+          <ResponsiveContainer height="100%" width="100%">
+            <RadarChart cx="50%" cy="50%" data={chartData} margin={{ bottom: 44, left: 52, right: 52, top: 44 }} outerRadius="76%">
+              <PolarGrid />
+              <PolarAngleAxis dataKey="theme" tick={{ fontSize: 13, fontWeight: 800, fill: "#1c1917" }} />
+              <PolarRadiusAxis angle={90} axisLine={false} domain={[0, 12]} tick={false} />
+              <Radar dataKey="score" fill="#0f766e" fillOpacity={0.38} name="今回の回答" stroke="#0f766e" strokeWidth={3} />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="mt-3 rounded-xl bg-stone-50 p-4 text-sm font-black leading-7 text-stone-700">
+          ※過去受検者データとの比較は、フィードバック面談で詳しくご案内します。
+        </p>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="panel relative z-10 p-5">
-          <p className="text-sm font-black tracking-[0.18em] text-brand">STRENGTH</p>
-          <h2 className="mt-2 text-2xl font-black text-ink">あなたの強み TOP3</h2>
-          <p className="mt-2 text-base font-semibold leading-7 text-stone-800">
-            回答傾向から、比較的強みとして表れているテーマです。
-          </p>
-          <div className="mt-5">
-            <ThemeTagList themes={strengths} tone="strength" />
-          </div>
-        </div>
+      <section className="panel relative z-10 border-l-4 border-l-teal-500 bg-teal-50 p-5">
+        <p className="text-sm font-black tracking-[0.18em] text-teal-700">CURRENT POSITION</p>
+        <h2 className="mt-2 text-2xl font-black text-teal-950">あなたの現在地</h2>
+        <p className="mt-3 rounded-xl bg-white/90 p-4 text-base font-black leading-8 text-teal-950">
+          {currentPositionSummary}
+        </p>
+      </section>
 
-        <div className="panel relative z-10 p-5">
-          <p className="text-sm font-black tracking-[0.18em] text-brand">RADAR PREVIEW</p>
-          <h2 className="mt-2 text-2xl font-black text-ink">強みが表れているテーマ</h2>
-          <p className="mt-2 text-base font-semibold leading-7 text-stone-800">
-            レーダープレビューでは、強みTOP3と過去受検者の簡易平均を比較しています。
-            <br />
-            ※16テーマ全体の比較は、フィードバック面談にてご覧いただけます。
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3 text-sm font-black text-stone-800">
-            <span className="rounded-full bg-teal-50 px-3 py-1 text-teal-900">今回の回答傾向</span>
-            <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-900">過去受検者の簡易平均</span>
-          </div>
-          <div className="mt-4 h-[28rem] w-full sm:h-[34rem]">
-            <ResponsiveContainer height="100%" width="100%">
-              <RadarChart cx="50%" cy="50%" data={chartData} margin={{ bottom: 36, left: 44, right: 44, top: 36 }} outerRadius="70%">
-                <PolarGrid />
-                <PolarAngleAxis dataKey="theme" tick={{ fontSize: 13, fontWeight: 800, fill: "#1c1917" }} />
-                <PolarRadiusAxis angle={90} axisLine={false} domain={[0, 12]} tick={false} />
-                <Radar dataKey="average" fill="#d97706" fillOpacity={0.12} name="過去受検者の簡易平均" stroke="#d97706" strokeWidth={2} />
-                <Radar dataKey="score" fill="#0f766e" fillOpacity={0.36} name="今回の回答傾向" stroke="#0f766e" strokeWidth={3} />
-                <Tooltip />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
+      <section className="panel relative z-10 p-5">
+        <p className="text-sm font-black tracking-[0.18em] text-brand">STRENGTH</p>
+        <h2 className="mt-2 text-2xl font-black text-ink">あなたの強み TOP3</h2>
+        <p className="mt-2 text-base font-semibold leading-7 text-stone-800">
+          回答傾向から、比較的強みとして表れているテーマです。
+        </p>
+        <div className="mt-5">
+          <ThemeTagList themes={strengths} tone="strength" />
         </div>
       </section>
 
@@ -216,12 +227,12 @@ export default function ExpectationResultView({
           打ち手として優先順位の高いテーマです。良し悪しの評価ではなくご参考としてご覧ください。
         </p>
         <div className="mt-5">
-          <ThemeTagList themes={growthThemes} tone="growth" />
+          <ThemeTagList showReason themes={growthThemes} tone="growth" />
         </div>
       </section>
 
       <section className="panel relative z-10 border-l-4 border-l-teal-500 bg-teal-50 p-5">
-        <h2 className="text-2xl font-black text-teal-950">今回の結果から見えるヒント／アクション</h2>
+        <h2 className="text-2xl font-black text-teal-950">今回の結果から見えた特徴</h2>
         <p className="mt-3 rounded-xl bg-white/90 p-4 text-base font-black leading-8 text-teal-950">
           {unexpectedFinding}
         </p>
@@ -230,18 +241,39 @@ export default function ExpectationResultView({
           一方で、{growthNames || "いくつかのテーマ"}は、次に整理すると前に進みやすいテーマとして表れています。
         </p>
         <p className="mt-3 rounded-xl bg-white/80 p-4 text-base font-black leading-7 text-teal-950">
-          ※詳細はフィードバック面談にて解説させていただきます。
+          ※背景や優先順位は、フィードバック面談にて詳しく整理します。
         </p>
       </section>
 
       <section className="panel relative z-10 bg-ink p-6 text-white sm:p-7">
         <p className="text-sm font-black tracking-[0.18em] text-teal-100">FEEDBACK</p>
-        <h2 className="mt-2 text-2xl font-black">フィードバック面談のご案内</h2>
-        <ul className="mt-4 space-y-3 text-base font-semibold leading-8 text-stone-100">
-          <li>・他の社長との相対比較、詳しい分析結果をご覧いただけます。</li>
-          <li>・16テーマの中から、特に優先度の高いテーマやアクションまでを整理します。</li>
-          <li>・他の事例も含め「どこから着手すべきか」を、具体的なフィードバックをさせていただきます。</li>
-        </ul>
+        <h2 className="mt-2 text-2xl font-black">フィードバック面談で分かること</h2>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {[
+            "過去受検者データとの比較から、自社の現在地が分かります。",
+            "現在の経営フェーズを踏まえ、今優先すべきテーマが分かります。",
+            "あなたの経営スタイルと、その強みをどう活かすべきかが分かります。",
+            "どこから着手すべきか、具体的な優先順位が分かります。"
+          ].map((item, index) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <p className="text-sm font-black text-teal-100">0{index + 1}</p>
+              <p className="mt-2 text-base font-black leading-8 text-white">{item}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/10 p-5 text-base font-semibold leading-8 text-stone-100">
+          <p>今回の診断で分かるのは、</p>
+          <p className="my-2 text-xl font-black text-white">「経営課題の入口」</p>
+          <p>までです。</p>
+          <p className="mt-4">本当に重要なのは、</p>
+          <p className="my-2 text-xl font-black text-white">「何を改善するか」ではなく、「何から優先して改善すべきか」</p>
+          <p>です。</p>
+          <p className="mt-4">
+            フィードバック面談では、診断結果をもとに、
+            <br />
+            あなたの会社に合わせた優先順位を一緒に整理します。
+          </p>
+        </div>
         <p className="mt-5 text-base font-semibold leading-8 text-stone-100">
           詳細フィードバック面談をご希望の方は、以下よりお申込みください。
           <br />
@@ -264,10 +296,6 @@ export default function ExpectationResultView({
           </p>
         ) : null}
       </section>
-
-      <div className="relative z-10 border-t border-stone-200 pt-6">
-        <ThemeGuideAccordion />
-      </div>
 
       <ResultCopyright settings={usageSettings} />
     </main>

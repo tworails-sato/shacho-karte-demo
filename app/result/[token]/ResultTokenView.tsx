@@ -10,6 +10,8 @@ type Respondent = {
   name: string | null;
   industry: string | null;
   employee_size: string | null;
+  founding_years: string | null;
+  annual_revenue_range: string | null;
 };
 
 type ResultTokenViewProps = {
@@ -44,8 +46,9 @@ export default function ResultTokenView({
       info={{
         companyName: respondent?.company_name || "-",
         representativeName: respondent?.name || "-",
-        industry: respondent?.industry || "-",
         employeeSize: respondent?.employee_size || "-",
+        foundingYears: respondent?.founding_years || "-",
+        annualRevenueRange: respondent?.annual_revenue_range || "-",
         diagnosisDate: new Date(createdAt).toLocaleDateString("ja-JP")
       }}
       lowThemes={lowThemes}

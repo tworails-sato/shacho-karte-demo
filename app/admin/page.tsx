@@ -24,6 +24,8 @@ type RespondentRow = {
   email: string;
   industry: string;
   employee_size: string | null;
+  founding_years: string | null;
+  annual_revenue_range: string | null;
   user_type: string;
   created_at: string;
 };
@@ -96,6 +98,8 @@ type AdminRow = {
   emailNormalized: string;
   industry: string;
   employeeSize: string;
+  foundingYears: string;
+  annualRevenueRange: string;
   category: string;
   trafficSource: string;
   referrerName: string;
@@ -362,8 +366,10 @@ function localRowsFromStorage(): AdminRow[] {
     representativeName: item.basicInfo.representativeName,
     email: item.basicInfo.email,
     emailNormalized: item.basicInfo.emailNormalized || item.basicInfo.email,
-    industry: item.basicInfo.industry,
+    industry: item.basicInfo.industry || "未取得",
     employeeSize: item.basicInfo.employeeSize || "",
+    foundingYears: item.basicInfo.foundingYears || "",
+    annualRevenueRange: item.basicInfo.annualRevenueRange || "",
     category: item.basicInfo.category,
     trafficSource: item.basicInfo.trafficSource || "",
     referrerName: item.basicInfo.referrerName || "",
@@ -510,7 +516,7 @@ export default function AdminPage() {
         if (respondentIds.length > 0) {
           const { data, error: respondentsError } = await supabase
             .from("respondents")
-            .select("id,company_name,name,email,industry,employee_size,user_type,created_at")
+            .select("id,company_name,name,email,industry,employee_size,founding_years,annual_revenue_range,user_type,created_at")
             .in("id", respondentIds);
 
           if (respondentsError) throw respondentsError;
@@ -548,6 +554,8 @@ export default function AdminPage() {
               emailNormalized: response.email_normalized ?? response.email ?? respondent.email,
               industry: respondent.industry,
               employeeSize: respondent.employee_size ?? "",
+              foundingYears: respondent.founding_years ?? "",
+              annualRevenueRange: respondent.annual_revenue_range ?? "",
               category: respondent.user_type,
               trafficSource: response.traffic_source ?? "",
               referrerName: response.referrer_name ?? "",
@@ -659,8 +667,9 @@ export default function AdminPage() {
       "結果最終閲覧日時",
       "受検者メール送信日時",
       "受検者メールエラー",
-      "業種",
-      "従業員規模",
+      "従業員数",
+      "創業年数",
+      "会社の年商",
       "区分",
       "総合スコア",
       "達成率",
@@ -696,8 +705,9 @@ export default function AdminPage() {
           row.resultLastViewedAt ? formatDate(row.resultLastViewedAt) : "",
           row.participantEmailSentAt ? formatDate(row.participantEmailSentAt) : "",
           row.participantEmailError,
-          row.industry,
           row.employeeSize,
+          row.foundingYears,
+          row.annualRevenueRange,
           row.category,
           row.totalScore,
           `${row.achievementRate}%`,
@@ -1291,8 +1301,9 @@ export default function AdminPage() {
                 ["結果最終閲覧日時", selectedRow.resultLastViewedAt ? formatDate(selectedRow.resultLastViewedAt) : "-"],
                 ["受検者メール送信日時", selectedRow.participantEmailSentAt ? formatDate(selectedRow.participantEmailSentAt) : "-"],
                 ["受検者メールエラー", selectedRow.participantEmailError || "-"],
-                ["業種", selectedRow.industry],
-                ["従業員規模", selectedRow.employeeSize || "-"],
+                ["従業員数", selectedRow.employeeSize || "-"],
+                ["創業年数", selectedRow.foundingYears || "-"],
+                ["会社の年商", selectedRow.annualRevenueRange || "-"],
                 ["区分", selectedRow.category],
                 ["総合スコア", `${selectedRow.totalScore} / 192`],
                 ["達成率", `${selectedRow.achievementRate}%`],

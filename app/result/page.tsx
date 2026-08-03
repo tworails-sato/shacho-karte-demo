@@ -87,8 +87,9 @@ export default function ResultPage() {
       info={{
         companyName: basicInfo.companyName,
         representativeName: basicInfo.representativeName,
-        industry: basicInfo.industry,
         employeeSize: basicInfo.employeeSize,
+        foundingYears: basicInfo.foundingYears,
+        annualRevenueRange: basicInfo.annualRevenueRange,
         diagnosisDate
       }}
       lowThemes={result.lowThemes}

@@ -7,6 +7,8 @@ create table if not exists public.respondents (
   email text not null,
   industry text not null,
   employee_size text,
+  annual_revenue_range text,
+  founding_years text,
   user_type text not null,
   created_at timestamptz not null default now()
 );
@@ -21,6 +23,15 @@ create table if not exists public.diagnosis_responses (
   top_categories_json jsonb not null,
   low_categories_json jsonb not null,
   priority_categories_json jsonb not null,
+  main_management_style_key text,
+  sub_management_style_key text,
+  management_style_scores jsonb,
+  style_logic_version text,
+  management_phase_key text,
+  management_phase_label text,
+  management_phase_logic_version text,
+  management_phase_adjustment_comment text,
+  v2_calculated_at timestamptz,
   email text,
   email_normalized text,
   traffic_source text,
@@ -86,6 +97,21 @@ create table if not exists public.feedback_reports (
   short_term_action text,
   mid_long_term_action text,
   advisor_use_case text,
+  management_phase_comment text,
+  main_style_comment text,
+  sub_style_comment text,
+  main_style_short_copy text,
+  style_strengths_text text,
+  style_watchouts_text text,
+  style_works_well_text text,
+  phase_people_priorities text,
+  phase_business_priorities text,
+  phase_finance_priorities text,
+  growth_ability_comment text,
+  show_theme_detail_table boolean not null default false,
+  roadmap_3_months text,
+  roadmap_12_months text,
+  feedback_discussion_points text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -112,6 +138,12 @@ create index if not exists diagnosis_responses_resume_mail_sent_idx
 create index if not exists diagnosis_responses_draft_reminder_idx
   on public.diagnosis_responses (status, updated_at, expires_at)
   where status = 'draft';
+
+create index if not exists diagnosis_responses_main_management_style_idx
+  on public.diagnosis_responses (main_management_style_key);
+
+create index if not exists diagnosis_responses_management_phase_idx
+  on public.diagnosis_responses (management_phase_key);
 
 create index if not exists diagnosis_responses_reminder_1_sent_idx
   on public.diagnosis_responses (reminder_1_sent_at);

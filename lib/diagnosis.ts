@@ -1,3 +1,5 @@
+import { calculateV2BetaResult, type V2BetaResult } from "./management-style";
+
 export type BasicInfo = {
   companyName: string;
   representativeName: string;
@@ -5,6 +7,8 @@ export type BasicInfo = {
   emailNormalized: string;
   industry: string;
   employeeSize: string;
+  annualRevenueRange?: string;
+  foundingYears?: string;
   category: string;
   trafficSource: string;
   referrerName: string;
@@ -52,6 +56,7 @@ export type DiagnosisResult = {
   topThemes: ThemeScore[];
   lowThemes: ThemeScore[];
   priorityThemes: ThemeScore[];
+  v2Beta?: V2BetaResult;
 };
 
 export const CTA_URL =
@@ -159,6 +164,7 @@ export function calculateResult(answers: Record<string, number>): DiagnosisResul
   const topThemes = [...themeScores].sort((a, b) => b.score - a.score).slice(0, 3);
   const lowThemes = [...themeScores].sort((a, b) => a.score - b.score).slice(0, 3);
   const priorityThemes = pickPriorityThemes(themeScores);
+  const v2Beta = calculateV2BetaResult(themeScores);
   const strongest = topThemes.map((theme) => theme.name).join("、");
   const priorityNames = priorityThemes.map((theme) => theme.name).join("、");
   const summary =
@@ -174,7 +180,8 @@ export function calculateResult(answers: Record<string, number>): DiagnosisResul
     summary,
     topThemes,
     lowThemes,
-    priorityThemes
+    priorityThemes,
+    v2Beta
   };
 }
 

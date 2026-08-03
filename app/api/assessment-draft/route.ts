@@ -116,8 +116,10 @@ export async function POST(request: Request) {
         company_name: basicInfo.companyName,
         name: basicInfo.representativeName,
         email: basicInfo.emailNormalized || basicInfo.email,
-        industry: basicInfo.industry,
+        industry: basicInfo.industry || "未取得",
         employee_size: basicInfo.employeeSize || null,
+        founding_years: basicInfo.foundingYears || null,
+        annual_revenue_range: basicInfo.annualRevenueRange || null,
         user_type: basicInfo.category
       },
       { onConflict: "id" }
@@ -263,6 +265,22 @@ export async function PATCH(request: Request) {
       updatePayload.referrer_email = basicInfo.referrerEmail || null;
       updatePayload.consent_agreed = basicInfo.consentAgreed;
       updatePayload.consent_agreed_at = basicInfo.consentAgreedAt || null;
+
+      const { error: respondentError } = await supabase
+        .from("respondents")
+        .update({
+          company_name: basicInfo.companyName,
+          name: basicInfo.representativeName,
+          email: basicInfo.emailNormalized || basicInfo.email,
+          industry: basicInfo.industry || "未取得",
+          employee_size: basicInfo.employeeSize || null,
+          founding_years: basicInfo.foundingYears || null,
+          annual_revenue_range: basicInfo.annualRevenueRange || null,
+          user_type: basicInfo.category
+        })
+        .eq("id", existing.respondent_id);
+
+      if (respondentError) throw respondentError;
     }
 
     const { data, error } = await supabase
@@ -371,8 +389,16 @@ function normalizeBasicInfo(info: BasicInfo): BasicInfo {
   return {
     ...info,
     email: emailNormalized,
-    emailNormalized
+    emailNormalized,
+    industry: info.industry || "未取得",
+    employeeSize: normalizeOptionalValue(info.employeeSize),
+    foundingYears: normalizeOptionalValue(info.foundingYears),
+    annualRevenueRange: normalizeOptionalValue(info.annualRevenueRange)
   };
+}
+
+function normalizeOptionalValue(value?: string) {
+  return value && value !== "回答しない" ? value : "";
 }
 
 function createResumeKey() {
@@ -441,7 +467,7 @@ function isDraftAccessAllowed(
 async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, response: any): Promise<BasicInfo> {
   const { data: respondent, error } = await supabase
     .from("respondents")
-    .select("company_name,name,email,industry,employee_size,user_type")
+    .select("company_name,name,email,industry,employee_size,founding_years,annual_revenue_range,user_type")
     .eq("id", response.respondent_id)
     .single();
 
@@ -454,6 +480,8 @@ async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, resp
     emailNormalized: response.email_normalized ?? response.email ?? respondent.email ?? "",
     industry: respondent.industry ?? "",
     employeeSize: respondent.employee_size ?? "",
+    foundingYears: respondent.founding_years ?? "",
+    annualRevenueRange: respondent.annual_revenue_range ?? "",
     category: respondent.user_type ?? "",
     trafficSource: response.traffic_source ?? "",
     referrerName: response.referrer_name ?? "",

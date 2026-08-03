@@ -10,18 +10,45 @@ export type EmployeePhaseGuide = {
 };
 
 export const employeeSizeOptions = [
-  "1〜5名",
+  "1名",
+  "2〜5名",
   "6〜10名",
-  "11〜30名",
+  "11〜20名",
+  "21〜30名",
   "31〜50名",
   "51〜100名",
   "101〜300名",
   "301名以上"
 ] as const;
 
+export const foundingYearOptions = [
+  "1年未満",
+  "1〜3年",
+  "4〜7年",
+  "8〜15年",
+  "16〜30年",
+  "31年以上"
+] as const;
+
+export const annualRevenueRangeOptions = [
+  "3,000万円未満",
+  "3,000万円〜1億円未満",
+  "1億円〜3億円未満",
+  "3億円〜10億円未満",
+  "10億円以上"
+] as const;
+
 export const employeePhaseGuides: EmployeePhaseGuide[] = [
   {
-    employeeSize: "1〜5名",
+    employeeSize: "1名",
+    phase: "創業・個人依存",
+    business: "売上の再現性",
+    organization: "即戦力・兼務",
+    finance: "資金繰り",
+    management: "社長の時間管理"
+  },
+  {
+    employeeSize: "2〜5名",
     phase: "創業・個人依存",
     business: "売上の再現性",
     organization: "即戦力・兼務",
@@ -37,7 +64,15 @@ export const employeePhaseGuides: EmployeePhaseGuide[] = [
     management: "業務ルール化"
   },
   {
-    employeeSize: "11〜30名",
+    employeeSize: "11〜20名",
+    phase: "組織化の入口",
+    business: "顧客層拡大",
+    organization: "採用・定着",
+    finance: "資金調達",
+    management: "数値管理"
+  },
+  {
+    employeeSize: "21〜30名",
     phase: "組織化の入口",
     business: "顧客層拡大",
     organization: "採用・定着",

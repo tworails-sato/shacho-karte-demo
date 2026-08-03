@@ -11,6 +11,21 @@ export type FeedbackDraftForm = {
   short_term_action: string;
   mid_long_term_action: string;
   advisor_use_case: string;
+  roadmap_3_months?: string;
+  roadmap_12_months?: string;
+  feedback_discussion_points?: string;
+  management_phase_comment?: string;
+  main_style_comment?: string;
+  sub_style_comment?: string;
+  main_style_short_copy?: string;
+  style_strengths_text?: string;
+  style_watchouts_text?: string;
+  style_works_well_text?: string;
+  phase_people_priorities?: string;
+  phase_business_priorities?: string;
+  phase_finance_priorities?: string;
+  growth_ability_comment?: string;
+  show_theme_detail_table?: boolean;
 };
 
 type FeedbackDraftInput = {
@@ -20,6 +35,8 @@ type FeedbackDraftInput = {
   topThemes: ThemeScore[];
   priorityThemes: ThemeScore[];
   employeeSize?: string | null;
+  foundingYears?: string | null;
+  annualRevenueRange?: string | null;
 };
 
 const themeSupportMap: Record<string, string> = {
@@ -48,8 +65,9 @@ export function generateFeedbackDraft(input: FeedbackDraftInput): FeedbackDraftF
   const largestGapTheme = pickLargestGapTheme(input.themeScores);
   const phase = getEmployeePhaseGuide(input.employeeSize);
   const executiveType = classifyExecutiveType(input.themeScores, priorityThemes);
+  const businessContextPhrase = buildBusinessContextPhrase(input);
   const phasePhrase = phase
-    ? `${phase.phase}の段階では、${phase.organization}や${phase.management}、${phase.business}の整理が論点になりやすいです。`
+    ? `${phase.phase}の段階では、${phase.organization}や${phase.management}、${phase.business}の整理が論点になりやすいです。${businessContextPhrase}`
     : "現在の事業規模に応じた組織・売上・財務・経営管理のバランス確認が論点になります。";
   const topNames = themeNames(topThemes);
   const priorityNames = themeNames(priorityThemes.length > 0 ? priorityThemes : lowThemes);
@@ -75,7 +93,11 @@ export function mergeDraftIntoEmptyFields(current: FeedbackDraftForm, draft: Fee
   return (Object.keys(current) as Array<keyof FeedbackDraftForm>).reduce<FeedbackDraftForm>(
     (next, key) => ({
       ...next,
-      [key]: current[key].trim() ? current[key] : draft[key]
+      [key]: typeof current[key] === "string"
+        ? (current[key] as string).trim()
+          ? current[key]
+          : draft[key] ?? ""
+        : current[key] ?? draft[key] ?? false
     }),
     current
   );
@@ -127,4 +149,18 @@ function themeNames(themes: ThemeScore[]) {
 
 function formatGap(value: number) {
   return `${value >= 0 ? "+" : ""}${value}`;
+}
+
+function buildBusinessContextPhrase(input: FeedbackDraftInput) {
+  const notes: string[] = [];
+  if (input.foundingYears && ["1年未満", "1〜3年"].includes(input.foundingYears)) {
+    notes.push("創業初期のため、売上の再現性と役割分担を同時に確認すると整理しやすくなります。");
+  }
+  if (input.foundingYears && ["8〜15年", "16〜30年", "31年以上"].includes(input.foundingYears)) {
+    notes.push("事業経験が積み上がっているため、既存の勝ち筋を仕組みとして再整理する視点も有効です。");
+  }
+  if (input.annualRevenueRange && ["1億円〜3億円未満", "3億円〜10億円未満", "10億円以上"].includes(input.annualRevenueRange)) {
+    notes.push("年商規模も踏まえると、収益性だけでなく投資判断や管理体制との接続も確認したい状態です。");
+  }
+  return notes.length > 0 ? notes.join("") : "";
 }

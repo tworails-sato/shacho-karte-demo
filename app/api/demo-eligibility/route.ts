@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { isAdminBypassEmail } from "@/lib/admin-bypass";
 import { normalizeEmail } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -17,6 +18,9 @@ export async function POST(request: Request) {
   const normalized = normalizeEmail(String(email || ""));
   if (!normalized) {
     return NextResponse.json({ ok: false, error: "メールアドレスを入力してください。" }, { status: 400 });
+  }
+  if (isAdminBypassEmail(normalized)) {
+    return NextResponse.json({ ok: true, bypass: "admin" });
   }
 
   const supabase = createClient<any>(supabaseUrl, supabaseAnonKey);

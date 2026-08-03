@@ -41,6 +41,9 @@ export async function sendResumeReminderMail(input: ResumeReminderInput): Promis
     const resumeUrl = buildResumeUrl(input.resumeToken, input.request);
     const displayName = input.representativeName || "受検者";
     const expiresText = input.expiresAt ? new Date(input.expiresAt).toLocaleString("ja-JP") : "-";
+    const preferredSubject = input.reminderKind === "manual"
+      ? "【社長カルテ】回答が途中のまま保存されています"
+      : "【社長カルテ】回答が途中のまま保存されております";
     const subject = input.reminderKind === "manual"
       ? "【社長カルテ】回答再開URLのご案内"
       : "【社長カルテ】途中保存した回答の再開について";
@@ -55,7 +58,7 @@ export async function sendResumeReminderMail(input: ResumeReminderInput): Promis
         from: fromEmail,
         to: input.recipientEmail,
         ...(replyTo ? { reply_to: replyTo } : {}),
-        subject,
+        subject: preferredSubject,
         html: buildReminderHtml({
           answeredCount: input.answeredCount,
           displayName,

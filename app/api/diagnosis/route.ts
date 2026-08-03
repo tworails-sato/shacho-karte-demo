@@ -2,6 +2,8 @@ import { createHash, randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { StoredSubmission } from "@/lib/storage";
+import { isAdminBypassEmail } from "@/lib/admin-bypass";
+import { calculateV2BetaResult } from "@/lib/management-style";
 import { defaultUsageSettings, usageSettingsFromRow } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -34,6 +36,12 @@ export async function POST(request: Request) {
       resubmission_allowed: false,
       usage_purpose: null
     };
+    const v2Beta = calculateV2BetaResult(
+      submission.result.themeScores ?? [],
+      submission.basicInfo.employeeSize || null,
+      submission.basicInfo.annualRevenueRange || null,
+      submission.basicInfo.foundingYears || null
+    );
 
     if (!submission.respondentId) {
       const { error } = await supabase.from("respondents").upsert(
@@ -42,8 +50,10 @@ export async function POST(request: Request) {
           company_name: submission.basicInfo.companyName,
           name: submission.basicInfo.representativeName,
           email: normalizedEmail,
-          industry: submission.basicInfo.industry,
+          industry: submission.basicInfo.industry || "未取得",
           employee_size: submission.basicInfo.employeeSize || null,
+          founding_years: submission.basicInfo.foundingYears || null,
+          annual_revenue_range: submission.basicInfo.annualRevenueRange || null,
           user_type: submission.basicInfo.category
         },
         { onConflict: "id" }
@@ -53,27 +63,30 @@ export async function POST(request: Request) {
     }
 
     if (!responseId) {
-      const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-      const { data: recentResponses, error: recentError } = await supabase
-        .from("diagnosis_responses")
-        .select("id,resubmission_allowed")
-        .eq("email_normalized", normalizedEmail)
-        .eq("is_demo", true)
-        .eq("status", "completed")
-        .gte("created_at", since)
-        .order("created_at", { ascending: false })
-        .limit(1);
+      let recent: { id: string; resubmission_allowed: boolean | null } | undefined;
+      if (!isAdminBypassEmail(normalizedEmail)) {
+        const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { data: recentResponses, error: recentError } = await supabase
+          .from("diagnosis_responses")
+          .select("id,resubmission_allowed")
+          .eq("email_normalized", normalizedEmail)
+          .eq("is_demo", true)
+          .eq("status", "completed")
+          .gte("created_at", since)
+          .order("created_at", { ascending: false })
+          .limit(1);
 
-      if (recentError) throw recentError;
-      const recent = recentResponses?.[0];
-      if (recent && !recent.resubmission_allowed) {
-        return NextResponse.json(
-          {
-            error:
-              "このメールアドレスでは、直近30日以内に受検済みです。\n\n再受検をご希望の場合は、以下までお問い合わせください。\n\n合同会社Two rails\ninfo@ceo-sherpa.com"
-          },
-          { status: 429 }
-        );
+        if (recentError) throw recentError;
+        recent = recentResponses?.[0];
+        if (recent && !recent.resubmission_allowed) {
+          return NextResponse.json(
+            {
+              error:
+                "このメールアドレスでは、直近30日以内に受検済みです。\n\n再受検をご希望の場合は、以下までお問い合わせください。\n\n合同会社Two rails\ninfo@ceo-sherpa.com"
+            },
+            { status: 429 }
+          );
+        }
       }
 
       resultToken = createResultToken();
@@ -90,6 +103,15 @@ export async function POST(request: Request) {
           top_categories_json: submission.result.topThemes,
           low_categories_json: submission.result.lowThemes,
           priority_categories_json: submission.result.priorityThemes,
+          main_management_style_key: v2Beta.mainManagementStyleKey,
+          sub_management_style_key: v2Beta.subManagementStyleKey,
+          management_style_scores: v2Beta.managementStyleScores,
+          style_logic_version: v2Beta.styleLogicVersion,
+          management_phase_key: v2Beta.managementPhaseKey,
+          management_phase_label: v2Beta.managementPhaseLabel,
+          management_phase_logic_version: v2Beta.managementPhaseLogicVersion,
+          management_phase_adjustment_comment: v2Beta.managementPhaseAdjustmentComment,
+          v2_calculated_at: v2Beta.calculatedAt,
           email: normalizedEmail,
           email_normalized: normalizedEmail,
           traffic_source: submission.basicInfo.trafficSource,
@@ -172,6 +194,13 @@ export async function POST(request: Request) {
           top_categories_json: submission.result.topThemes,
           low_categories_json: submission.result.lowThemes,
           priority_categories_json: submission.result.priorityThemes,
+          main_management_style_key: v2Beta.mainManagementStyleKey,
+          sub_management_style_key: v2Beta.subManagementStyleKey,
+          management_style_scores: v2Beta.managementStyleScores,
+          style_logic_version: v2Beta.styleLogicVersion,
+          management_phase_key: v2Beta.managementPhaseKey,
+          management_phase_label: v2Beta.managementPhaseLabel,
+          v2_calculated_at: v2Beta.calculatedAt,
           email: normalizedEmail,
           email_normalized: normalizedEmail,
           traffic_source: submission.basicInfo.trafficSource,
@@ -229,6 +258,10 @@ export async function POST(request: Request) {
         responseId,
         resultToken,
         resultTokenExpiresAt,
+        result: {
+          ...submission.result,
+          v2Beta
+        },
         supabaseSyncedAt: new Date().toISOString(),
         usageSettings: usageSettingsFromRow(submission.usageSettings ?? usageSettings)
       }

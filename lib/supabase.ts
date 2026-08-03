@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { calculateV2BetaResult } from "./management-style";
 import type { StoredEvent, StoredSubmission } from "./storage";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -67,6 +68,12 @@ export async function saveSubmissionToSupabase(
 
   const respondentId = submission.respondentId ?? submission.id;
   let responseId = submission.responseId;
+  const v2Beta = calculateV2BetaResult(
+    submission.result.themeScores ?? [],
+    submission.basicInfo.employeeSize || null,
+    submission.basicInfo.annualRevenueRange || null,
+    submission.basicInfo.foundingYears || null
+  );
 
   try {
     if (!submission.respondentId) {
@@ -76,8 +83,10 @@ export async function saveSubmissionToSupabase(
           company_name: submission.basicInfo.companyName,
           name: submission.basicInfo.representativeName,
           email: submission.basicInfo.email,
-          industry: submission.basicInfo.industry,
+          industry: submission.basicInfo.industry || "未取得",
           employee_size: submission.basicInfo.employeeSize || null,
+          founding_years: submission.basicInfo.foundingYears || null,
+          annual_revenue_range: submission.basicInfo.annualRevenueRange || null,
           user_type: submission.basicInfo.category
         },
         { onConflict: "id" }
@@ -98,6 +107,15 @@ export async function saveSubmissionToSupabase(
           top_categories_json: submission.result.topThemes,
           low_categories_json: submission.result.lowThemes,
           priority_categories_json: submission.result.priorityThemes,
+          main_management_style_key: v2Beta.mainManagementStyleKey,
+          sub_management_style_key: v2Beta.subManagementStyleKey,
+          management_style_scores: v2Beta.managementStyleScores,
+          style_logic_version: v2Beta.styleLogicVersion,
+          management_phase_key: v2Beta.managementPhaseKey,
+          management_phase_label: v2Beta.managementPhaseLabel,
+          management_phase_logic_version: v2Beta.managementPhaseLogicVersion,
+          management_phase_adjustment_comment: v2Beta.managementPhaseAdjustmentComment,
+          v2_calculated_at: v2Beta.calculatedAt,
           email: submission.basicInfo.emailNormalized || submission.basicInfo.email,
           email_normalized: submission.basicInfo.emailNormalized || submission.basicInfo.email,
           traffic_source: submission.basicInfo.trafficSource,
@@ -121,6 +139,10 @@ export async function saveSubmissionToSupabase(
         ...submission,
         respondentId,
         responseId,
+        result: {
+          ...submission.result,
+          v2Beta
+        },
         supabaseSyncedAt: new Date().toISOString()
       }
     };

@@ -4,6 +4,30 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
+  BadgeCheck,
+  Building2,
+  CircleDollarSign,
+  Compass,
+  Expand,
+  Handshake,
+  HeartHandshake,
+  Lightbulb,
+  ListChecks,
+  Network,
+  PiggyBank,
+  Scale,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  Telescope,
+  TrendingUp,
+  Users,
+  UsersRound,
+  Workflow,
+  Zap,
+  type LucideIcon
+} from "lucide-react";
+import {
   PolarAngleAxis,
   PolarGrid,
   PolarRadiusAxis,
@@ -18,6 +42,22 @@ import {
   mergeDraftIntoEmptyFields,
   type FeedbackDraftForm
 } from "@/lib/feedback-draft";
+import {
+  getGrowthAbilityThemes,
+  getManagementPhase,
+  getManagementStyle,
+  type ManagementStyleScore
+} from "@/lib/management-style";
+import { generateDiscussionPointsDraft } from "@/lib/feedback-discussion-templates";
+import {
+  displayThemeLabel,
+  meterPercentFromFive,
+  normalizeStyleScoreForMeter,
+  splitLines,
+  styleVisuals,
+  themeVisuals,
+  type IconKey
+} from "@/lib/report-visuals";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 import { defaultUsageSettings, usageSettingsFromRow, type UsageSettings } from "@/lib/usage-settings";
 
@@ -29,6 +69,15 @@ type DiagnosisResponseRow = {
   category_scores_json: ThemeScore[];
   top_categories_json: ThemeScore[];
   priority_categories_json: ThemeScore[];
+  main_management_style_key: string | null;
+  sub_management_style_key: string | null;
+  management_style_scores: ManagementStyleScore[] | null;
+  style_logic_version: string | null;
+  management_phase_key: string | null;
+  management_phase_label: string | null;
+  management_phase_logic_version: string | null;
+  management_phase_adjustment_comment: string | null;
+  v2_calculated_at: string | null;
   created_at: string;
   is_demo: boolean | null;
   watermark_enabled: boolean | null;
@@ -46,6 +95,8 @@ type RespondentRow = {
   email: string;
   industry: string;
   employee_size: string | null;
+  annual_revenue_range: string | null;
+  founding_years: string | null;
   user_type: string;
 };
 
@@ -67,7 +118,22 @@ const emptyReport: FeedbackReportForm = {
   gap: "",
   short_term_action: "",
   mid_long_term_action: "",
-  advisor_use_case: ""
+  advisor_use_case: "",
+  roadmap_3_months: "",
+  roadmap_12_months: "",
+  feedback_discussion_points: "",
+  management_phase_comment: "",
+  main_style_comment: "",
+  sub_style_comment: "",
+  main_style_short_copy: "",
+  style_strengths_text: "",
+  style_watchouts_text: "",
+  style_works_well_text: "",
+  phase_people_priorities: "",
+  phase_business_priorities: "",
+  phase_finance_priorities: "",
+  growth_ability_comment: "",
+  show_theme_detail_table: false
 };
 
 const fields: Array<{ key: keyof FeedbackReportForm; label: string }> = [
@@ -76,9 +142,76 @@ const fields: Array<{ key: keyof FeedbackReportForm; label: string }> = [
   { key: "strength", label: "強み" },
   { key: "gap", label: "最も強く表れているGAP" },
   { key: "short_term_action", label: "アクションプラン：短期" },
-  { key: "mid_long_term_action", label: "アクションプラン：中長期" },
-  { key: "advisor_use_case", label: "支援者としての活用仮説" }
+  { key: "mid_long_term_action", label: "アクションプラン：中長期" }
 ];
+
+const v2ReportFields: Array<{ key: keyof FeedbackReportForm; label: string }> = [
+  { key: "main_style_short_copy", label: "メインタイプの一言説明" },
+  { key: "main_style_comment", label: "メイン経営スタイルの個別コメント" },
+  { key: "sub_style_comment", label: "サブ経営スタイルの補足" },
+  { key: "style_strengths_text", label: "強みタグ（1行1項目）" },
+  { key: "style_watchouts_text", label: "確認したい観点タグ（1行1項目）" },
+  { key: "style_works_well_text", label: "活きる場面タグ（1行1項目）" },
+  { key: "management_phase_comment", label: "経営フェーズの個別コメント" },
+  { key: "phase_people_priorities", label: "組織・人の優先事項（1行1項目）" },
+  { key: "phase_business_priorities", label: "事業・商品の優先事項（1行1項目）" },
+  { key: "phase_finance_priorities", label: "お金・投資の優先事項（1行1項目）" },
+  { key: "growth_ability_comment", label: "次に伸ばしたい経営能力コメント" }
+];
+
+const visibleFields: Array<{ key: keyof FeedbackReportForm; label: string }> = [];
+const benchmarkCompanyCountText = "800社超";
+
+const actionPlanFields: Array<{
+  key: keyof Pick<FeedbackReportForm, "feedback_discussion_points" | "roadmap_3_months" | "roadmap_12_months">;
+  label: string;
+  placeholder: string;
+}> = [
+  {
+    key: "feedback_discussion_points",
+    label: "論点(何を優先とするか)",
+    placeholder: "例：まず◯◯の整理から着手し、次に△△を検討する方向が考えられます"
+  },
+  {
+    key: "roadmap_3_months",
+    label: "アクションプラン(3ヶ月)",
+    placeholder: "例：3ヶ月以内に〜"
+  },
+  {
+    key: "roadmap_12_months",
+    label: "アクションプラン(1年)",
+    placeholder: "例：1年後の到達点として〜"
+  }
+];
+
+const iconMap: Record<IconKey, LucideIcon> = {
+  BadgeCheck,
+  Building2,
+  CircleDollarSign,
+  Compass,
+  Expand,
+  Handshake,
+  HeartHandshake,
+  Lightbulb,
+  ListChecks,
+  Network,
+  PiggyBank,
+  Scale,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  Telescope,
+  TrendingUp,
+  Users,
+  UsersRound,
+  Workflow,
+  Zap
+};
+
+function ReportIcon({ iconKey, className = "h-5 w-5" }: { iconKey: IconKey; className?: string }) {
+  const Icon = iconMap[iconKey] ?? BadgeCheck;
+  return <Icon aria-hidden="true" className={className} strokeWidth={2.2} />;
+}
 
 const themeGroups = [
   {
@@ -150,7 +283,7 @@ function getThemeGroup(theme: ThemeScore | { id: string }) {
 }
 
 function displayThemeName(theme: ThemeScore | { id: string; name: string }) {
-  return chartLabels[theme.id] ?? theme.name;
+  return displayThemeLabel(theme) ?? chartLabels[theme.id] ?? theme.name;
 }
 
 function GroupBadge({ theme }: { theme: ThemeScore }) {
@@ -270,12 +403,100 @@ function priorityRowClass(theme: ThemeScore) {
   return "bg-stone-50/40 text-stone-500";
 }
 
+function getStyleVisual(styleKey?: string | null) {
+  return styleKey && styleKey in styleVisuals
+    ? styleVisuals[styleKey as keyof typeof styleVisuals]
+    : styleVisuals.strategy;
+}
+
+function getOverride(value?: string | null, fallback?: string | null) {
+  return value?.trim() || fallback?.trim() || "";
+}
+
+function getOverrideList(value?: string | null, fallback?: string[]) {
+  const own = splitLines(value);
+  return own.length > 0 ? own : fallback ?? [];
+}
+
+function CompactText({ value, fallback }: { value?: string | null; fallback?: string | null }) {
+  const text = getOverride(value, fallback);
+  if (!text) return null;
+  return <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">{text}</p>;
+}
+
+function InfoGrid({ respondent, response }: { respondent: RespondentRow | null; response: DiagnosisResponseRow }) {
+  const items = [
+    ["氏名", respondent?.name],
+    ["会社名", respondent?.company_name],
+    ["従業員数", respondent?.employee_size],
+    ["創業年数", respondent?.founding_years],
+    ["会社の年商", respondent?.annual_revenue_range],
+    ["診断日", formatDate(response.created_at)]
+  ].filter(([, value]) => Boolean(value && String(value).trim()));
+
+  return (
+    <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-3">
+      {items.map(([label, value]) => (
+        <div key={label} className="rounded-md bg-stone-50 px-3 py-2">
+          <dt className="text-xs font-bold text-stone-500">{label}</dt>
+          <dd className="mt-1 font-black text-ink">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function TagList({ items }: { items: string[] }) {
+  if (items.length === 0) return null;
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {items.slice(0, 3).map((item) => (
+        <span key={item} className="rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-black text-stone-700">
+          {item}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function PriorityGroupCards({
+  people,
+  business,
+  finance
+}: {
+  people: string[];
+  business: string[];
+  finance: string[];
+}) {
+  const groups = [
+    { label: "組織・人", items: people },
+    { label: "事業・商品", items: business },
+    { label: "お金・投資", items: finance }
+  ];
+
+  return (
+    <div className="mt-4 grid gap-3 md:grid-cols-3">
+      {groups.map((group) => (
+        <article key={group.label} className="rounded-lg border border-amber-100 bg-white p-3">
+          <h4 className="font-black text-amber-950">{group.label}</h4>
+          <ul className="mt-2 space-y-1 text-sm font-bold leading-6 text-stone-700">
+            {group.items.slice(0, 3).map((item) => (
+              <li key={item}>・{item}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 export default function FeedbackReportPage() {
   const params = useParams<{ response_id: string }>();
   const responseId = params.response_id;
   const [response, setResponse] = useState<DiagnosisResponseRow | null>(null);
   const [respondent, setRespondent] = useState<RespondentRow | null>(null);
   const [report, setReport] = useState<FeedbackReportForm>(emptyReport);
+  const [reportSnapshot, setReportSnapshot] = useState<FeedbackReportForm>(emptyReport);
   const [usageSettings, setUsageSettings] = useState<UsageSettings>(defaultUsageSettings);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -307,6 +528,15 @@ export default function FeedbackReportPage() {
             category_scores_json,
             top_categories_json,
             priority_categories_json,
+            main_management_style_key,
+            sub_management_style_key,
+            management_style_scores,
+            style_logic_version,
+            management_phase_key,
+            management_phase_label,
+            management_phase_logic_version,
+            management_phase_adjustment_comment,
+            v2_calculated_at,
             created_at,
             is_demo,
             watermark_enabled,
@@ -329,7 +559,7 @@ export default function FeedbackReportPage() {
 
         const { data: respondentData, error: respondentError } = await supabase
           .from("respondents")
-          .select("company_name,name,email,industry,employee_size,user_type")
+          .select("company_name,name,email,industry,employee_size,annual_revenue_range,founding_years,user_type")
           .eq("id", typedResponse.respondent_id)
           .maybeSingle();
 
@@ -351,6 +581,21 @@ export default function FeedbackReportPage() {
             short_term_action,
             mid_long_term_action,
             advisor_use_case,
+            management_phase_comment,
+            main_style_comment,
+            sub_style_comment,
+            main_style_short_copy,
+            style_strengths_text,
+            style_watchouts_text,
+            style_works_well_text,
+            phase_people_priorities,
+            phase_business_priorities,
+            phase_finance_priorities,
+            growth_ability_comment,
+            show_theme_detail_table,
+            roadmap_3_months,
+            roadmap_12_months,
+            feedback_discussion_points,
             created_at,
             updated_at
           `)
@@ -364,12 +609,14 @@ export default function FeedbackReportPage() {
           themeScores: typedResponse.category_scores_json ?? [],
           topThemes: typedResponse.top_categories_json ?? [],
           priorityThemes: typedResponse.priority_categories_json ?? [],
-          employeeSize: typedRespondent?.employee_size
+          employeeSize: typedRespondent?.employee_size,
+          foundingYears: typedRespondent?.founding_years,
+          annualRevenueRange: typedRespondent?.annual_revenue_range
         });
 
         if (reportData) {
           const savedReport = reportData as FeedbackReportRow;
-          setReport(mergeDraftIntoEmptyFields({
+          const nextReport = mergeDraftIntoEmptyFields({
             one_line_summary: savedReport.one_line_summary ?? "",
             summary: savedReport.summary ?? "",
             executive_type: savedReport.executive_type ?? "",
@@ -378,10 +625,28 @@ export default function FeedbackReportPage() {
             gap: savedReport.gap ?? "",
             short_term_action: savedReport.short_term_action ?? "",
             mid_long_term_action: savedReport.mid_long_term_action ?? "",
-            advisor_use_case: savedReport.advisor_use_case ?? ""
-          }, draft));
+            advisor_use_case: savedReport.advisor_use_case ?? "",
+            management_phase_comment: savedReport.management_phase_comment ?? "",
+            main_style_comment: savedReport.main_style_comment ?? "",
+            sub_style_comment: savedReport.sub_style_comment ?? "",
+            main_style_short_copy: savedReport.main_style_short_copy ?? "",
+            style_strengths_text: savedReport.style_strengths_text ?? "",
+            style_watchouts_text: savedReport.style_watchouts_text ?? "",
+            style_works_well_text: savedReport.style_works_well_text ?? "",
+            phase_people_priorities: savedReport.phase_people_priorities ?? "",
+            phase_business_priorities: savedReport.phase_business_priorities ?? "",
+            phase_finance_priorities: savedReport.phase_finance_priorities ?? "",
+            growth_ability_comment: savedReport.growth_ability_comment ?? "",
+            show_theme_detail_table: savedReport.show_theme_detail_table ?? false,
+            roadmap_3_months: savedReport.roadmap_3_months ?? "",
+            roadmap_12_months: savedReport.roadmap_12_months ?? "",
+            feedback_discussion_points: savedReport.feedback_discussion_points ?? ""
+          }, draft);
+          setReport(nextReport);
+          setReportSnapshot(nextReport);
         } else {
           setReport(draft);
+          setReportSnapshot(draft);
         }
 
         setErrorMessage(null);
@@ -430,6 +695,31 @@ export default function FeedbackReportPage() {
     [response]
   );
 
+  const mainManagementStyle = getManagementStyle(response?.main_management_style_key);
+  const subManagementStyle = getManagementStyle(response?.sub_management_style_key);
+  const phaseInfo = response?.management_phase_key
+    ? getManagementPhase(respondent?.employee_size, respondent?.annual_revenue_range, respondent?.founding_years)
+    : null;
+  const growthAbilityThemes = getGrowthAbilityThemes(response?.category_scores_json ?? []);
+  const hasV2Beta = Boolean(response?.style_logic_version);
+  const styleScores = useMemo(
+    () => [...(response?.management_style_scores ?? [])].sort((a, b) => b.score - a.score || a.displayOrder - b.displayOrder),
+    [response]
+  );
+  const mainStyleBasisThemes = useMemo(() => {
+    if (!mainManagementStyle || !response) return [];
+    return mainManagementStyle.themeIds
+      .map((themeId) => response.category_scores_json.find((theme) => theme.id === themeId))
+      .filter((theme): theme is ThemeScore => Boolean(theme))
+      .sort((a, b) => averageQuestionScore(b) - averageQuestionScore(a))
+      .slice(0, 3);
+  }, [mainManagementStyle, response]);
+  const mainStyleVisual = getStyleVisual(mainManagementStyle?.key);
+  const subStyleVisual = getStyleVisual(subManagementStyle?.key);
+  const phasePeoplePriorities = getOverrideList(report.phase_people_priorities, phaseInfo?.priorityGroups.people);
+  const phaseBusinessPriorities = getOverrideList(report.phase_business_priorities, phaseInfo?.priorityGroups.business);
+  const phaseFinancePriorities = getOverrideList(report.phase_finance_priorities, phaseInfo?.priorityGroups.finance);
+
   async function handleSave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const supabase = getSupabaseClient();
@@ -451,6 +741,7 @@ export default function FeedbackReportPage() {
       );
 
       if (error) throw error;
+      setReportSnapshot(report);
       setStatusMessage("FBレポートを保存しました。");
     } catch (error) {
       console.error("Feedback report save failed", error);
@@ -531,7 +822,7 @@ export default function FeedbackReportPage() {
     }
   }
 
-  function updateReport(key: keyof FeedbackReportForm, value: string) {
+  function updateReport<K extends keyof FeedbackReportForm>(key: K, value: FeedbackReportForm[K]) {
     setReport((current) => ({ ...current, [key]: value }));
   }
 
@@ -555,9 +846,40 @@ export default function FeedbackReportPage() {
       themeScores: response.category_scores_json ?? [],
       topThemes: response.top_categories_json ?? [],
       priorityThemes: response.priority_categories_json ?? [],
-      employeeSize: respondent?.employee_size
+      employeeSize: respondent?.employee_size,
+      foundingYears: respondent?.founding_years,
+      annualRevenueRange: respondent?.annual_revenue_range
     }));
     setStatusMessage("下書きを再生成しました。保存するとDBに反映されます。");
+  }
+
+  function handleResetReport() {
+    if (!window.confirm("入力中の内容を、最後に読み込んだ状態へ戻します。よろしいですか？")) {
+      return;
+    }
+
+    setReport(reportSnapshot);
+    setStatusMessage("入力内容を元に戻しました。");
+    setErrorMessage(null);
+  }
+
+  function handleApplyDiscussionDraft() {
+    if (!response) return;
+    const draft = generateDiscussionPointsDraft({
+      growthThemes: growthAbilityThemes,
+      mainStyle: mainManagementStyle,
+      phase: phaseInfo
+    });
+
+    if (
+      (report.feedback_discussion_points ?? "").trim() &&
+      !window.confirm("現在の論点メモを、自動生成案で上書きしますか？")
+    ) {
+      return;
+    }
+
+    updateReport("feedback_discussion_points", draft);
+    setStatusMessage("FB面談で確認したい論点の自動生成案を反映しました。保存するとDBへ反映されます。");
   }
 
   if (loading) {
@@ -756,19 +1078,86 @@ export default function FeedbackReportPage() {
             />
           </label>
 
-          {fields.map((field) => (
+          {visibleFields.map((field) => (
             <label key={field.key} className="block space-y-2">
               <span className="label">{field.label}</span>
               <textarea
                 className="field min-h-28 resize-y"
-                value={report[field.key]}
-                onChange={(event) => updateReport(field.key, event.target.value)}
+                value={(report[field.key] as string | undefined) ?? ""}
+                onChange={(event) => updateReport(field.key, event.target.value as FeedbackReportForm[typeof field.key])}
               />
             </label>
           ))}
 
+          <section className="rounded-lg border border-teal-100 bg-teal-50 p-4">
+            <p className="text-sm font-black text-teal-800">V2β 追加項目</p>
+            <div className="mt-3 flex flex-col gap-2 rounded-md border border-teal-200 bg-white p-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-bold leading-6 text-teal-900">
+                FB面談で確認したい論点は、スコア傾向から下書きを作成できます。反映後に編集して保存してください。
+              </p>
+              <button className="secondary-button shrink-0" onClick={handleApplyDiscussionDraft} type="button">
+                自動生成案を反映
+              </button>
+            </div>
+            <div className="mt-4 space-y-4">
+              {v2ReportFields.map((field) => (
+                <label key={field.key} className="block space-y-2">
+                  <span className="label">{field.label}</span>
+                  <textarea
+                    className="field min-h-28 resize-y bg-white"
+                    value={(report[field.key] as string | undefined) ?? ""}
+                    onChange={(event) => updateReport(field.key, event.target.value as FeedbackReportForm[typeof field.key])}
+                  />
+                </label>
+              ))}
+              <section className="rounded-lg border border-stone-200 bg-white p-4">
+                <div>
+                  <p className="text-sm font-black text-stone-900">論点・アクションプラン</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-stone-500">
+                    レポート末尾に表示される、面談中に一緒に整理するための記入欄です。
+                  </p>
+                </div>
+                <div className="mt-4 space-y-4">
+                  {actionPlanFields.map((field) => (
+                    <label key={field.key} className="block space-y-2">
+                      <span className="label">{field.label}</span>
+                      <textarea
+                        className="field min-h-24 resize-y bg-white placeholder:text-stone-400"
+                        placeholder={field.placeholder}
+                        value={(report[field.key] as string | undefined) ?? ""}
+                        onChange={(event) => updateReport(field.key, event.target.value as FeedbackReportForm[typeof field.key])}
+                      />
+                    </label>
+                  ))}
+                </div>
+              </section>
+              <label className="flex items-start gap-3 rounded-md border border-teal-200 bg-white p-3 text-sm font-bold text-teal-950">
+                <input
+                  checked={Boolean(report.show_theme_detail_table)}
+                  className="mt-1 h-4 w-4"
+                  onChange={(event) => updateReport("show_theme_detail_table", event.target.checked)}
+                  type="checkbox"
+                />
+                <span>
+                  16テーマ詳細を表示する
+                  <span className="mt-1 block text-xs leading-5 text-stone-600">
+                    通常のFBレポート/PDFでは非表示です。詳細版として必要な場合のみ表示します。
+                  </span>
+                </span>
+              </label>
+            </div>
+          </section>
+
           <button className="primary-button w-full" disabled={saving} type="submit">
             {saving ? "保存中..." : "FBレポートを保存"}
+          </button>
+          <button
+            className="secondary-button w-full"
+            disabled={saving}
+            onClick={handleResetReport}
+            type="button"
+          >
+            元に戻す（仮）
           </button>
         </form>
         ) : null}
@@ -780,17 +1169,296 @@ export default function FeedbackReportPage() {
               社長カルテLight フィードバックレポート
             </h2>
             <p className="mt-2 text-sm font-bold leading-6 text-stone-600">
-              このレポートは、面談で確認したい論点と次のアクションを整理するための資料です。
+              社長カルテLightは、経営者との対話を始めるために作られた診断です。全国{benchmarkCompanyCountText}の成長企業データを基準に、貴社の現在地を可視化します。このレポートは、面談で確認したい論点と次のアクションを整理するための資料です。
             </p>
           </div>
 
-          <section className="mt-5 break-inside-avoid rounded-lg border border-brand/20 bg-teal-50 p-5">
+          <section className="mt-5">
+            <h3 className="text-lg font-black text-ink">基本情報</h3>
+            <InfoGrid respondent={respondent} response={response} />
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-brand/20 bg-teal-50 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-teal-700">Summary</p>
+            <h3 className="mt-1 text-xl font-black text-teal-950">現在地・サマリ</h3>
+            <p className="mt-3 whitespace-pre-wrap text-base font-bold leading-8 text-teal-950">
+              {multilineText(report.one_line_summary || report.summary)}
+            </p>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-indigo-100 bg-indigo-50 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-indigo-700">Management Style</p>
+            <h3 className="mt-1 text-xl font-black text-indigo-950">現在の経営スタイル</h3>
+            {hasV2Beta ? (
+              <div className="mt-4 grid gap-4 md:grid-cols-[1.35fr_0.65fr]">
+                <article className={`rounded-2xl border p-5 ${mainStyleVisual.accentClass}`}>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                    <div className="inline-flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white/85 shadow-sm">
+                      <ReportIcon iconKey={mainStyleVisual.iconKey} className="h-11 w-11" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black">メインスタイル</p>
+                      <p className="mt-1 text-3xl font-black leading-tight">{mainManagementStyle?.name ?? "未判定"}</p>
+                      <p className="mt-3 text-lg font-black leading-7">
+                        {getOverride(report.main_style_short_copy, mainManagementStyle?.shortCopy)}
+                      </p>
+                      <CompactText value={report.main_style_comment} fallback={mainManagementStyle?.description} />
+                    </div>
+                  </div>
+                </article>
+
+                <article className={`rounded-xl border p-4 ${subStyleVisual.accentClass}`}>
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-full bg-white/80 p-3">
+                      <ReportIcon iconKey={subStyleVisual.iconKey} className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black">次に強く表れているスタイル</p>
+                      <p className="mt-1 text-lg font-black leading-snug">{subManagementStyle?.name ?? "未判定"}</p>
+                    </div>
+                  </div>
+                  <CompactText value={report.sub_style_comment} fallback={subManagementStyle?.description} />
+                </article>
+              </div>
+            ) : (
+              <p className="mt-3 rounded-lg bg-white p-4 text-sm font-bold leading-7 text-stone-700">
+                この受検結果は旧バージョンのため、経営スタイルは未判定です。
+              </p>
+            )}
+
+            {mainManagementStyle ? (
+              <div className="mt-4 grid gap-3 md:grid-cols-3">
+                <article className="rounded-lg bg-white p-3">
+                  <p className="text-xs font-black text-stone-500">強みとして出やすい観点</p>
+                  <TagList items={getOverrideList(report.style_strengths_text, mainManagementStyle.strengths)} />
+                </article>
+                <article className="rounded-lg bg-white p-3">
+                  <p className="text-xs font-black text-stone-500">確認したい観点</p>
+                  <TagList items={getOverrideList(report.style_watchouts_text, mainManagementStyle.watchouts)} />
+                </article>
+                <article className="rounded-lg bg-white p-3">
+                  <p className="text-xs font-black text-stone-500">活きる場面</p>
+                  <TagList items={getOverrideList(report.style_works_well_text, mainManagementStyle.worksWellWhen)} />
+                </article>
+              </div>
+            ) : null}
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-stone-200 p-5">
+            <h3 className="text-xl font-black text-ink">7タイプスコア</h3>
+            <p className="mt-1 text-sm font-bold leading-6 text-stone-600">
+              7つの経営スタイルを、16テーマの回答傾向からメーター形式で表示しています。
+            </p>
+            <div className="mt-4 space-y-3">
+              {styleScores.map((styleScore, index) => {
+                const visual = getStyleVisual(styleScore.key);
+                const styleDefinition = getManagementStyle(styleScore.key);
+                const displayScore = normalizeStyleScoreForMeter(styleScore.score);
+                return (
+                  <div key={styleScore.key} className="rounded-lg border border-stone-200 bg-white p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span className={`rounded-full border p-2 ${visual.accentClass}`}>
+                          <ReportIcon iconKey={visual.iconKey} className="h-5 w-5" />
+                        </span>
+                        <div>
+                          <p className="font-black text-ink">{styleScore.name}</p>
+                          <p className="mt-1 text-xs font-bold leading-5 text-stone-500">
+                            {styleDefinition?.shortCopy ?? styleDefinition?.description ?? ""}
+                          </p>
+                          <div className="mt-1 flex gap-1">
+                            {index === 0 ? <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-black text-indigo-800">メイン</span> : null}
+                            {index === 1 ? <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-black text-stone-700">サブ</span> : null}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-lg font-black text-ink">{displayScore.toFixed(1)}</p>
+                    </div>
+                    <div className="mt-3 h-2.5 rounded-full bg-stone-100">
+                      <div className={`h-2.5 rounded-full ${visual.meterClass}`} style={{ width: meterPercentFromFive(displayScore) }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-blue-100 bg-blue-50 p-5">
+            <h3 className="text-xl font-black text-blue-950">判定根拠</h3>
+            <p className="mt-2 text-sm font-bold leading-7 text-blue-950">
+              以下のテーマが相対的に強く表れているため、この経営スタイルと判定されています。
+            </p>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {mainStyleBasisThemes.map((theme) => {
+                const visual = themeVisuals[theme.id];
+                const score = averageQuestionScore(theme);
+                return (
+                  <article key={theme.id} className="rounded-lg bg-white p-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        {visual ? <ReportIcon iconKey={visual.iconKey} className="h-5 w-5 text-blue-800" /> : null}
+                        <p className="font-black text-ink">{displayThemeName(theme)}</p>
+                      </div>
+                      <p className="font-black text-blue-900">{scoreLabel(score)}</p>
+                    </div>
+                    <p className="mt-1 text-xs font-bold text-stone-500">
+                      過去平均との差分 {gapLabel(pastAverageGap(theme))}
+                    </p>
+                    <div className="mt-2 h-2 rounded-full bg-blue-100">
+                      <div className="h-2 rounded-full bg-blue-700" style={{ width: `${Math.min(100, (score / 4) * 100)}%` }} />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-amber-100 bg-amber-50 p-5">
+            <h3 className="text-xl font-black text-amber-950">経営フェーズ</h3>
+            <p className="mt-2 text-lg font-black text-ink">
+              {hasV2Beta ? response.management_phase_label || phaseInfo?.label || "未判定" : "未判定"}
+            </p>
+            <p className="mt-4 text-sm font-black text-amber-950">現在の状態</p>
+            <CompactText value={report.management_phase_comment} fallback={phaseInfo?.status} />
+            {(phaseInfo?.adjustmentComment || response.management_phase_adjustment_comment) ? (
+              <p className="mt-3 rounded-lg border border-amber-200 bg-white/80 p-3 text-sm font-bold leading-7 text-amber-950">
+                {response.management_phase_adjustment_comment || phaseInfo?.adjustmentComment}
+              </p>
+            ) : null}
+            <div className="mt-5">
+              <h4 className="text-base font-black text-amber-950">このフェーズで優先したいこと</h4>
+              <PriorityGroupCards
+                business={phaseBusinessPriorities}
+                finance={phaseFinancePriorities}
+                people={phasePeoplePriorities}
+              />
+            </div>
+          </section>
+
+          <section className="mt-5 break-inside-avoid rounded-xl border border-purple-100 bg-purple-50 p-5">
+            <h3 className="text-xl font-black text-purple-950">次に伸ばしたい経営能力</h3>
+            <CompactText
+              value={report.growth_ability_comment}
+              fallback="今後確認しておきたいテーマを3つに絞って表示しています。スコアの良し悪しではなく、面談で打ち手を整理する入口としてご覧ください。"
+            />
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {growthAbilityThemes.map((theme) => {
+                const visual = themeVisuals[theme.id];
+                return (
+                  <article key={theme.id} className="rounded-lg bg-white p-3">
+                    <div className="flex items-center gap-2">
+                      {visual ? <ReportIcon iconKey={visual.iconKey} className="h-5 w-5 text-purple-800" /> : null}
+                      <p className="font-black text-ink">{displayThemeName(theme)}</p>
+                    </div>
+                    <p className="mt-2 text-sm font-bold text-purple-900">
+                      自社 {scoreLabel(averageQuestionScore(theme))} / 平均差分 {gapLabel(pastAverageGap(theme))}
+                    </p>
+                    <span className="mt-2 inline-flex rounded-full bg-purple-100 px-2 py-1 text-xs font-black text-purple-800">
+                      FBで確認
+                    </span>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          {false && report.feedback_discussion_points?.trim() ? (
+            <section className="mt-5 break-inside-avoid rounded-xl border border-rose-100 bg-rose-50 p-5">
+              <h3 className="text-xl font-black text-rose-950">FB面談で確認したい論点</h3>
+              <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-rose-950">
+                {report.feedback_discussion_points}
+              </p>
+            </section>
+          ) : null}
+
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-brand/20 bg-teal-50 p-5">
             <h3 className="text-xl font-black text-teal-950">サマリ</h3>
             <p className="mt-3 whitespace-pre-wrap text-base font-bold leading-8 text-teal-900">
               {multilineText(report.one_line_summary || report.summary)}
             </p>
           </section>
 
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-indigo-100 bg-indigo-50 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-indigo-700">V2 Beta</p>
+            <h3 className="mt-1 text-xl font-black text-indigo-950">現在の経営スタイル</h3>
+            {hasV2Beta ? (
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <article className="rounded-lg bg-white p-4 shadow-sm">
+                  <p className="text-xs font-black text-indigo-600">最も強く表れている経営スタイル</p>
+                  <p className="mt-2 text-lg font-black text-ink">
+                    {mainManagementStyle ? `${mainManagementStyle.icon} ${mainManagementStyle.name}` : "未判定"}
+                  </p>
+                  <p className="mt-2 text-sm font-bold leading-7 text-stone-700">
+                    {mainManagementStyle?.description ?? "保存済みのスタイル情報がありません。"}
+                  </p>
+                </article>
+                <article className="rounded-lg bg-white p-4 shadow-sm">
+                  <p className="text-xs font-black text-indigo-600">次に強く表れている経営スタイル</p>
+                  <p className="mt-2 text-lg font-black text-ink">
+                    {subManagementStyle ? `${subManagementStyle.icon} ${subManagementStyle.name}` : "未判定"}
+                  </p>
+                  <p className="mt-2 text-sm font-bold leading-7 text-stone-700">
+                    {subManagementStyle?.description ?? "保存済みのスタイル情報がありません。"}
+                  </p>
+                </article>
+              </div>
+            ) : (
+              <p className="mt-3 rounded-lg bg-white p-4 text-sm font-bold leading-7 text-stone-700">
+                この受検結果は旧バージョンのため、経営スタイルは未判定です。
+              </p>
+            )}
+          </section>
+
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-amber-100 bg-amber-50 p-5">
+            <h3 className="text-xl font-black text-amber-950">経営フェーズ</h3>
+            <p className="mt-2 text-lg font-black text-ink">
+              {hasV2Beta ? response.management_phase_label || phaseInfo?.label || "未判定" : "未判定"}
+            </p>
+            <p className="mt-2 text-sm font-bold leading-7 text-amber-950">
+              {hasV2Beta ? phaseInfo?.status ?? "従業員数が未入力のため、経営フェーズは未判定です。" : "この受検結果は旧バージョンのため、経営フェーズは未判定です。"}
+            </p>
+          </section>
+
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-purple-100 bg-purple-50 p-5">
+            <h3 className="text-xl font-black text-purple-950">次に伸ばしたい経営能力</h3>
+            <p className="mt-2 text-sm font-bold leading-7 text-purple-950">
+              現在の診断結果で、相対的に伸びしろが見られるテーマです。最優先課題として断定せず、面談で確認するための材料として扱います。
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {growthAbilityThemes.map((theme) => (
+                <span key={theme.id} className="rounded-full border border-purple-200 bg-white px-3 py-1 text-sm font-black text-purple-900">
+                  {displayThemeName(theme)} / 平均差分 {pastAverageGap(theme).toFixed(2)}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-stone-200 p-5">
+            <h3 className="text-xl font-black text-ink">3か月・12か月ロードマップ</h3>
+            <div className="mt-3 grid gap-4 md:grid-cols-2">
+              <article className="rounded-lg bg-stone-50 p-4">
+                <h4 className="font-black text-ink">3か月以内</h4>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.roadmap_3_months || "")}
+                </p>
+              </article>
+              <article className="rounded-lg bg-stone-50 p-4">
+                <h4 className="font-black text-ink">12か月以内</h4>
+                <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-stone-700">
+                  {multilineText(report.roadmap_12_months || "")}
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section className="hidden mt-5 break-inside-avoid rounded-lg border border-rose-100 bg-rose-50 p-5">
+            <h3 className="text-xl font-black text-rose-950">FB面談で確認したい論点</h3>
+            <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-rose-950">
+              {multilineText(report.feedback_discussion_points || "")}
+            </p>
+          </section>
+
+          <div className="hidden">
           <section className="mt-5 break-inside-avoid rounded-lg border border-blue-100 bg-blue-50 p-5">
             <h3 className="text-xl font-black text-blue-950">経営者タイプ</h3>
             <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 text-blue-950">
@@ -837,6 +1505,8 @@ export default function FeedbackReportPage() {
             </div>
           </section>
 
+          </div>
+
           <section className="report-chart-section mt-6 break-inside-avoid rounded-lg border border-stone-200 p-4">
             <div>
               <h3 className="text-xl font-black text-ink">レーダーチャート</h3>
@@ -872,13 +1542,14 @@ export default function FeedbackReportPage() {
               </div>
             </div>
             <div className="break-inside-avoid rounded-lg bg-amber-50 p-4">
-              <h3 className="font-black text-amber-950">低スコア</h3>
+              <h3 className="font-black text-amber-950">確認したいテーマ</h3>
               <div className="mt-3">
-                <ThemeTagList themes={sortedLowThemes} />
+                <ThemeTagList themes={(sortedPriorityThemes.length > 0 ? sortedPriorityThemes : sortedLowThemes).slice(0, 3)} />
               </div>
             </div>
           </section>
 
+          {report.show_theme_detail_table ? (
           <section className="mt-6">
             <h3 className="text-xl font-black text-ink">16スコア表</h3>
             <div className="mt-3 overflow-x-auto">
@@ -912,6 +1583,27 @@ export default function FeedbackReportPage() {
               </table>
             </div>
           </section>
+          ) : null}
+
+          <section className="mt-6 break-inside-avoid rounded-xl border border-stone-200 bg-stone-50 p-5">
+            <h3 className="text-xl font-black text-ink">論点・アクションプラン</h3>
+            <p className="mt-1 text-xs font-bold leading-5 text-stone-500">
+              ※このセクションは面談を通じて一緒に整理します
+            </p>
+            <div className="mt-4 space-y-3">
+              {actionPlanFields.map((field) => {
+                const value = String(report[field.key] ?? "").trim();
+                return (
+                  <div key={field.key} className="rounded-lg border border-stone-200 bg-white p-4">
+                    <p className="text-sm font-black text-stone-900">{field.label}</p>
+                    <p className={`mt-2 min-h-12 whitespace-pre-wrap text-sm font-bold leading-7 ${value ? "text-stone-800" : "text-stone-400"}`}>
+                      {multilineText(value || field.placeholder)}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
 
           <div className="hidden">
 
@@ -922,8 +1614,9 @@ export default function FeedbackReportPage() {
                 ["氏名", respondent?.name || "-"],
                 ["会社名", respondent?.company_name || "-"],
                 ["役職", "未取得"],
-                ["業種", respondent?.industry || "-"],
-                ["従業員規模", respondent?.employee_size || "-"],
+                ["従業員数", respondent?.employee_size || "-"],
+                ["創業年数", respondent?.founding_years || "-"],
+                ["会社の年商", respondent?.annual_revenue_range || "-"],
                 ["回答日時", formatDate(response.created_at)]
               ].map(([label, value]) => (
                 <div key={label} className="rounded-md bg-stone-50 px-3 py-2">

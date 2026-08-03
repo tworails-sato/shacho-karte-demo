@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BasicInfo } from "@/lib/diagnosis";
-import { employeeSizeOptions } from "@/lib/employee-phase";
+import { annualRevenueRangeOptions, employeeSizeOptions, foundingYearOptions } from "@/lib/employee-phase";
 import { clearLocalDraft, getLocalDraft, saveLocalDraft, type StoredDraft } from "@/lib/storage";
 
 const initialInfo: BasicInfo = {
@@ -11,8 +11,10 @@ const initialInfo: BasicInfo = {
   representativeName: "",
   email: "",
   emailNormalized: "",
-  industry: "",
+  industry: "未取得",
   employeeSize: "",
+  foundingYears: "",
+  annualRevenueRange: "",
   category: "",
   trafficSource: "",
   referrerName: "",
@@ -28,8 +30,7 @@ const initialInfo: BasicInfo = {
 const fields = [
   { key: "companyName", label: "会社名", type: "text", required: true },
   { key: "representativeName", label: "氏名", type: "text", required: true },
-  { key: "email", label: "メールアドレス", type: "email", required: true },
-  { key: "industry", label: "業種", type: "text", required: false }
+  { key: "email", label: "メールアドレス", type: "email", required: true }
 ] as const;
 
 const categories = ["経営者", "経営支援者", "その他"];
@@ -72,7 +73,8 @@ export default function BasicInfoPage() {
         const params = new URLSearchParams({
           responseId: localDraft.responseId,
           respondentId: localDraft.respondentId || "",
-          resumeKey: localDraft.resumeKey || ""
+          resumeKey: localDraft.resumeKey || "",
+          resumeToken: localDraft.resumeToken || ""
         });
         const response = await fetch(`/api/assessment-draft?${params.toString()}`);
         const payload = await response.json().catch(() => null);
@@ -126,7 +128,11 @@ export default function BasicInfoPage() {
       ...info,
       email: emailNormalized,
       emailNormalized,
+      industry: "未取得",
       referrerName: shouldShowReferrerName ? info.referrerName.trim() : "",
+      employeeSize: normalizeOptionalSelect(info.employeeSize),
+      foundingYears: normalizeOptionalSelect(info.foundingYears),
+      annualRevenueRange: normalizeOptionalSelect(info.annualRevenueRange),
       demoTermsAgreedAt: info.demoTermsAgreed ? new Date().toISOString() : "",
       consentAgreed: shouldRequireConsent ? info.consentAgreed : false,
       consentAgreedAt: shouldRequireConsent && info.consentAgreed ? new Date().toISOString() : ""
@@ -179,6 +185,10 @@ export default function BasicInfoPage() {
     }
 
     router.push("/diagnosis");
+  }
+
+  function normalizeOptionalSelect(value?: string) {
+    return value && value !== "回答しない" ? value : "";
   }
 
   function handleResumeDraft() {
@@ -280,21 +290,75 @@ export default function BasicInfoPage() {
             </select>
           </label>
 
-          <label className="space-y-2">
-            <span className="label">従業員規模</span>
-            <select
-              className="field"
-              value={info.employeeSize}
-              onChange={(event) => updateField("employeeSize", event.target.value)}
-            >
-              <option value="">選択してください</option>
-              {employeeSizeOptions.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-          </label>
+          <section className="rounded-lg border border-teal-100 bg-teal-50/70 p-4">
+            <div>
+              <h2 className="text-lg font-black text-teal-950">より実態に合った診断結果をご案内するために</h2>
+              <p className="mt-2 text-sm font-bold leading-7 text-stone-700">
+                以下の情報をご回答いただくと、
+                <br />
+                会社の成長フェーズや状況を踏まえた、より実態に近いアウトプットが可能です。
+              </p>
+            </div>
+
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <label className="space-y-2">
+                <span className="label">従業員数（任意）</span>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  役員・正社員・パート・アルバイトを含む、おおよその人数をご選択ください。
+                </span>
+                <select
+                  className="field bg-white"
+                  value={info.employeeSize}
+                  onChange={(event) => updateField("employeeSize", event.target.value)}
+                >
+                  <option value="">回答しない</option>
+                  {employeeSizeOptions.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <span className="label">創業年数（任意）</span>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  会社設立からのおおよその年数をご選択ください。
+                </span>
+                <select
+                  className="field bg-white"
+                  value={info.foundingYears}
+                  onChange={(event) => updateField("foundingYears", event.target.value)}
+                >
+                  <option value="">回答しない</option>
+                  {foundingYearOptions.map((years) => (
+                    <option key={years} value={years}>
+                      {years}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <span className="label">会社の年商（任意）</span>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  おおよその範囲で構いません。
+                </span>
+                <select
+                  className="field bg-white"
+                  value={info.annualRevenueRange}
+                  onChange={(event) => updateField("annualRevenueRange", event.target.value)}
+                >
+                  <option value="">回答しない</option>
+                  {annualRevenueRangeOptions.map((range) => (
+                    <option key={range} value={range}>
+                      {range}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </section>
 
           <label className="space-y-2">
             <span className="label">この診断をどちらでお知りになりましたか？ *</span>

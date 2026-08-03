@@ -81,7 +81,7 @@ export async function GET(request: Request) {
 async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, response: any): Promise<BasicInfo> {
   const { data: respondent, error } = await supabase
     .from("respondents")
-    .select("company_name,name,email,industry,employee_size,user_type")
+    .select("company_name,name,email,industry,employee_size,founding_years,annual_revenue_range,user_type")
     .eq("id", response.respondent_id)
     .single();
 
@@ -94,6 +94,8 @@ async function getBasicInfo(supabase: ReturnType<typeof createClient<any>>, resp
     emailNormalized: response.email_normalized ?? response.email ?? respondent.email ?? "",
     industry: respondent.industry ?? "",
     employeeSize: respondent.employee_size ?? "",
+    foundingYears: respondent.founding_years ?? "",
+    annualRevenueRange: respondent.annual_revenue_range ?? "",
     category: respondent.user_type ?? "",
     trafficSource: response.traffic_source ?? "",
     referrerName: response.referrer_name ?? "",
