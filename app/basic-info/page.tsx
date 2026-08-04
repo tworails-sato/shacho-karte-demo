@@ -303,9 +303,6 @@ export default function BasicInfoPage() {
             <div className="mt-4 grid gap-4 md:grid-cols-3">
               <label className="space-y-2">
                 <span className="label">従業員数（任意）</span>
-                <span className="block text-xs font-bold leading-5 text-stone-600">
-                  役員・正社員・パート・アルバイトを含む、おおよその人数をご選択ください。
-                </span>
                 <select
                   className="field bg-white"
                   value={info.employeeSize}
@@ -318,13 +315,13 @@ export default function BasicInfoPage() {
                     </option>
                   ))}
                 </select>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  役員・正社員・パート・アルバイトを含む、おおよその人数をご選択ください。
+                </span>
               </label>
 
               <label className="space-y-2">
                 <span className="label">創業年数（任意）</span>
-                <span className="block text-xs font-bold leading-5 text-stone-600">
-                  会社設立からのおおよその年数をご選択ください。
-                </span>
                 <select
                   className="field bg-white"
                   value={info.foundingYears}
@@ -337,13 +334,13 @@ export default function BasicInfoPage() {
                     </option>
                   ))}
                 </select>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  会社設立からのおおよその年数をご選択ください。
+                </span>
               </label>
 
               <label className="space-y-2">
                 <span className="label">会社の年商（任意）</span>
-                <span className="block text-xs font-bold leading-5 text-stone-600">
-                  おおよその範囲で構いません。
-                </span>
                 <select
                   className="field bg-white"
                   value={info.annualRevenueRange}
@@ -356,6 +353,9 @@ export default function BasicInfoPage() {
                     </option>
                   ))}
                 </select>
+                <span className="block text-xs font-bold leading-5 text-stone-600">
+                  おおよその範囲で構いません。
+                </span>
               </label>
             </div>
           </section>
