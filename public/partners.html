@@ -327,6 +327,36 @@ body.menu-open { overflow: hidden; }
   padding: 6px 12px; border-radius: 4px;
 }
 
+/* USE CASES BY INDUSTRY */
+.uc-sec { padding: 88px 48px; background: var(--white); }
+.uc-inner { max-width: 880px; margin: 0 auto; }
+.uc-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: var(--red); text-transform: uppercase; text-align: center; margin-bottom: 12px; }
+.uc-title { font-family: 'Noto Serif JP', serif; font-size: clamp(1.5rem, 3vw, 2.05rem); font-weight: 700; color: var(--black); text-align: center; line-height: 1.5; margin-bottom: 18px; word-break: auto-phrase; }
+.uc-lead { font-size: 1rem; color: var(--gray); text-align: center; max-width: 680px; margin: 0 auto 14px; line-height: 1.95; word-break: auto-phrase; }
+.uc-axis { display: block; text-align: center; font-size: 0.86rem; color: var(--red); font-weight: 700; margin-bottom: 48px; }
+.uc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.uc-card { background: var(--white); border: 1px solid var(--gray-light); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+.uc-card-wide { grid-column: 1 / -1; max-width: 520px; margin: 0 auto; }
+.uc-head { display: flex; align-items: center; gap: 12px; padding: 22px 24px 18px; border-bottom: 1px solid var(--gray-light); }
+.uc-ico { width: 46px; height: 46px; border-radius: 8px; background: var(--red-light); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0; }
+.uc-name { font-family: 'Noto Serif JP', serif; font-size: 1.05rem; font-weight: 700; color: var(--black); line-height: 1.4; }
+.uc-name small { display: block; font-family: 'Noto Sans JP', sans-serif; font-size: 0.72rem; color: var(--gray); font-weight: 700; margin-top: 2px; }
+.uc-body { padding: 8px 24px 20px; display: flex; flex-direction: column; gap: 0; flex: 1; }
+.uc-row { padding: 14px 0; border-bottom: 1px dashed var(--gray-light); }
+.uc-row:last-child { border-bottom: none; }
+.uc-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 2px; margin-bottom: 8px; letter-spacing: 0.03em; }
+.uc-before .uc-tag { background: var(--bg-gray); color: var(--gray); }
+.uc-how .uc-tag { background: var(--red-light); color: var(--red); }
+.uc-after .uc-tag { background: var(--green-light); color: var(--green); }
+.uc-row p { font-size: 0.84rem; color: var(--text); line-height: 1.9; margin: 0; word-break: auto-phrase; }
+.uc-after p { font-weight: 700; color: var(--black); }
+.uc-rev { display: block; font-size: 0.78rem; color: var(--green); font-weight: 700; margin-top: 6px; }
+.uc-foot { background: var(--bg-gray); padding: 12px 24px; font-size: 0.72rem; color: var(--gray); line-height: 1.7; border-top: 1px solid var(--gray-light); }
+.uc-bridge { text-align: center; margin-top: 40px; }
+.uc-bridge p { font-size: 0.9rem; color: var(--text); margin-bottom: 20px; line-height: 1.8; }
+.uc-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: var(--white); font-weight: 700; font-size: 1rem; padding: 18px 52px; border-radius: 4px; text-decoration: none; box-shadow: 0 8px 22px rgba(185,28,28,0.22); transition: background 0.2s, transform 0.2s; }
+.uc-cta:hover { background: var(--red-hover); transform: translateY(-2px); }
+
 /* PRICE */
 :root{
     --navy-top:#0a1622; --navy-mid:#12283d; --navy-btm:#1c3a52;
@@ -575,6 +605,12 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .mockup-inner { grid-template-columns: 1fr; }
   .fb-score-grid { grid-template-columns: 1fr; }
   .price-wrap { grid-template-columns: 1fr; }
+  .uc-sec { padding: 64px 24px; }
+  .uc-grid { grid-template-columns: 1fr; }
+  .uc-card-wide { grid-column: auto; max-width: none; }
+  .uc-head { padding: 20px 20px 16px; }
+  .uc-body { padding: 8px 20px 18px; }
+  .uc-foot { padding: 12px 20px; }
   .cta-section { padding: 64px 24px; }
   footer { padding: 24px 20px; }
 }
@@ -1038,6 +1074,96 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     </div>
   </div>
 </div>
+
+<!-- USE CASES BY INDUSTRY -->
+<section class="uc-sec" id="usecases">
+  <div class="uc-inner">
+    <div class="uc-eyebrow">USE CASES BY INDUSTRY</div>
+    <h2 class="uc-title">貴社の立場なら、社長カルテはこう使えます</h2>
+    <p class="uc-lead">士業・コンサル・営業支援・メディアなど、立場によって"効く使い方"は異なります。代表的なパターンをご紹介します。</p>
+    <span class="uc-axis">── いずれも、最終的に「貴社の売上」につながる使い方です ──</span>
+
+    <div class="uc-grid">
+
+      <!-- ① 税理士 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-ico">🧮</div>
+          <div class="uc-name">税理士・会計事務所<small>顧問先への活用</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>顧問先との会話が「数字の報告」で終わり、経営の相談まで踏み込めない。顧問料以上の提案がしづらい。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>決算・月次面談の前に社長カルテを案内。数字の外側にある経営課題（組織・意思決定・ブランディング等）を可視化し、「数字にはまだ出ていない課題」として提示する。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「記帳・申告の人」から「経営を診てくれる人」へ。<span class="uc-rev">▶ MAS監査・経営顧問など、顧問単価の引き上げ・上位サービスへ</span></p></div>
+        </div>
+        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
+      </div>
+
+      <!-- ② 人事コンサル -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-ico">👥</div>
+          <div class="uc-name">人事コンサル・社労士<small>人事課題の接点創出</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>手続き代行や単発研修の依頼はあるが、単発で終わりがち。組織づくりの継続支援まで踏み込めない。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>「組織機能・人材・権限移譲」テーマのスコアを入口に、「制度以前に、組織のこの部分に課題が出ています」と経営視点で人事課題への関心を引き出す。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>労務・手続きの枠を超えた提案が自然にできる。<span class="uc-rev">▶ 採用・定着・組織開発の継続コンサル契約へ</span></p></div>
+        </div>
+        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
+      </div>
+
+      <!-- ③ 営業代行会社 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-ico">📞</div>
+          <div class="uc-name">営業代行会社<small>商材販売のフック</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>いきなり本命商材を売り込んでも警戒され、そもそもアポが取れない。接点の入口が弱い。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを"無料の経営診断"というフックにして接点をつくる。診断・フィードバックを通じて信頼を得たうえで、本命商材の商談へ自然に接続する。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「売り込み」から「診断から始まる商談」へ。<span class="uc-rev">▶ 本命商材の販売（診断がアポ獲得のフックに）</span></p></div>
+        </div>
+        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
+      </div>
+
+      <!-- ④ メディア運営会社 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-ico">📰</div>
+          <div class="uc-name">メディア運営会社<small>会員・イベント特典</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>会員登録やイベント集客の"動機"が弱く、リードが思うように増えない。特典に目新しさがない。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを会員登録特典・イベント参加特典として提供。「登録すると経営診断が受けられる」という具体的な価値で、登録・参加の動機を強める。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>特典の魅力で登録・集客が伸びる。<span class="uc-rev">▶ 会員数・イベント集客の増加（＝送客・広告収益の拡大）</span></p></div>
+        </div>
+        <div class="uc-foot">※診断の提供・運用は弊社が支援します。まず設計から一緒に始められます。</div>
+      </div>
+
+      <!-- ⑤ 財務コンサル -->
+      <div class="uc-card uc-card-wide">
+        <div class="uc-head">
+          <div class="uc-ico">📊</div>
+          <div class="uc-name">財務コンサル<small>事業診断としてのフック</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>いきなり財務分析を提案しても「今は間に合っている」と流される。財務の話を聞いてもらう入口がない。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを"事業全体の診断"というフックにして受検してもらい、収益性・事業リスク等のスコアを起点に財務課題への関心を引き出す。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「財務だけの人」ではなく「事業を診る人」として入れる。<span class="uc-rev">▶ 財務分析・改善支援の受注（事業診断が財務深掘りの入口に）</span></p></div>
+        </div>
+        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
+      </div>
+
+    </div>
+
+    <div class="uc-bridge">
+      <p>貴社の業種がここにない場合も、「どう売上につなげるか」の使い方は一緒に設計できます。</p>
+      <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="uc-cta">まず無料でデモ診断を試す -&gt;</a>
+    </div>
+
+  </div>
+</section>
 
 <!-- VOICE -->
 <div class="section">
