@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { BasicInfo } from "@/lib/diagnosis";
+import { validateAssessmentEmail } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -102,6 +103,12 @@ export async function POST(request: Request) {
     const payload = (await request.json()) as DraftPayload;
     const respondentId = payload.respondentId || crypto.randomUUID();
     const basicInfo = normalizeBasicInfo(payload.basicInfo);
+    const emailValidation = validateAssessmentEmail(basicInfo.emailNormalized || basicInfo.email);
+    if (!emailValidation.ok) {
+      return NextResponse.json({ error: emailValidation.error }, { status: 400 });
+    }
+    basicInfo.email = emailValidation.normalizedEmail;
+    basicInfo.emailNormalized = emailValidation.normalizedEmail;
     const resumeKey = payload.resumeKey || createResumeKey();
     const resumeToken = createResumeToken();
     const answers = payload.answers ?? {};
@@ -257,6 +264,12 @@ export async function PATCH(request: Request) {
 
     if (payload.basicInfo) {
       const basicInfo = normalizeBasicInfo(payload.basicInfo);
+      const emailValidation = validateAssessmentEmail(basicInfo.emailNormalized || basicInfo.email);
+      if (!emailValidation.ok) {
+        return NextResponse.json({ error: emailValidation.error }, { status: 400 });
+      }
+      basicInfo.email = emailValidation.normalizedEmail;
+      basicInfo.emailNormalized = emailValidation.normalizedEmail;
       updatePayload.email = basicInfo.emailNormalized || basicInfo.email;
       updatePayload.email_normalized = basicInfo.emailNormalized || basicInfo.email;
       updatePayload.traffic_source = basicInfo.trafficSource;

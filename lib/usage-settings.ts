@@ -28,6 +28,50 @@ export function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+export const invalidEmailFormatMessage = "有効なメールアドレスを入力してください。（例：name@example.com）";
+export const rejectedEmailDomainMessage =
+  "このメールアドレスではご登録いただけません。受検結果をお届けできる、有効なメールアドレスをご入力ください。";
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const rejectedEmailDomains = new Set([
+  "10minutemail.com",
+  "a.com",
+  "aaa.com",
+  "example.com",
+  "fakeinbox.com",
+  "getnada.com",
+  "guerrillamail.com",
+  "maildrop.cc",
+  "mailinator.com",
+  "sharklasers.com",
+  "temp-mail.org",
+  "tempmail.com",
+  "test.com",
+  "test.jp",
+  "throwawaymail.com",
+  "trashmail.com",
+  "yopmail.com"
+]);
+
+export type EmailValidationResult =
+  | { ok: true; normalizedEmail: string }
+  | { ok: false; normalizedEmail: string; error: string; reason: "format" | "domain" };
+
+export function validateAssessmentEmail(email: string): EmailValidationResult {
+  const normalizedEmail = normalizeEmail(email);
+  if (!emailPattern.test(normalizedEmail)) {
+    return { ok: false, normalizedEmail, error: invalidEmailFormatMessage, reason: "format" };
+  }
+
+  const domain = normalizedEmail.split("@")[1] ?? "";
+  if (rejectedEmailDomains.has(domain)) {
+    return { ok: false, normalizedEmail, error: rejectedEmailDomainMessage, reason: "domain" };
+  }
+
+  return { ok: true, normalizedEmail };
+}
+
 export function usageSettingsFromRow(row?: NullableUsageSettings | null): UsageSettings {
   return {
     is_demo: row?.is_demo ?? defaultUsageSettings.is_demo,

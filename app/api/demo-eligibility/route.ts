@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { isAdminBypassEmail } from "@/lib/admin-bypass";
-import { normalizeEmail } from "@/lib/usage-settings";
+import { validateAssessmentEmail } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -15,10 +15,11 @@ export async function POST(request: Request) {
   }
 
   const { email } = await request.json();
-  const normalized = normalizeEmail(String(email || ""));
-  if (!normalized) {
-    return NextResponse.json({ ok: false, error: "メールアドレスを入力してください。" }, { status: 400 });
+  const validation = validateAssessmentEmail(String(email || ""));
+  if (!validation.ok) {
+    return NextResponse.json({ ok: false, error: validation.error }, { status: 400 });
   }
+  const normalized = validation.normalizedEmail;
   if (isAdminBypassEmail(normalized)) {
     return NextResponse.json({ ok: true, bypass: "admin" });
   }

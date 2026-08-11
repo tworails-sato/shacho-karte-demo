@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { BasicInfo } from "@/lib/diagnosis";
 import { annualRevenueRangeOptions, employeeSizeOptions, foundingYearOptions } from "@/lib/employee-phase";
 import { clearLocalDraft, getLocalDraft, saveLocalDraft, type StoredDraft } from "@/lib/storage";
+import { validateAssessmentEmail } from "@/lib/usage-settings";
 
 const initialInfo: BasicInfo = {
   companyName: "",
@@ -50,6 +51,7 @@ const referralSources = [
 export default function BasicInfoPage() {
   const router = useRouter();
   const [info, setInfo] = useState<BasicInfo>(initialInfo);
+  const [emailError, setEmailError] = useState("");
   const [eligibilityError, setEligibilityError] = useState("");
   const [demoTermsError, setDemoTermsError] = useState("");
   const [checkingEligibility, setCheckingEligibility] = useState(false);
@@ -103,6 +105,10 @@ export default function BasicInfoPage() {
     if (key === "demoTermsAgreed" && value === true) {
       setDemoTermsError("");
     }
+    if (key === "email") {
+      setEmailError("");
+      setEligibilityError("");
+    }
 
     setInfo((current) => {
       if (key === "category" && typeof value === "string" && value !== "経営支援者") {
@@ -111,6 +117,16 @@ export default function BasicInfoPage() {
 
       return { ...current, [key]: value };
     });
+  }
+
+  function validateEmailField() {
+    const validation = validateAssessmentEmail(info.email);
+    if (!validation.ok) {
+      setEmailError(validation.error);
+      return "";
+    }
+    setEmailError("");
+    return validation.normalizedEmail;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -123,7 +139,9 @@ export default function BasicInfoPage() {
     }
 
     setDemoTermsError("");
-    const emailNormalized = info.email.trim().toLowerCase();
+    const emailNormalized = validateEmailField();
+    if (!emailNormalized) return;
+
     const submittedInfo: BasicInfo = {
       ...info,
       email: emailNormalized,
@@ -263,12 +281,20 @@ export default function BasicInfoPage() {
                   {field.required ? " *" : ""}
                 </span>
                 <input
-                  className="field"
+                  className={`field ${field.key === "email" && emailError ? "border-rose-300 bg-rose-50" : ""}`}
+                  aria-describedby={field.key === "email" && emailError ? "email-error" : undefined}
+                  aria-invalid={field.key === "email" && Boolean(emailError)}
                   required={field.required}
                   type={field.type}
                   value={info[field.key]}
                   onChange={(event) => updateField(field.key, event.target.value)}
+                  onBlur={field.key === "email" ? validateEmailField : undefined}
                 />
+                {field.key === "email" && emailError ? (
+                  <span id="email-error" role="alert" className="block text-sm font-bold text-rose-700">
+                    {emailError}
+                  </span>
+                ) : null}
               </label>
             ))}
           </div>

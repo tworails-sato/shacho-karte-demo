@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { StoredSubmission } from "@/lib/storage";
 import { isAdminBypassEmail } from "@/lib/admin-bypass";
 import { calculateV2BetaResult } from "@/lib/management-style";
-import { defaultUsageSettings, usageSettingsFromRow } from "@/lib/usage-settings";
+import { defaultUsageSettings, usageSettingsFromRow, validateAssessmentEmail } from "@/lib/usage-settings";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -22,9 +22,11 @@ export async function POST(request: Request) {
     const submission = (await request.json()) as StoredSubmission;
     const supabase = createClient<any>(supabaseUrl, supabaseAnonKey);
     const respondentId = submission.respondentId ?? submission.id;
-    const normalizedEmail = (submission.basicInfo.emailNormalized || submission.basicInfo.email || "")
-      .trim()
-      .toLowerCase();
+    const emailValidation = validateAssessmentEmail(submission.basicInfo.emailNormalized || submission.basicInfo.email || "");
+    if (!emailValidation.ok) {
+      return NextResponse.json({ error: emailValidation.error }, { status: 400 });
+    }
+    const normalizedEmail = emailValidation.normalizedEmail;
     let responseId = submission.responseId;
     let resultToken = submission.resultToken;
     let resultTokenExpiresAt = submission.resultTokenExpiresAt;
