@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>社長カルテ for Partners | 経営支援者向け診断ツール</title>
+<title>社長カルテOEM | BtoB事業者向け診断OEMサービス</title>
+<meta name="description" content="社長カルテOEMは、貴社ブランド・専門領域に合わせた診断を提供し、顧客の課題可視化と課題解決の会話づくりを支援するBtoB事業者向けサービスです。">
+<meta property="og:title" content="社長カルテOEM">
+<meta property="og:description" content="貴社専用の診断で、顧客の課題を可視化する。BtoB事業者向けの診断OEMサービスです。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,6 +53,14 @@ nav {
   text-decoration: none; transition: color 0.2s;
 }
 .nav-link:hover { color: var(--red); }
+.nav-link-accent {
+  color: var(--red);
+  background: var(--red-light);
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+.nav-link-accent:hover { background: #fee2e2; color: var(--red-hover); }
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 .nav-cta, .nav-cta-sub {
   display: inline-flex; align-items: center; justify-content: center;
@@ -93,6 +104,18 @@ body.menu-open { overflow: hidden; }
   display: inline-block; background: var(--red-light); color: var(--red);
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
   padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; text-transform: uppercase;
+}
+.hero-kicker {
+  display: inline-block;
+  color: var(--red);
+  background: var(--red-light);
+  border: 1px solid #fecaca;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 22px;
 }
 .hero h1 {
   font-family: 'Noto Serif JP', serif;
@@ -582,6 +605,33 @@ body.menu-open { overflow: hidden; }
 .cta-profile-role { font-size: 0.76rem; color: #9ca3af; }
 .cta-profile-mail { font-size: 0.76rem; color: var(--red); }
 
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 120;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 12px 28px rgba(185,28,28,0.25);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.2s, transform 0.2s, background 0.2s;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.back-to-top:hover { background: var(--red-hover); }
+
 footer { background: #1a1a1a; padding: 28px 48px; text-align: center; border-top: 1px solid #2a2a2a; }
 footer p { font-size: 0.74rem; color: #4b5563; }
 
@@ -613,6 +663,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   }
   .mobile-menu .mobile-main-cta { background: var(--red); color: var(--white); }
   .mobile-menu .mobile-sub-cta { color: var(--red); border: 1px solid rgba(185,28,28,0.35); }
+  .mobile-menu .mobile-accent { color: var(--red); background: var(--red-light); justify-content: center; border-radius: 4px; border-bottom: none; margin-top: 10px; }
   .hero { padding: 100px 24px 0; }
   .sp-br { display: inline; }
   .hero-badges { gap: 16px; }
@@ -632,6 +683,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .uc-body { padding: 8px 20px 18px; }
   .uc-foot { padding: 12px 20px; }
   .cta-section { padding: 64px 24px; }
+  .back-to-top { right: 16px; bottom: 16px; width: 48px; height: 48px; }
   footer { padding: 24px 20px; }
 }
 
@@ -724,11 +776,12 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <nav>
   <a href="https://karte.ceo-sherpa.com/" class="nav-logo">
     <img src="/images/shacho-karte-logo.png" alt="社長カルテ" class="nav-logo-img">
-    <span>社長カルテ <span>for Partners</span></span>
+    <span>社長カルテ <span>OEM</span></span>
   </a>
   <div class="nav-right">
     <div class="nav-links" aria-label="グローバルメニュー">
       <a href="#features" class="nav-link">特徴</a>
+      <a href="#use-cases" class="nav-link nav-link-accent">活用方法</a>
       <a href="#cases" class="nav-link">導入事例</a>
       <a href="#pricing" class="nav-link">料金</a>
       <a href="/partners/contact" class="nav-link">お問い合わせ</a>
@@ -746,6 +799,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </nav>
 <div class="mobile-menu" id="mobile-menu">
   <a href="#features">特徴</a>
+  <a href="#use-cases" class="mobile-accent">活用方法</a>
   <a href="#cases">導入事例</a>
   <a href="#pricing">料金</a>
   <a href="/partners/contact">お問い合わせ</a>
@@ -755,9 +809,9 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-lead">販路を、もう一段広げたい<br>コンサル・士業・経営支援者の方へ</p>
-  <h1><span class="hero-title-line">「売り込み営業」が</span><span class="hero-title-line"><em>「相手からの経営相談」</em>に変わる。</span></h1>
-  <p class="hero-sub2">「どう声をかけようか？」と迷っていた相手も、社長カルテを使えば、自然な会話の糸口が生まれます。</p>
+  <div class="hero-kicker">BtoB事業者向け｜診断OEMサービス</div>
+  <h1>貴社専用の診断で、顧客の課題を可視化する。</h1>
+  <p class="hero-sub2">お客様に配って、結果を一緒に見るだけ。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
 
   <p class="hero-sub">800名以上の成長企業データと比較。“感覚”ではなく“事実”で課題が見えるから、会話が変わります。</p>
 
@@ -768,9 +822,9 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <!-- WHAT IS PARTNERS -->
 <div class="section section-bg">
   <div class="section-inner">
-    <div class="eyebrow">What is 社長カルテ for Partners</div>
-    <h2 class="sec-title">社長カルテ for Partners とは</h2>
-    <p class="sec-body" style="line-break:strict;">コンサルタント・士業・経営支援者の方が、<strong style="color:var(--black);">社長カルテを自社の営業・提案活動に組み込んで活用する提供プログラム</strong>です。診断の提供からフィードバック、活用サポートまでを一貫してご用意しています。</p>
+    <div class="eyebrow">What is 社長カルテOEM</div>
+    <h2 class="sec-title">社長カルテOEM とは</h2>
+    <p class="sec-body" style="line-break:strict;">コンサルタント・士業・BtoB事業者の方が、<strong style="color:var(--black);">貴社ブランドや専門領域に合わせた診断をサービスとして提供できるプログラム</strong>です。診断の提供からフィードバック、活用サポートまでを一貫してご用意しています。</p>
 
     <div class="hero-mockup-wrap" style="max-width:720px;margin:40px auto 0;">
       <div class="mockup-bar">
@@ -865,15 +919,15 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <div class="section" id="features">
   <div class="section-inner">
     <div class="eyebrow">Why it works</div>
-    <h2 class="sec-title">支援者にとっての「武器」になる3つの理由</h2>
-    <p class="sec-body">社長カルテは、ただの診断ツールではありません。あなたの提案を「根拠ある会話」に変える仕組みです。</p>
+    <h2 class="sec-title">導入企業にとっての「武器」になる3つの理由</h2>
+    <p class="sec-body">社長カルテOEMは、ただの診断ツールではありません。貴社の提案を「根拠ある会話」に変える仕組みです。</p>
     <div class="weapons-grid">
       <div class="weapon-card">
         <div class="weapon-num">01</div>
         <div class="weapon-content">
           <div class="weapon-title">主観ではなく、<em>他の社長との相対評価</em>で事実が浮き彫りになる</div>
           <p class="weapon-body">「うちは営業が弱い」という社長の感覚的な話で終わらない。16テーマのスコアが数値で出るため、「同じ業種・規模の社長と比べてここが特に低い」という客観的な事実として提示できます。社長が自分の課題を「認めざるを得ない」状態になるため、提案への抵抗感が下がります。</p>
-          <div class="weapon-highlight">「感覚の話」から「データの話」へ。支援者の提案に根拠が生まれます。</div>
+          <div class="weapon-highlight">「感覚の話」から「データの話」へ。貴社の提案に根拠が生まれます。</div>
         </div>
       </div>
       <div class="weapon-card">
@@ -887,7 +941,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div class="weapon-card">
         <div class="weapon-num">03</div>
         <div class="weapon-content">
-          <div class="weapon-title">社長カルテを受ける社長は、<em>改善意欲が高い</em></div>
+          <div class="weapon-title">診断に回答する社長は、<em>改善意欲が高い</em></div>
           <p class="weapon-body">自ら診断を受けるという行動をとった社長は、現状を変えたいという意欲の表れです。課題を直視し、改善しようとしている社長だからこそ、フィードバックを受け入れやすく、提案にも前向きです。「売り込まなくても提案が通る」状態が生まれます。</p>
           <div class="weapon-highlight">提案を受け入れてもらいやすいフェーズの社長だけと話せる。営業効率が根本から変わります。</div>
         </div>
@@ -919,7 +973,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <div class="weapon-card" style="grid-template-columns:1fr;">
         <div class="weapon-content">
           <div class="weapon-title"><em>③</em> 「作れる」と「運用し続けられる」は別</div>
-          <p class="weapon-body">設問設計・スコアリング・FBレポート生成・改善——診断を作って運用し続けるには相応の工数がかかります。社長カルテなら、その仕組みをそのまま使いながら、自社専用の診断にカスタマイズすることも可能です。</p>
+          <p class="weapon-body">設問設計・スコアリング・FBレポート生成・改善——診断を作って運用し続けるには相応の工数がかかります。社長カルテOEMなら、その仕組みをもとに、貴社専用の診断へカスタマイズすることも可能です。</p>
         </div>
       </div>
     </div>
@@ -1110,81 +1164,53 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- USE CASES BY INDUSTRY -->
-<section class="uc-sec" id="usecases">
+<section class="uc-sec" id="use-cases">
   <div class="uc-inner">
     <div class="uc-eyebrow">USE CASES BY INDUSTRY</div>
     <h2 class="uc-title">貴社の立場なら、社長カルテはこう使えます</h2>
-    <p class="uc-lead">士業・コンサル・営業支援・メディアなど、立場によって"効く使い方"は異なります。代表的なパターンをご紹介します。</p>
+    <p class="uc-lead">メディア・コミュニティ、BtoBサービス、コンサル・士業など、立場によって"効く使い方"は異なります。代表的なパターンをご紹介します。</p>
     <span class="uc-axis">── いずれも、最終的に「貴社の売上」につながる使い方です ──</span>
 
     <div class="uc-grid">
 
-      <!-- ① 税理士 -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-ico">🧮</div>
-          <div class="uc-name">税理士・会計事務所<small>顧問先への活用</small></div>
-        </div>
-        <div class="uc-body">
-          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>顧問先との会話が「数字の報告」で終わり、経営の相談まで踏み込めない。顧問料以上の提案がしづらい。</p></div>
-          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>決算・月次面談の前に社長カルテを案内。数字の外側にある経営課題（組織・意思決定・ブランディング等）を可視化し、「数字にはまだ出ていない課題」として提示する。</p></div>
-          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「記帳・申告の人」から「経営を診てくれる人」へ。<span class="uc-rev">▶ MAS監査・経営顧問など、顧問単価の引き上げ・上位サービスへ</span></p></div>
-        </div>
-        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
-      </div>
-
-      <!-- ② 人事コンサル -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-ico">👥</div>
-          <div class="uc-name">人事コンサル・社労士<small>人事課題の接点創出</small></div>
-        </div>
-        <div class="uc-body">
-          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>手続き代行や単発研修の依頼はあるが、単発で終わりがち。組織づくりの継続支援まで踏み込めない。</p></div>
-          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>「組織機能・人材・権限移譲」テーマのスコアを入口に、「制度以前に、組織のこの部分に課題が出ています」と経営視点で人事課題への関心を引き出す。</p></div>
-          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>労務・手続きの枠を超えた提案が自然にできる。<span class="uc-rev">▶ 採用・定着・組織開発の継続コンサル契約へ</span></p></div>
-        </div>
-        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
-      </div>
-
-      <!-- ③ 営業代行会社 -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-ico">📞</div>
-          <div class="uc-name">営業代行会社<small>商材販売のフック</small></div>
-        </div>
-        <div class="uc-body">
-          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>いきなり本命商材を売り込んでも警戒され、そもそもアポが取れない。接点の入口が弱い。</p></div>
-          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを"無料の経営診断"というフックにして接点をつくる。診断・フィードバックを通じて信頼を得たうえで、本命商材の商談へ自然に接続する。</p></div>
-          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「売り込み」から「診断から始まる商談」へ。<span class="uc-rev">▶ 本命商材の販売（診断がアポ獲得のフックに）</span></p></div>
-        </div>
-        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
-      </div>
-
-      <!-- ④ メディア運営会社 -->
+      <!-- ① メディア・コミュニティ -->
       <div class="uc-card">
         <div class="uc-head">
           <div class="uc-ico">📰</div>
-          <div class="uc-name">メディア運営会社<small>会員・イベント特典</small></div>
+          <div class="uc-name">経営者メディア／コミュニティ運営者の方<small>会員・イベント特典</small></div>
         </div>
         <div class="uc-body">
           <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>会員登録やイベント集客の"動機"が弱く、リードが思うように増えない。特典に目新しさがない。</p></div>
-          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを会員登録特典・イベント参加特典として提供。「登録すると経営診断が受けられる」という具体的な価値で、登録・参加の動機を強める。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>貴社の診断を会員登録特典・イベント参加特典として提供。「登録すると経営診断が受けられる」という具体的な価値で、登録・参加の動機を強める。</p></div>
           <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>特典の魅力で登録・集客が伸びる。<span class="uc-rev">▶ 会員数・イベント集客の増加（＝送客・広告収益の拡大）</span></p></div>
         </div>
         <div class="uc-foot">※診断の提供・運用は弊社が支援します。まず設計から一緒に始められます。</div>
       </div>
 
-      <!-- ⑤ 財務コンサル -->
+      <!-- ② BtoBサービス -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-ico">🧩</div>
+          <div class="uc-name">BtoBサービス事業者（SaaSなど）の方<small>商材提案の入口づくり</small></div>
+        </div>
+        <div class="uc-body">
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>いきなり本命商材を案内しても警戒され、そもそもアポが取れない。接点の入口が弱い。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>貴社専用の無料診断を接点にして、経営課題を可視化する。診断・フィードバックを通じて信頼を得たうえで、本命商材の商談へ自然に接続する。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「売り込み」から「診断から始まる商談」へ。<span class="uc-rev">▶ 本命商材の受注（診断がアポ獲得のフックに）</span></p></div>
+        </div>
+        <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
+      </div>
+
+      <!-- ③ コンサル・士業 -->
       <div class="uc-card uc-card-wide">
         <div class="uc-head">
           <div class="uc-ico">📊</div>
-          <div class="uc-name">財務コンサル<small>事業診断としてのフック</small></div>
+          <div class="uc-name">組織コンサルタント／士業の方<small>顧問先・相談先への活用</small></div>
         </div>
         <div class="uc-body">
-          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>いきなり財務分析を提案しても「今は間に合っている」と流される。財務の話を聞いてもらう入口がない。</p></div>
-          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>社長カルテを"事業全体の診断"というフックにして受検してもらい、収益性・事業リスク等のスコアを起点に財務課題への関心を引き出す。</p></div>
-          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「財務だけの人」ではなく「事業を診る人」として入れる。<span class="uc-rev">▶ 財務分析・改善支援の受注（事業診断が財務深掘りの入口に）</span></p></div>
+          <div class="uc-row uc-before"><span class="uc-tag">こんな場面</span><p>既存顧客との会話が業務報告や単発相談で終わり、経営の相談まで踏み込めない。上位サービスの提案がしづらい。</p></div>
+          <div class="uc-row uc-how"><span class="uc-tag">こう使う</span><p>決算・月次面談や初回相談の前に貴社の診断を案内。数字の外側にある経営課題（組織・意思決定・ブランディング等）を可視化し、「数字にはまだ出ていない課題」として提示する。</p></div>
+          <div class="uc-row uc-after"><span class="uc-tag">つながる売上</span><p>「作業を頼む相手」から「経営を一緒に整理する相手」へ。<span class="uc-rev">▶ 経営顧問・組織開発・財務改善など、上位サービスへ</span></p></div>
         </div>
         <div class="uc-foot">※フィードバック面談は弊社が同席・代行します。まず案内するところから始められます。</div>
       </div>
@@ -1226,10 +1252,10 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <div class="sec-in">
     <div class="eyebrow">PRICING</div>
     <h2 class="sec-ttl">目的に合わせて選べる、4つのプラン</h2>
-    <p class="sec-lead">まずは診断を試すところから、自社専用の診断で本格展開するところまで。段階的にご活用いただけます。</p>
+    <p class="sec-lead">まずは診断を試すところから、自社専用の診断で本格展開するところまで。段階的に導入いただけます。</p>
 
     <div class="select-note">
-      社長カルテ Partners は、支援者ご自身の営業・提案活動を補助するプログラムです。
+      社長カルテOEMは、貴社の営業・提案活動を補助する診断OEMプログラムです。
     </div>
 
     <div class="ptable-wrap">
@@ -1360,7 +1386,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            フィードバック面談は、<b>当社が支援者様に代わって実施する形</b>を標準としています。診断結果の読み解きには一定の経験が必要なこと、また第三者が入ることで経営者側も本音を話しやすくなるためです。
+            フィードバック面談は、<b>当社が貴社に代わって実施する形</b>を標準としています。診断結果の読み解きには一定の経験が必要なこと、また第三者が入ることで経営者側も本音を話しやすくなるためです。
             <span class="note">ご自身で実施できるようになりたい場合は、<b>内製化・型化のご支援</b>（スタンダードプラン以上）にて、面談の進め方やレポートの読み解き方までお伝えします。将来的に、貴社のメンバーの方が実施できる状態を目指せます。</span>
           </div>
         </div>
@@ -1375,7 +1401,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            診断が生まれ、商談につながり、成果として見えるまでには一定の期間が必要なためです。3か月では導線の設計と検証が終わらないまま契約満了となり、支援者様にとっても成果を判断できないまま終わってしまいます。<b>だからこそ、最低6か月とさせていただいております。</b>
+            診断が生まれ、商談につながり、成果として見えるまでには一定の期間が必要なためです。3か月では導線の設計と検証が終わらないまま契約満了となり、導入企業にとっても成果を判断できないまま終わってしまいます。<b>だからこそ、最低6か月とさせていただいております。</b>
           </div>
         </div>
       </details>
@@ -1389,7 +1415,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            申し訳ございませんが、成果報酬でのご提供は行っておりません。成果を出すためには、<b>支援者様と当社の双方が主体的に動く協力体制</b>が不可欠だと考えているためです。
+            申し訳ございませんが、成果報酬でのご提供は行っておりません。成果を出すためには、<b>貴社と当社の双方が主体的に動く協力体制</b>が不可欠だと考えているためです。
           </div>
         </div>
       </details>
@@ -1397,14 +1423,14 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <details class="faq-item">
         <summary class="faq-q">
           <span class="qmark">Q</span>
-          <span class="qtext">社長カルテを活用して、自社サービスの紹介代理店として動いていただくことはできますか？</span>
+          <span class="qtext">当社サービスの営業代行やリード紹介まで依頼できますか？</span>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            申し訳ございません。<b>当社が支援者様のサービスや商品を直接販売・リード紹介といった形でのご提供は行っておりません。</b>
-            <span class="note">リードのご紹介など営業支援・代行をご希望の場合は、<b>エンタープライズプラン</b>にてご提供いたします。</span>
+            社長カルテOEMは、貴社専用診断の立ち上げと活用導線づくりを支援するサービスです。<b>当社が貴社サービスを直接営業する形ではありません。</b>
+            <span class="note">ただし、診断を入口にした商談創出の設計や運用伴走は、プラン内容に応じてご相談いただけます。</span>
           </div>
         </div>
       </details>
@@ -1418,7 +1444,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            可能です。価格設定は支援者様にお任せしています。参考として、多くの支援者様は<b>1.5万円〜2万円程度</b>で提供されるケースが多くなっています。
+            可能です。価格設定は貴社にお任せしています。参考として、多くの導入企業では<b>1.5万円〜2万円程度</b>で提供されるケースが多くなっています。
           </div>
         </div>
       </details>
@@ -1455,6 +1481,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <p>© <a href="https://www.t-rails.com/" target="_blank" style="color:#6b7280;text-decoration:underline;">Two Rails</a></p>
 </footer>
 
+<button class="back-to-top" type="button" aria-label="ページ上部へ戻る">↑</button>
+
 <script>
   (() => {
     const toggle = document.querySelector(".nav-toggle");
@@ -1479,6 +1507,22 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") setOpen(false);
     });
+  })();
+
+  (() => {
+    const button = document.querySelector(".back-to-top");
+    if (!button) return;
+
+    const toggleVisibility = () => {
+      button.classList.toggle("is-visible", window.scrollY > 400);
+    };
+
+    button.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    toggleVisibility();
   })();
 </script>
 
