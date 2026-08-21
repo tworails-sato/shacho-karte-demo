@@ -28,16 +28,16 @@ const features = [
 
 const partnerItems = [
   {
+    title: "貴社の名前・専門性で提供できる",
+    body: "専門分野に合わせて診断をカスタム・開発できます。"
+  },
+  {
     title: "「紹介待ち」から、能動的な提案へ",
     body: "社長カルテを活用することで、自社でご提案のきっかけを生み出せます。"
   },
   {
     title: "経営者の「気づき」を引き出す",
     body: "言語化しづらい課題の可視化を通じて、ご支援の質が高まります。"
-  },
-  {
-    title: "自社の領域に合わせて広げられる",
-    body: "専門性に合わせた診断のカスタム＆開発が可能です（OEM）。"
   }
 ] as const;
 
@@ -324,7 +324,7 @@ export default function HomePage() {
             <a href="#flow">アセスメントの流れ</a>
             <a href="#feature">特徴</a>
             <a href="#result">結果イメージ</a>
-            <a href="#partner" className="hd-partner">支援者向けプランを見る</a>
+            <a href="#partner" className="hd-partner">社長カルテOEM</a>
             <Link href="/basic-info" className="hd-cta">診断を始める</Link>
           </nav>
           <Link href="/basic-info" className="hd-cta hd-cta-m">診断を始める</Link>
@@ -500,9 +500,8 @@ export default function HomePage() {
       <section className="sec navy" id="partner">
         <div className="sec-in">
           <div className="eyebrow">FOR PARTNERS</div>
-          <p className="partner-target">経営コンサルタント・士業・経営支援者の方へ。</p>
-          <h2 className="sec-ttl">社長カルテを、経営者との対話のきっかけにしませんか？</h2>
-          <p className="sec-desc">過去に接点を持った顧客・経営者との、自然な対話が生まれます。</p>
+          <p className="partner-target">経営者メディア・コミュニティ運営、BtoBサービス、コンサル・士業の方へ。</p>
+          <h2 className="sec-ttl">社長カルテを、貴社のサービスに。</h2>
           <div className="partner-grid">
             {partnerItems.map((item) => (
               <div className="partner-card" key={item.title}>
@@ -512,7 +511,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="partner-cta">
-            <Link href="/partners.html" className="kv-cta">支援者向けプランを見る</Link>
+            <Link href="/partners.html" className="kv-cta">社長カルテOEMの詳細をみる</Link>
           </div>
         </div>
       </section>
