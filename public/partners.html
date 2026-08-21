@@ -140,6 +140,47 @@ body.menu-open { overflow: hidden; }
   line-height: 1.85;
   font-weight: 700;
 }
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 760px;
+  margin: 26px auto 10px;
+  border-top: 1px solid var(--gray-light);
+  border-bottom: 1px solid var(--gray-light);
+}
+.hero-metric {
+  padding: 18px 20px;
+  text-align: center;
+}
+.hero-metric + .hero-metric {
+  border-left: 1px solid var(--gray-light);
+}
+.hero-metric-label {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--gray);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.hero-metric-num {
+  display: block;
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  color: var(--red);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.hero-metric-num small {
+  font-size: 0.55em;
+  margin-left: 2px;
+}
+.hero-metric-note {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  line-height: 1.7;
+}
 
 /* HERO BADGES */
 .hero-badges {
@@ -666,6 +707,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .mobile-menu .mobile-accent { color: var(--red); background: var(--red-light); justify-content: center; border-radius: 4px; border-bottom: none; margin-top: 10px; }
   .hero { padding: 100px 24px 0; }
   .sp-br { display: inline; }
+  .hero-metrics { grid-template-columns: 1fr; }
+  .hero-metric + .hero-metric { border-left: none; border-top: 1px solid var(--gray-light); }
   .hero-badges { gap: 16px; }
   .hero-badge-num { font-size: 1.6rem; }
   .laurel { font-size: 1.3rem; }
@@ -811,12 +854,24 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <div class="hero">
   <div class="hero-kicker">BtoB事業者向け｜診断OEMサービス</div>
   <h1>貴社専用の診断で、顧客の課題を可視化する。</h1>
-  <p class="hero-sub2">お客様に配って、結果を一緒に見るだけ。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
-
-  <p class="hero-sub">800名以上の成長企業データと比較。“感覚”ではなく“事実”で課題が見えるから、会話が変わります。</p>
+  <p class="hero-sub2">お客様に受けていただき、結果を一緒に読み解く。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
 
   <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
-  <p class="hero-note">※ 所要時間約5分</p>
+  <div class="hero-metrics" aria-label="社長カルテOEMの実績数値">
+    <div class="hero-metric">
+      <span class="hero-metric-label">参考経営者データ</span>
+      <span class="hero-metric-num">800<small>名以上</small></span>
+    </div>
+    <div class="hero-metric">
+      <span class="hero-metric-label">受検にかかる時間</span>
+      <span class="hero-metric-num"><small>約</small>5<small>分</small></span>
+    </div>
+    <div class="hero-metric">
+      <span class="hero-metric-label">デモ後の商談化率</span>
+      <span class="hero-metric-num">70<small>%以上</small></span>
+    </div>
+  </div>
+  <p class="hero-metric-note">※商談化率は自社実績に基づく数値です（集計期間：2025年7月〜2026年6月）</p>
 </div>
 
 <!-- WHAT IS PARTNERS -->
