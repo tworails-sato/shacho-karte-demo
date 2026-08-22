@@ -118,8 +118,8 @@ export default function HomePage() {
         .hd-logo{font-family:'Noto Serif JP',serif;font-weight:700;font-size:1.1rem;color:var(--ink);display:flex;align-items:center;gap:10px;flex-shrink:0;}
         .hd-logo-img{height:40px;width:auto;object-fit:contain;}
         .hd-logo-txt{font-family:'Noto Serif JP',serif;font-weight:700;font-size:1.05rem;color:var(--ink);letter-spacing:0.02em;white-space:nowrap;}
-        .hd-nav{display:flex;gap:26px;margin-left:auto;align-items:center;}
-        .hd-nav a{font-size:0.86rem;color:var(--muted);font-weight:500;transition:color .15s,background .15s,transform .15s;}
+        .hd-nav{display:flex;gap:18px;margin-left:auto;align-items:center;}
+        .hd-nav a{font-size:0.82rem;color:var(--muted);font-weight:500;transition:color .15s,background .15s,transform .15s;white-space:nowrap;}
         .hd-nav a:hover{color:var(--ink);}
         .hd-partner{color:var(--mint-deep)!important;font-weight:700!important;}
         .hd-cta{
@@ -266,6 +266,19 @@ export default function HomePage() {
         .result-legend i{width:16px;height:3px;border-radius:2px;display:inline-block;}
         .result-full-note{margin-top:26px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.85rem;color:var(--muted-light);line-height:1.85;}
 
+        .after-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;}
+        .after-card{
+          background:var(--paper);border:1px solid var(--line);border-radius:16px;
+          padding:28px 24px;min-height:210px;
+          box-shadow:0 10px 30px rgba(20,40,60,0.05);
+        }
+        .after-num{
+          font-family:'Noto Serif JP',serif;font-size:2.2rem;font-weight:700;
+          color:var(--mint-deep);line-height:1;margin-bottom:18px;
+        }
+        .after-h{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.55;}
+        .after-p{font-size:0.86rem;color:var(--muted);line-height:1.9;}
+
         .faq{max-width:760px;margin:0 auto;}
         .faq-item{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:12px;}
         .faq-q{font-weight:700;font-size:0.95rem;color:var(--ink);display:flex;gap:10px;}
@@ -303,6 +316,7 @@ export default function HomePage() {
           .result-full{padding:22px 18px;}
           .result-full-body{grid-template-columns:1fr;gap:24px;}
           .result-chart{max-width:320px;margin:0 auto;}
+          .after-grid{grid-template-columns:1fr 1fr;}
           .partner-grid{grid-template-columns:1fr;}
         }
         @media(max-width:560px){
@@ -311,6 +325,8 @@ export default function HomePage() {
           .kv-benefit{display:flex;align-items:center;gap:12px;}
           .kv-benefit-key{margin-bottom:0;}
           .kv-benefit-h{margin-bottom:2px;}
+          .after-grid{grid-template-columns:1fr;}
+          .after-card{min-height:auto;}
         }
       `}</style>
 
@@ -324,6 +340,7 @@ export default function HomePage() {
             <a href="#flow">アセスメントの流れ</a>
             <a href="#feature">特徴</a>
             <a href="#result">結果イメージ</a>
+            <a href="#after-follow">診断後サポート</a>
             <a href="#partner" className="hd-partner">社長カルテOEM</a>
             <Link href="/basic-info" className="hd-cta">診断を始める</Link>
           </nav>
@@ -478,6 +495,36 @@ export default function HomePage() {
               </div>
             </div>
             <p className="result-full-note">レーダーチャートで、社長のスコア・成長企業の目安・過去受検者平均を重ねて表示。感覚ではなく、相対的な位置づけで経営を捉えられます。<br />社長カルテ Grande では、業種別・規模別・近しい社長タイプとの比較も可能です。</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec bg" id="after-follow">
+        <div className="sec-in">
+          <div className="eyebrow">After Follow</div>
+          <h2 className="sec-ttl">診断後サポート</h2>
+          <p className="sec-desc">「社長カルテ」は、受けて終わりでは意味がありません。<br />自社の現在地が分かったあと、そこから実際に動かすところまで伴走します。</p>
+          <div className="after-grid">
+            <div className="after-card">
+              <div className="after-num">1</div>
+              <div className="after-h">現在地を把握する</div>
+              <p className="after-p">いまどの段階にいて、次にどの壁が来るかを整理します</p>
+            </div>
+            <div className="after-card">
+              <div className="after-num">2</div>
+              <div className="after-h">次の一手を決める</div>
+              <p className="after-p">「今すぐやるべきこと」「やめるべきこと」などのアクションを整理・決定します</p>
+            </div>
+            <div className="after-card">
+              <div className="after-num">3</div>
+              <div className="after-h">伴走</div>
+              <p className="after-p">進捗や実行完了などを確認し、次を決めます（月1回の面談設定）</p>
+            </div>
+            <div className="after-card">
+              <div className="after-num">4</div>
+              <div className="after-h">検証</div>
+              <p className="after-p">半年後、再受検。前回との差分で、実際にどこが進んだかを確認します</p>
+            </div>
           </div>
         </div>
       </section>
