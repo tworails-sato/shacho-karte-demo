@@ -137,7 +137,8 @@ export default function HomePage() {
         .kv-in{position:relative;max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1.15fr 0.85fr;gap:48px;align-items:center;}
         .kv-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:0.74rem;font-weight:700;letter-spacing:0.14em;color:var(--mint);border:1px solid rgba(62,207,158,0.35);background:rgba(62,207,158,0.08);padding:7px 16px;border-radius:999px;margin-bottom:24px;}
         .kv-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);}
-        .kv-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:700;line-height:1.45;color:#fff;margin:0 0 18px;word-break:auto-phrase;}
+        .kv-title{font-family:'Noto Serif JP',serif;font-size:clamp(2rem,3.4vw,2.65rem);font-weight:700;line-height:1.55;color:#fff;margin:0 0 18px;word-break:keep-all;}
+        .kv-title-line{display:block;white-space:nowrap;}
         .kv-title .u{background:linear-gradient(transparent 64%,rgba(62,207,158,0.35) 64%);padding:0 2px;}
         .kv-lead{font-size:clamp(0.92rem,1.4vw,1.02rem);line-height:1.9;color:var(--muted-light);margin:0 0 30px;word-break:auto-phrase;}
         .kv-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px;}
@@ -321,6 +322,7 @@ export default function HomePage() {
         }
         @media(max-width:560px){
           .hd-logo-txt{display:none;}
+          .kv-title{font-size:clamp(1.75rem,8vw,2.15rem);line-height:1.55;}
           .kv-benefits{grid-template-columns:1fr;}
           .kv-benefit{display:flex;align-items:center;gap:12px;}
           .kv-benefit-key{margin-bottom:0;}
@@ -358,11 +360,8 @@ export default function HomePage() {
           <div className="kv-text">
             <span className="kv-eyebrow">経営者専用アセスメント</span>
             <h1 className="kv-title">
-              3年後のビジョンへの
-              <br />
-              <span className="u">道筋</span>、
-              <br />
-              描けていますか？
+              <span className="kv-title-line">3年後のビジョンへの</span>
+              <span className="kv-title-line"><span className="u">道筋</span>、描けていますか？</span>
             </h1>
             <p className="kv-lead">
               「年商〇億以上を目指したい。でも、そこへの具体的な道筋が見えていない」<br />
