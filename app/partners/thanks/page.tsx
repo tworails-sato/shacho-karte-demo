@@ -15,7 +15,7 @@ export default function PartnersThanksPage() {
           className="mt-8 inline-flex rounded-xl bg-[#0d1b2a] px-7 py-4 text-base font-black text-white transition hover:bg-[#12283d]"
           href="/partners.html"
         >
-          Partnersページへ戻る
+          社長カルテ OEMページへ戻る
         </Link>
       </section>
     </main>

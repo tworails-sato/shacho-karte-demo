@@ -93,9 +93,9 @@ export async function POST(request: Request) {
   const sentAt = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const sourceUrl = request.headers.get("referer") || `${process.env.NEXT_PUBLIC_APP_URL || ""}/partners/contact`;
   const messageForMail = values.message || "未入力";
-  const adminSubject = `【社長カルテPartners】${values.inquiryType}｜${values.companyName}｜${values.contactName}様`;
+  const adminSubject = `【社長カルテ OEM】${values.inquiryType}｜${values.companyName}｜${values.contactName}様`;
   const adminText = [
-    "社長カルテPartnersにお問い合わせがありました。",
+    "社長カルテ OEMにお問い合わせがありました。",
     "",
     `お問い合わせ種別: ${values.inquiryType}`,
     `会社名: ${values.companyName}`,
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
   const userText = [
     `${values.contactName} 様`,
     "",
-    "社長カルテPartnersへお問い合わせいただき、ありがとうございます。",
+    "社長カルテ OEMへお問い合わせいただき、ありがとうございます。",
     "内容を確認のうえ、担当者よりご連絡いたします。",
     "",
     `お問い合わせ種別: ${values.inquiryType}`,
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
     apiKey,
     fromEmail,
     html: toHtml(userText),
-    subject: "【社長カルテPartners】お問い合わせを受け付けました",
+    subject: "【社長カルテ OEM】お問い合わせを受け付けました",
     text: userText,
     to: values.email
   });

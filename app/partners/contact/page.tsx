@@ -104,10 +104,10 @@ export default function PartnersContactPage() {
       <header className="border-b border-[#e7edf2] bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
           <Link className="font-serif text-lg font-black text-[#0d1b2a]" href="/partners.html">
-            社長カルテ <span className="text-[#2bb488]">for Partners</span>
+            社長カルテ <span className="text-[#2bb488]">OEM</span>
           </Link>
           <Link className="rounded-full border border-[#d6e2ea] px-4 py-2 text-sm font-bold text-[#0d1b2a]" href="/partners.html">
-            Partnersページへ戻る
+            社長カルテ OEMページへ戻る
           </Link>
         </div>
       </header>
@@ -116,7 +116,7 @@ export default function PartnersContactPage() {
         <div className="text-center">
           <p className="text-xs font-black tracking-[0.2em] text-[#2bb488]">CONTACT</p>
           <h1 className="mt-3 font-serif text-3xl font-black leading-relaxed sm:text-4xl">
-            社長カルテPartnersへのお問い合わせ
+            社長カルテ OEMへのお問い合わせ
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-8 text-[#5b6b7a] sm:text-base">
             導入相談、OEM、協業、エンタープライズプランなどについて、お気軽にお問い合わせください。
