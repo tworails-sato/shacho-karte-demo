@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const knowSectionHtml = "<section class=\"know\" id=\"know\">\n  <div class=\"know-in\">\n    <div class=\"eyebrow\">WHAT YOU GET</div>\n    <h2 class=\"sec-ttl\">社長カルテで、わかること</h2>\n    <p class=\"sec-lead\">経営者が向き合う「カネ・モノ・ヒト」。そのどこに、いま優先して手を打つべきかを整理します。</p>\n\n    <div class=\"kmh\">\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">カネ</span>\n          <span>\n            <span class=\"kmh-en\">SALES</span>\n            <span class=\"kmh-theme\">売上の伸ばし方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">いま一番売上に効く<br>打ち手は、どれか。</div>\n          <div class=\"kmh-state\">やることは10個見えている。でも、どれが先かが決まらない。</div>\n          <div class=\"kmh-desc\">課題を新しく見つけるのではなく、<b>すでに見えている課題の順番</b>を、約800名の成長企業と比べて示します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">モノ</span>\n          <span>\n            <span class=\"kmh-en\">BUSINESS</span>\n            <span class=\"kmh-theme\">事業の広げ方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">この規模で、次に<br>何を仕込むべきか。</div>\n          <div class=\"kmh-state\">広げたい気持ちはある。でも、足元が耐えられるか分からない。</div>\n          <div class=\"kmh-desc\">拡大の前提が整っているか。<b>どこから着手すれば無理なく広げられるか</b>を、マイルストーンとして整理します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">ヒト</span>\n          <span>\n            <span class=\"kmh-en\">ORGANIZATION</span>\n            <span class=\"kmh-theme\">組織と採用</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">なぜ人が育たず、<br>定着しないのか。</div>\n          <div class=\"kmh-state\">採っても辞める。任せたいのに、任せきれない。</div>\n          <div class=\"kmh-desc\">現場との認識のズレは、どこで生まれているか。<b>採用が機能しない要素</b>も含めて可視化します。</div>\n        </div>\n      </div>\n\n    </div>\n\n    <div class=\"know-foot\">\n      課題が見えていない社長は、ほとんどいません。むしろ10個も20個も見えているからこそ、<br>\n      <b>「どれが今、一番効くのか」</b>が決まらなくなる。社長カルテは、その順番を決めるための診断です。\n    </div>\n\n  </div>\n</section>";
+const knowSectionHtml = "<section class=\"know\" id=\"know\">\n  <div class=\"know-in\">\n    <div class=\"eyebrow\">WHAT YOU GET</div>\n    <h2 class=\"sec-ttl\">社長カルテで、わかること</h2>\n    <p class=\"sec-lead\">経営者が向き合う「カネ・モノ・ヒト」。そのどこに、いま優先して手を打つべきかを整理します。</p>\n\n    <div class=\"kmh\">\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">カネ</span>\n          <span>\n            <span class=\"kmh-en\">SALES</span>\n            <span class=\"kmh-theme\">売上の伸ばし方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">目指す売上に対して、<br>いま一番効くのはどれか。</div>\n          <div class=\"kmh-state\">打ち手は見えている。でも、目標の規模感で考えると優先順位が変わる。</div>\n          <div class=\"kmh-desc\">課題を新しく見つけるのではなく、<b>すでに見えている課題の順番</b>を、約800名の成長企業と比べて示します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">モノ</span>\n          <span>\n            <span class=\"kmh-en\">BUSINESS</span>\n            <span class=\"kmh-theme\">事業の広げ方</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">次のステージに行くために、<br>何を仕込むか。</div>\n          <div class=\"kmh-state\">広げたい方向は見えている。そこに向けて、今どの順番で仕込むかを整理する。</div>\n          <div class=\"kmh-desc\">拡大の前提が整っているか。<b>どこから着手すれば無理なく広げられるか</b>を、マイルストーンとして整理します。</div>\n        </div>\n      </div>\n\n      <div class=\"kmh-card\">\n        <div class=\"kmh-top\">\n          <span class=\"kmh-mark\">ヒト</span>\n          <span>\n            <span class=\"kmh-en\">ORGANIZATION</span>\n            <span class=\"kmh-theme\">組織と採用</span>\n          </span>\n        </div>\n        <div class=\"kmh-body\">\n          <div class=\"kmh-q\">3年後の組織を、<br>今の体制でつくれるか。</div>\n          <div class=\"kmh-state\">目指す規模に必要な組織像と、今とのギャップを整理する。</div>\n          <div class=\"kmh-desc\">現場との認識のズレは、どこで生まれているか。<b>採用が機能しない要素</b>も含めて可視化します。</div>\n        </div>\n      </div>\n\n    </div>\n\n    <div class=\"know-foot\">\n      課題が見えていない社長は、ほとんどいません。必要なのは、目指す姿から逆算して<br>\n      <b>「今やるべきこと」</b>の優先順位を決めることです。\n    </div>\n\n  </div>\n</section>";
 
 const features = [
   {
     number: "01",
-    title: "16テーマで経営の現在地を整理",
+    title: "16テーマで目標との距離を整理",
     body: "収益性・市場・組織・意思決定・経営体制まで、経営の論点を多面的に見える化します。"
   },
   {
@@ -358,14 +358,15 @@ export default function HomePage() {
           <div className="kv-text">
             <span className="kv-eyebrow">経営者専用アセスメント</span>
             <h1 className="kv-title">
-              売上を上げるための
+              3年後のビジョンへの
               <br />
-              「次の一手」は、<span className="u">どこにあるか</span>
+              <span className="u">道筋</span>、
               <br />
-              見えていますか？
+              描けていますか？
             </h1>
             <p className="kv-lead">
-              売上・事業・組織——伸ばしたいのに、何から着手すべきか迷う。社長カルテは、経営の16テーマから「いま、どこに手を打つべきか」を5分で見える化する診断です。
+              「年商〇億以上を目指したい。でも、そこへの具体的な道筋が見えていない」<br />
+              社長カルテは、成長企業800社のデータから「自分では気づけなかった優先順位」を5分で整理するアセスメントです。
             </p>
             <div className="kv-benefits">
               <div className="kv-benefit">
