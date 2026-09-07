@@ -140,6 +140,14 @@ body.menu-open { overflow: hidden; }
   line-height: 1.85;
   font-weight: 700;
 }
+.fv-lead-sub {
+  max-width: 760px;
+  margin: -10px auto 24px;
+  color: var(--gray);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.85;
+}
 .hero-metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -253,6 +261,94 @@ body.menu-open { overflow: hidden; }
   margin-right: auto;
 }
 
+/* WHAT IS KARTE */
+.karte-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+  gap: 32px;
+  align-items: stretch;
+  margin-top: 46px;
+}
+.karte-about-copy {
+  display: grid;
+  gap: 16px;
+}
+.karte-about-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.karte-about-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.karte-about-label::before {
+  content: '';
+  width: 18px;
+  height: 2px;
+  background: var(--red);
+}
+.karte-about-card p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.95;
+  word-break: auto-phrase;
+}
+.karte-about-card strong { color: var(--black); }
+.karte-about-visual {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+.karte-about-visual-title {
+  color: var(--black);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.karte-about-visual svg {
+  width: min(100%, 260px);
+  height: auto;
+  display: block;
+}
+.karte-about-caption {
+  margin-top: 16px;
+  color: var(--red);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.7;
+  text-align: center;
+}
+.karte-about-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 26px auto 0;
+  color: var(--mint-deep);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.karte-about-link:hover { color: var(--red); }
+
 /* 3 KEY WEAPONS */
 .weapons-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 48px; }
 .weapon-card {
@@ -356,6 +452,17 @@ body.menu-open { overflow: hidden; }
 .tag-theirs { background: var(--green-light); color: var(--green); }
 
 @media (max-width: 768px) {
+  .karte-about-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 34px;
+  }
+  .karte-about-card {
+    padding: 20px;
+  }
+  .karte-about-visual {
+    padding: 22px 18px;
+  }
   .flow-steps { flex-direction: column; gap: 12px; }
   .flow-step {
     display: grid;
@@ -763,15 +870,16 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
   .ptable-cta{
     display:inline-flex;align-items:center;justify-content:center;
-    min-width:120px;padding:10px 14px;border-radius:8px;
-    font-size:0.78rem;font-weight:700;text-decoration:none;
-    border:1px solid rgba(43,180,136,0.4);
-    color:var(--mint-deep);background:#fff;
-    transition:background .15s,color .15s,transform .15s,border-color .15s;
+    min-width:136px;padding:13px 18px;border-radius:10px;
+    font-size:0.86rem;font-weight:900;text-decoration:none;
+    border:1px solid rgba(13,27,42,0.18);
+    color:var(--navy-mid);background:#fff;
+    box-shadow:0 10px 22px rgba(13,27,42,0.08);
+    transition:background .15s,color .15s,transform .15s,border-color .15s,box-shadow .15s;
   }
-  .ptable-cta:hover{background:rgba(62,207,158,0.08);border-color:var(--mint-deep);transform:translateY(-1px);}
-  .ptable-cta.featured{background:var(--mint-deep);color:#fff;border-color:var(--mint-deep);}
-  .ptable-cta.featured:hover{background:var(--navy-mid);border-color:var(--navy-mid);}
+  .ptable-cta:hover{background:var(--navy-mid);border-color:var(--navy-mid);color:#fff;transform:translateY(-1px);box-shadow:0 14px 28px rgba(13,27,42,0.16);}
+  .ptable-cta.featured{background:var(--navy-mid);color:#fff;border-color:var(--navy-mid);}
+  .ptable-cta.featured:hover{background:var(--mint-deep);border-color:var(--mint-deep);}
 
   /* ツールチップ */
   .tip{display:inline-flex;align-items:center;gap:6px;}
@@ -799,12 +907,18 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     font-size:0.9rem;color:var(--ink);text-align:center;font-weight:500;
   }
   .pricing-intro{
-    margin:0 auto 24px;
-    color:var(--muted);
-    font-size:0.84rem;
-    font-weight:500;
-    line-height:1.9;
+    max-width:760px;
+    margin:0 auto 28px;
+    padding:20px 24px;
+    background:linear-gradient(135deg,rgba(62,207,158,0.12),rgba(255,255,255,0.94));
+    border:1px solid rgba(62,207,158,0.24);
+    border-radius:14px;
+    color:var(--ink);
+    font-size:1rem;
+    font-weight:800;
+    line-height:2;
     text-align:center;
+    box-shadow:0 18px 44px rgba(13,27,42,0.08);
   }
 
   .foot-note{max-width:840px;margin:26px auto 0;font-size:0.76rem;color:var(--muted);line-height:1.9;}
@@ -820,7 +934,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     .col-price{font-size:0.9rem;}
     .col-price.est{font-size:0.72rem;}
     .col-price small{font-size:0.55rem;}
-    .pricing-intro{font-size:0.74rem;line-height:1.8;}
+    .pricing-intro{font-size:0.84rem;line-height:1.8;padding:16px 14px;}
+    .ptable-cta{min-width:92px;padding:10px 8px;font-size:0.66rem;border-radius:9px;}
     .mk-txt{font-size:0.62rem;}
     .mk-yes{font-size:0.85rem;}
     .tip-ic{width:13px;height:13px;font-size:9px;}
@@ -876,6 +991,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <div class="hero-kicker">BtoB事業者向け｜診断OEMサービス</div>
   <h1>貴社専用の診断で、顧客の課題を可視化する。</h1>
   <p class="hero-sub2">お客様に受けていただき、結果を一緒に読み解く。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
+  <p class="fv-lead-sub">※ 800名の経営者が使うビジョン診断「社長カルテ」を、貴社ブランドで提供できるOEMプログラムです</p>
 
   <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
   <div class="hero-metrics" aria-label="社長カルテOEMの実績数値">
@@ -893,6 +1009,58 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     </div>
   </div>
   <p class="hero-metric-note">※商談化率は自社実績に基づく数値です（集計期間：2025年7月〜2026年6月）</p>
+</div>
+
+<!-- WHAT IS KARTE -->
+<div class="section" id="what-is-karte">
+  <div class="section-inner">
+    <div class="eyebrow">What is 社長カルテ</div>
+    <h2 class="sec-title">経営者の「行きたい未来」と<br>「次の一手」を可視化するビジョン診断</h2>
+    <p class="sec-body">社長カルテは、経営者との対話を始めるために設計されたビジョン診断です。迷いを整理し、次の一歩を選び直すきっかけをつくります。</p>
+
+    <div class="karte-about-grid">
+      <div class="karte-about-copy">
+        <div class="karte-about-card">
+          <div class="karte-about-label">Definition</div>
+          <p>社長カルテは、経営者本人が「何を目指しているのか」「そのビジョンに向けて次に何から手をつけるべきか」を、5分の受検で可視化するビジョン診断です。</p>
+        </div>
+        <div class="karte-about-card">
+          <div class="karte-about-label">For Owners</div>
+          <p>対象は、成長を模索している中小企業の経営者。これまで800名以上の経営者が受検し、自社の状態を同業種・同規模の社長たちのデータと比較して把握するために活用されています。</p>
+        </div>
+        <div class="karte-about-card">
+          <div class="karte-about-label">Positioning</div>
+          <p>社長カルテは「悩みを暴く」ためのツールではなく、経営者が<strong>迷いを整理し、次の一歩を選び直す</strong>ための対話のきっかけです。フィードバック面談とセットで運用することで、その効果を最大化します。</p>
+        </div>
+      </div>
+
+      <div class="karte-about-visual">
+        <div class="karte-about-visual-title">16テーマ別のスコア</div>
+        <svg viewBox="0 0 220 220" aria-label="16テーマ別レーダーチャートのイメージ">
+          <polygon points="110,24 163,54 188,110 163,166 110,196 57,166 32,110 57,54" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+          <polygon points="110,48 148,70 166,110 148,150 110,172 72,150 54,110 72,70" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+          <polygon points="110,72 133,86 144,110 133,134 110,148 87,134 76,110 87,86" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+          <line x1="110" y1="24" x2="110" y2="196" stroke="#e5e7eb" stroke-width="1"/>
+          <line x1="57" y1="54" x2="163" y2="166" stroke="#e5e7eb" stroke-width="1"/>
+          <line x1="163" y1="54" x2="57" y2="166" stroke="#e5e7eb" stroke-width="1"/>
+          <line x1="32" y1="110" x2="188" y2="110" stroke="#e5e7eb" stroke-width="1"/>
+          <polygon points="110,36 158,60 179,110 153,160 110,184 64,158 43,110 66,57"
+            fill="rgba(185,28,28,0.15)" stroke="#b91c1c" stroke-width="2.5"/>
+          <text x="110" y="17" text-anchor="middle" font-size="9" fill="#6b7280">収益性</text>
+          <text x="171" y="51" text-anchor="start" font-size="9" fill="#6b7280">成長性</text>
+          <text x="194" y="114" text-anchor="start" font-size="9" fill="#6b7280">組織</text>
+          <text x="170" y="177" text-anchor="start" font-size="9" fill="#6b7280">意思決定</text>
+          <text x="110" y="213" text-anchor="middle" font-size="9" fill="#b91c1c">内部投資</text>
+          <text x="50" y="177" text-anchor="end" font-size="9" fill="#b91c1c">社会貢献</text>
+          <text x="26" y="114" text-anchor="end" font-size="9" fill="#6b7280">ブランド</text>
+          <text x="50" y="51" text-anchor="end" font-size="9" fill="#6b7280">リスク</text>
+        </svg>
+        <div class="karte-about-caption">主観ではなく、他社比較で自分の位置が語れるようになります</div>
+      </div>
+    </div>
+
+    <a class="karte-about-link" href="https://karte.ceo-sherpa.com/" target="_blank" rel="noopener">診断の詳細・受検体験はこちら（社長カルテ本体サイト）</a>
+  </div>
 </div>
 
 <!-- WHAT IS PARTNERS -->
@@ -1335,8 +1503,9 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     </div>
 
     <p class="pricing-intro">
-      料金は、ご活用の範囲や社内のご体制に応じて設計しております。<br>
-      まずは15分ほど、実際の活用イメージをご説明させてください。
+      ご活用の範囲や、社内のご体制に応じて適切なプランをご案内します。<br>
+      まずは以下からご相談（無料）をください。<br>
+      実際の機能や活用イメージなどをご提案させていただきます。
     </p>
 
     <div class="ptable-wrap">
