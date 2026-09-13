@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>社長カルテOEM | BtoB事業者向け診断OEMサービス</title>
-<meta name="description" content="社長カルテOEMは、貴社ブランド・専門領域に合わせた診断を提供し、顧客の課題可視化と課題解決の会話づくりを支援するBtoB事業者向けサービスです。">
+<meta name="description" content="社長カルテOEMは、貴社ブランド・専門領域に合わせたビジョン診断を提供し、顧客との経営対話づくりを支援するBtoB事業者向けサービスです。">
 <meta property="og:title" content="社長カルテOEM">
-<meta property="og:description" content="貴社専用の診断で、顧客の課題を可視化する。BtoB事業者向けの診断OEMサービスです。">
+<meta property="og:description" content="貴社専用のビジョン診断で、顧客との経営対話を生み出す。BtoB事業者向けの診断OEMサービスです。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -451,6 +451,28 @@ body.menu-open { overflow: hidden; }
 .tag-ours { background: var(--red-light); color: var(--red); }
 .tag-theirs { background: var(--green-light); color: var(--green); }
 
+/* OEM FLOW */
+.oem-flow-sec{background:var(--bg-gray);padding:88px 24px;}
+.oem-flow-inner{max-width:1080px;margin:0 auto;width:100%;box-sizing:border-box;}
+.oem-flow-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.2em;color:var(--mint-deep);text-align:center;text-transform:uppercase;margin-bottom:12px;}
+.oem-flow-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.55rem,3vw,2.1rem);font-weight:700;text-align:center;color:var(--black);line-height:1.55;margin:0 0 12px;word-break:auto-phrase;}
+.oem-flow-lead{font-size:0.95rem;color:var(--gray);text-align:center;max-width:680px;margin:0 auto 46px;line-height:1.95;word-break:auto-phrase;}
+.oem-flow-lead strong{color:var(--black);font-weight:700;}
+.oem-flow-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;}
+.oem-flow-steps::before{content:"";position:absolute;top:31px;left:9%;right:9%;height:2px;background:var(--gray-light);z-index:0;}
+.oem-step{position:relative;z-index:1;text-align:center;}
+.oem-step-node{width:62px;height:62px;border-radius:50%;background:var(--white);border:2px solid var(--mint-deep);color:var(--mint-deep);font-size:1.35rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;box-shadow:0 4px 14px rgba(62,207,158,0.18);}
+.oem-step.filled .oem-step-node{background:var(--mint-deep);color:#fff;}
+.oem-step-period{display:inline-block;font-size:0.68rem;font-weight:700;color:var(--mint-deep);background:rgba(62,207,158,0.12);border-radius:999px;padding:3px 12px;margin-bottom:10px;}
+.oem-step h3{font-size:0.95rem;font-weight:700;color:var(--black);margin:0 0 8px;line-height:1.5;}
+.oem-step p{font-size:0.78rem;color:var(--gray);margin:0;line-height:1.75;text-align:left;padding:0 4px;word-break:auto-phrase;}
+.oem-flow-note{margin:36px auto 0;max-width:860px;background:var(--white);border:1px solid var(--gray-light);border-radius:8px;padding:18px 22px;font-size:0.82rem;color:var(--gray);line-height:1.85;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+.oem-flow-note strong{color:var(--black);font-weight:700;}
+.oem-flow-cta{text-align:center;margin-top:36px;}
+.oem-flow-cta a{display:inline-flex;align-items:center;justify-content:center;background:var(--mint-deep);color:#fff;font-weight:700;font-size:0.94rem;text-decoration:none;border-radius:8px;padding:15px 40px;box-shadow:0 6px 18px rgba(43,180,136,.26);transition:background .2s,transform .2s;}
+.oem-flow-cta a:hover{background:var(--navy-mid);transform:translateY(-2px);}
+.oem-flow-cta .sub{display:block;font-size:0.74rem;color:var(--gray);margin-top:10px;}
+
 @media (max-width: 768px) {
   .karte-about-grid {
     grid-template-columns: 1fr;
@@ -463,6 +485,14 @@ body.menu-open { overflow: hidden; }
   .karte-about-visual {
     padding: 22px 18px;
   }
+  .oem-flow-sec{padding:64px 24px;}
+  .oem-flow-steps{grid-template-columns:1fr;gap:0;}
+  .oem-flow-steps::before{display:none;}
+  .oem-step{display:grid;grid-template-columns:70px 1fr;gap:14px;text-align:left;padding:14px 0;border-bottom:1px solid var(--gray-light);align-items:start;}
+  .oem-step-node{margin:0;}
+  .oem-step-body{padding-top:4px;}
+  .oem-step p{padding:0;}
+  .oem-step h3{margin-top:2px;}
   .flow-steps { flex-direction: column; gap: 12px; }
   .flow-step {
     display: grid;
@@ -989,8 +1019,8 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 <!-- HERO -->
 <div class="hero">
   <div class="hero-kicker">BtoB事業者向け｜診断OEMサービス</div>
-  <h1>貴社専用の診断で、顧客の課題を可視化する。</h1>
-  <p class="hero-sub2">お客様に受けていただき、結果を一緒に読み解く。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
+  <h1>貴社専用のビジョン診断で、顧客との経営対話を生み出す。</h1>
+  <p class="hero-sub2">貴社のお客様に受けていただき、結果を一緒に読み解く。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
   <p class="fv-lead-sub">※ 800名の経営者が使うビジョン診断「社長カルテ」を、貴社ブランドで提供できるOEMプログラムです</p>
 
   <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
@@ -1011,64 +1041,12 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <p class="hero-metric-note">※商談化率は自社実績に基づく数値です（集計期間：2025年7月〜2026年6月）</p>
 </div>
 
-<!-- WHAT IS KARTE -->
-<div class="section" id="what-is-karte">
-  <div class="section-inner">
-    <div class="eyebrow">What is 社長カルテ</div>
-    <h2 class="sec-title">経営者の「行きたい未来」と<br>「次の一手」を可視化するビジョン診断</h2>
-    <p class="sec-body">社長カルテは、経営者との対話を始めるために設計されたビジョン診断です。迷いを整理し、次の一歩を選び直すきっかけをつくります。</p>
-
-    <div class="karte-about-grid">
-      <div class="karte-about-copy">
-        <div class="karte-about-card">
-          <div class="karte-about-label">Definition</div>
-          <p>社長カルテは、経営者本人が「何を目指しているのか」「そのビジョンに向けて次に何から手をつけるべきか」を、5分の受検で可視化するビジョン診断です。</p>
-        </div>
-        <div class="karte-about-card">
-          <div class="karte-about-label">For Owners</div>
-          <p>対象は、成長を模索している中小企業の経営者。これまで800名以上の経営者が受検し、自社の状態を同業種・同規模の社長たちのデータと比較して把握するために活用されています。</p>
-        </div>
-        <div class="karte-about-card">
-          <div class="karte-about-label">Positioning</div>
-          <p>社長カルテは「悩みを暴く」ためのツールではなく、経営者が<strong>迷いを整理し、次の一歩を選び直す</strong>ための対話のきっかけです。フィードバック面談とセットで運用することで、その効果を最大化します。</p>
-        </div>
-      </div>
-
-      <div class="karte-about-visual">
-        <div class="karte-about-visual-title">16テーマ別のスコア</div>
-        <svg viewBox="0 0 220 220" aria-label="16テーマ別レーダーチャートのイメージ">
-          <polygon points="110,24 163,54 188,110 163,166 110,196 57,166 32,110 57,54" fill="none" stroke="#e5e7eb" stroke-width="1"/>
-          <polygon points="110,48 148,70 166,110 148,150 110,172 72,150 54,110 72,70" fill="none" stroke="#e5e7eb" stroke-width="1"/>
-          <polygon points="110,72 133,86 144,110 133,134 110,148 87,134 76,110 87,86" fill="none" stroke="#e5e7eb" stroke-width="1"/>
-          <line x1="110" y1="24" x2="110" y2="196" stroke="#e5e7eb" stroke-width="1"/>
-          <line x1="57" y1="54" x2="163" y2="166" stroke="#e5e7eb" stroke-width="1"/>
-          <line x1="163" y1="54" x2="57" y2="166" stroke="#e5e7eb" stroke-width="1"/>
-          <line x1="32" y1="110" x2="188" y2="110" stroke="#e5e7eb" stroke-width="1"/>
-          <polygon points="110,36 158,60 179,110 153,160 110,184 64,158 43,110 66,57"
-            fill="rgba(185,28,28,0.15)" stroke="#b91c1c" stroke-width="2.5"/>
-          <text x="110" y="17" text-anchor="middle" font-size="9" fill="#6b7280">収益性</text>
-          <text x="171" y="51" text-anchor="start" font-size="9" fill="#6b7280">成長性</text>
-          <text x="194" y="114" text-anchor="start" font-size="9" fill="#6b7280">組織</text>
-          <text x="170" y="177" text-anchor="start" font-size="9" fill="#6b7280">意思決定</text>
-          <text x="110" y="213" text-anchor="middle" font-size="9" fill="#b91c1c">内部投資</text>
-          <text x="50" y="177" text-anchor="end" font-size="9" fill="#b91c1c">社会貢献</text>
-          <text x="26" y="114" text-anchor="end" font-size="9" fill="#6b7280">ブランド</text>
-          <text x="50" y="51" text-anchor="end" font-size="9" fill="#6b7280">リスク</text>
-        </svg>
-        <div class="karte-about-caption">主観ではなく、他社比較で自分の位置が語れるようになります</div>
-      </div>
-    </div>
-
-    <a class="karte-about-link" href="https://karte.ceo-sherpa.com/" target="_blank" rel="noopener">診断の詳細・受検体験はこちら（社長カルテ本体サイト）</a>
-  </div>
-</div>
-
-<!-- WHAT IS PARTNERS -->
+<!-- WHAT IS KARTE OEM -->
 <div class="section section-bg">
   <div class="section-inner">
     <div class="eyebrow">What is 社長カルテOEM</div>
-    <h2 class="sec-title">社長カルテOEM とは</h2>
-    <p class="sec-body" style="line-break:strict;">コンサルタント・士業・BtoB事業者の方が、<strong style="color:var(--black);">貴社ブランドや専門領域に合わせた診断をサービスとして提供できるプログラム</strong>です。診断の提供からフィードバック、活用サポートまでを一貫してご用意しています。</p>
+    <h2 class="sec-title">社長カルテを、貴社ブランドで提供できる<br>ビジョン診断OEMプログラム</h2>
+    <p class="sec-body" style="line-break:strict;">社長カルテは、経営者が「行きたい未来」と「次の一手」を5分で整理するビジョン診断です。800名以上の経営者データをもとに、迷いを整理し、次の一歩を選び直す対話のきっかけをつくります。<br><br>社長カルテOEMでは、この診断を<strong style="color:var(--black);">貴社ブランドや専門領域に合わせたサービス</strong>として提供できます。診断の提供からフィードバック、活用サポートまでを一貫してご用意しています。</p>
 
     <div class="hero-mockup-wrap" style="max-width:720px;margin:40px auto 0;">
       <div class="mockup-bar">
@@ -1117,107 +1095,47 @@ footer p { font-size: 0.74rem; color: #4b5563; }
         </div>
       </div>
     </div>
+    <a class="karte-about-link" href="https://karte.ceo-sherpa.com/" target="_blank" rel="noopener">診断の詳細・受検体験はこちら（社長カルテ本体サイト）</a>
   </div>
 </div>
 
-<!-- WHO IT'S FOR -->
-<div class="section">
-  <div class="section-inner">
-    <div class="eyebrow">Who it's for</div>
-    <h2 class="sec-title">こんな方に、社長カルテは効果を発揮します</h2>
-
-    <div class="cases-grid">
-      <div class="case-card">
-        <div class="case-badge">TYPE 01</div>
-        <div class="case-headline">自社サービス・商材をお持ちの方</div>
-        <p class="weapon-body">診断を“入口”に、あなたの本命サービスへ自然につなげられます。売り込みから始めなくてよくなります。</p>
-        <div class="case-point"><strong>例：</strong>コンサルティングパッケージ、専門サービスを提供する事業者 など</div>
-      </div>
-      <div class="case-card">
-        <div class="case-badge">TYPE 02</div>
-        <div class="case-headline">研修・教育プログラムを提供している方</div>
-        <p class="weapon-body">診断で課題を可視化すれば、「その課題に効く研修」として提案できます。パッケージの価値が伝わりやすくなります。</p>
-        <div class="case-point"><strong>例：</strong>研修会社、教育コンテンツ・スクール運営者 など</div>
-      </div>
-      <div class="case-card">
-        <div class="case-badge">TYPE 03</div>
-        <div class="case-headline">BtoB向けのツール・サービスを展開している方</div>
-        <p class="weapon-body">診断を無料の入口にして、自社プロダクトやサービスの商談を増やせます。リード獲得の新しい接点になります。</p>
-        <div class="case-point"><strong>例：</strong>SaaS・ツールベンダー、自社パッケージを持つ営業支援・代行会社 など</div>
-      </div>
-      <div class="case-card">
-        <div class="case-badge">TYPE 04</div>
-        <div class="case-headline">メディア・コミュニティを運営している方</div>
-        <p class="weapon-body">診断を会員特典やイベントのフックに。登録・集客の動機づけと、会員育成の両方に使えます。</p>
-        <div class="case-point"><strong>例：</strong>経営者向けメディア、コミュニティ・オンラインサロン運営者 など</div>
-      </div>
-    </div>
-
-    <div class="case-point" style="margin-top:24px;text-align:center;">
-      共通するのは、「自社の商材やサービスを持ち、その提案の“入口”を増やしたい方」です。診断そのものではなく、診断を起点に自社の売上につなげたい方に、最も効果を発揮します。
-    </div>
-  </div>
-</div>
-
-<!-- 3 KEY WEAPONS -->
+<!-- WHY -->
 <div class="section" id="features">
   <div class="section-inner">
-    <div class="eyebrow">Why it works</div>
-    <h2 class="sec-title">導入企業にとっての「武器」になる3つの理由</h2>
-    <p class="sec-body">社長カルテOEMは、ただの診断ツールではありません。貴社の提案を「根拠ある会話」に変える仕組みです。</p>
+    <div class="eyebrow">Why 社長カルテOEM</div>
+    <h2 class="sec-title">貴社の提案が、<br>根拠ある経営対話に変わる理由</h2>
+    <p class="sec-body">社長カルテOEMは、ただの診断フォームではありません。800名以上の経営者データ、第三者性、運用設計を組み合わせ、貴社の提案を自然な経営対話へ変える仕組みです。</p>
     <div class="weapons-grid">
       <div class="weapon-card">
         <div class="weapon-num">01</div>
         <div class="weapon-content">
-          <div class="weapon-title">主観ではなく、<em>他の社長との相対評価</em>で事実が浮き彫りになる</div>
-          <p class="weapon-body">「うちは営業が弱い」という社長の感覚的な話で終わらない。16テーマのスコアが数値で出るため、「同じ業種・規模の社長と比べてここが特に低い」という客観的な事実として提示できます。社長が自分の課題を「認めざるを得ない」状態になるため、提案への抵抗感が下がります。</p>
+          <div class="weapon-title">主観ではなく、<em>他の社長との相対評価</em>で語れる</div>
+          <p class="weapon-body">16テーマのスコアが出るため、感覚的な相談で終わらず、「同じ業種・規模の社長と比べてどこに違いがあるか」を客観的に整理できます。</p>
           <div class="weapon-highlight">「感覚の話」から「データの話」へ。貴社の提案に根拠が生まれます。</div>
         </div>
       </div>
       <div class="weapon-card">
         <div class="weapon-num">02</div>
         <div class="weapon-content">
-          <div class="weapon-title"><em>800名以上の成長企業の経営者のデータ</em>を診断軸として利用可能</div>
-          <p class="weapon-body">社長カルテの診断は、800名以上の成長企業の社長データをもとに設計された診断エンジンです。「成長している企業の社長はこのテーマで高スコアを持っている」という比較軸があるため、「目指すべき姿」と「今の状態」のギャップが一目で見えます。</p>
-          <div class="weapon-highlight">「なんとなく課題がある」ではなく、「成長企業と比べてここが差」という具体的な論点が出ます。</div>
+          <div class="weapon-title"><em>800名以上の経営者データ</em>を診断軸として使える</div>
+          <p class="weapon-body">一社だけでは作りにくい比較基準を活用できます。成長企業と比べた論点が見えるため、社長自身も次に整理すべきテーマを受け止めやすくなります。</p>
+          <div class="weapon-highlight">社長カルテが採用するテーマや目標値は、成長企業の経営者の行動特性を中心に設計しています。</div>
         </div>
       </div>
       <div class="weapon-card">
         <div class="weapon-num">03</div>
         <div class="weapon-content">
-          <div class="weapon-title">診断に回答する社長は、<em>改善意欲が高い</em></div>
-          <p class="weapon-body">自ら診断を受けるという行動をとった社長は、現状を変えたいという意欲の表れです。課題を直視し、改善しようとしている社長だからこそ、フィードバックを受け入れやすく、提案にも前向きです。「売り込まなくても提案が通る」状態が生まれます。</p>
-          <div class="weapon-highlight">提案を受け入れてもらいやすいフェーズの社長だけと話せる。営業効率が根本から変わります。</div>
+          <div class="weapon-title"><em>第三者の診断</em>だから、本音が出やすい</div>
+          <p class="weapon-body">自社営業が作った質問票ではなく、中立的なビジョン診断として案内できるため、経営者が身構えにくく、面談前から本音に近い情報を得やすくなります。</p>
+          <div class="weapon-highlight">売り込みではなく、診断結果を一緒に読む会話から始められます。</div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- WHY NOT DIY -->
-<div class="section section-bg">
-  <div class="section-inner">
-    <div class="eyebrow">Why 社長カルテ</div>
-    <h2 class="sec-title">「診断なら自社でも作れる」<br>——それでも社長カルテを使う理由</h2>
-    <p class="sec-body">診断ツール自体は目新しいものではありません。ただ、"提案につながる診断"を自作・運用するには、見えないハードルがあります。</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:48px;">
-      <div class="weapon-card" style="grid-template-columns:1fr;">
+      <div class="weapon-card">
+        <div class="weapon-num">04</div>
         <div class="weapon-content">
-          <div class="weapon-title"><em>①</em> 800名の比較基準は、一社では作れない</div>
-          <p class="weapon-body">自作診断は「自社の主観で作った質問」になりがちです。社長カルテは800名以上の成長企業データが基準にあるため、「成長企業と比べてどうか」という相対評価で語れます。この客観性が、社長を動かします。</p>
-          <p class="weapon-body" style="font-size:0.76rem;margin-top:12px;color:var(--gray);">※社長カルテが採用する経営テーマ、設問内容、目標値データは、一人社長～社員数30名程度、年少は創業から10年以内で売上を連続的に成長させているベンチャー・スタートアップ・中小企業の経営者の行動特性が中心となります。</p>
-        </div>
-      </div>
-      <div class="weapon-card" style="grid-template-columns:1fr;">
-        <div class="weapon-content">
-          <div class="weapon-title"><em>②</em> "第三者の診断"だから、本音が出る</div>
-          <p class="weapon-body">自社で作った診断を自社の営業が配ると、社長は「営業ツール」だと見抜いて身構えます。第三者である社長カルテの診断だからこそ、中立的な"経営の健康診断"として本音で答えてもらえます。自作した瞬間、この中立性は失われます。</p>
-        </div>
-      </div>
-      <div class="weapon-card" style="grid-template-columns:1fr;">
-        <div class="weapon-content">
-          <div class="weapon-title"><em>③</em> 「作れる」と「運用し続けられる」は別</div>
-          <p class="weapon-body">設問設計・スコアリング・FBレポート生成・改善——診断を作って運用し続けるには相応の工数がかかります。社長カルテOEMなら、その仕組みをもとに、貴社専用の診断へカスタマイズすることも可能です。</p>
+          <div class="weapon-title">作って終わりではなく、<em>運用まで伴走</em>できる</div>
+          <p class="weapon-body">設問設計・スコアリング・FBレポート生成・改善を継続するには工数がかかります。社長カルテOEMなら、導線設計から面談の型づくりまで伴走できます。</p>
+          <div class="weapon-highlight">貴社だけで回せる状態を目指し、診断を営業・提案の武器として定着させます。</div>
         </div>
       </div>
     </div>
@@ -1304,40 +1222,65 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 </div>
 
 <!-- FLOW -->
-<div class="section section-bg">
-  <div class="section-inner">
-    <div class="eyebrow">How it works</div>
-    <h2 class="sec-title">活用フロー</h2>
-    <p class="sec-body">診断とフィードバックは弊社が同席し、課題の掘り起こしをいたします。</p>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-num">01</div>
-        <div class="flow-title">診断実施</div>
-        <p class="flow-sub">見込み客に診断を実施し課題を可視化</p>
+<section class="oem-flow-sec">
+  <div class="oem-flow-inner">
+    <div class="oem-flow-eyebrow">HOW IT WORKS</div>
+    <h2 class="oem-flow-title">導入から、自走までの流れ</h2>
+    <p class="oem-flow-lead">最初は<strong>一緒に</strong>成果を出し、やがて<strong>貴社だけで回せる</strong>状態へ。<br>「ずっと頼り続ける」ではなく「貴社の武器として定着させる」ことがゴールです。</p>
+
+    <div class="oem-flow-steps">
+      <div class="oem-step filled">
+        <div class="oem-step-node">0</div>
+        <div class="oem-step-body">
+          <span class="oem-step-period">まず15分</span>
+          <h3>デモ・ご相談</h3>
+          <p>無料デモで診断を体験。「貴社のお客様に出すとしたら」の目線でご覧いただきます。</p>
+        </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num">02</div>
-        <div class="flow-title">結果整理</div>
-        <p class="flow-sub">優先課題・論点を整理しレポート作成</p>
+      <div class="oem-step filled">
+        <div class="oem-step-node">1</div>
+        <div class="oem-step-body">
+          <span class="oem-step-period">〜1ヶ月</span>
+          <h3>導入・開発</h3>
+          <p>貴社ブランドで診断環境を構築。初期設定・カスタマイズを行います。</p>
+        </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num">03</div>
-        <div class="flow-title">フィードバック</div>
-        <p class="flow-sub">診断結果を伝え、納得感と信頼を形成</p>
+      <div class="oem-step">
+        <div class="oem-step-node">2</div>
+        <div class="oem-step-body">
+          <span class="oem-step-period">1〜3ヶ月</span>
+          <h3>導線設計</h3>
+          <p>誰に・どう案内するか、受検が生まれる導線を一緒に設計します。</p>
+        </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num">04</div>
-        <div class="flow-title">提案</div>
-        <p class="flow-sub">課題整理から自社サービスへ自然に接続</p>
+      <div class="oem-step">
+        <div class="oem-step-node">3</div>
+        <div class="oem-step-body">
+          <span class="oem-step-period">3〜6ヶ月</span>
+          <h3>型づくり・成果伴走</h3>
+          <p>案内・面談に伴走し、経営者との商談が生まれる型を固めます。</p>
+        </div>
       </div>
-      <div class="flow-step">
-        <div class="flow-num">05</div>
-        <div class="flow-title">継続支援</div>
-        <p class="flow-sub">誰が担当しても一定品質で進められる運用へ</p>
+      <div class="oem-step">
+        <div class="oem-step-node">4</div>
+        <div class="oem-step-body">
+          <span class="oem-step-period">6〜12ヶ月</span>
+          <h3>内製化・自走化</h3>
+          <p>教材とプレイブックで貴社チームが自走。診断が貴社の武器として定着します。</p>
+        </div>
       </div>
     </div>
+
+    <div class="oem-flow-note">
+      <strong>期間はあくまで目安です。</strong>貴社の体制やご活用の範囲に応じて、伴走の濃さやスピードは柔軟に調整します。まずは小さく試し、手応えを確かめてから本格導入いただけます。
+    </div>
+
+    <div class="oem-flow-cta">
+      <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank">まず15分のデモを体験する</a>
+      <span class="sub">無料デモ ／ 登録不要 ／ 5分で体験できます</span>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- BEFORE AFTER -->
 <div class="section">
@@ -1412,7 +1355,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   <div class="uc-inner">
     <div class="uc-eyebrow">USE CASES BY INDUSTRY</div>
     <h2 class="uc-title">貴社の立場なら、社長カルテはこう使えます</h2>
-    <p class="uc-lead">メディア・コミュニティ、BtoBサービス、コンサル・士業など、立場によって"効く使い方"は異なります。代表的なパターンをご紹介します。</p>
+    <p class="uc-lead">自社サービス・商材、研修・教育プログラム、BtoB向けツール、メディア・コミュニティなどをお持ちの方に向いています。立場によって"効く使い方"は異なるため、代表的なパターンをご紹介します。</p>
     <span class="uc-axis">── いずれも、最終的に「貴社の売上」につながる使い方です ──</span>
 
     <div class="uc-grid">
@@ -1590,7 +1533,6 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     <p class="sec-lead">導入をご検討いただく際に、多くいただくご質問をまとめました。</p>
 
     <div class="faq-list">
-
       <details class="faq-item">
         <summary class="faq-q">
           <span class="qmark">Q</span>
@@ -1616,7 +1558,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
           <span class="amark">A</span>
           <div class="atext">
             フィードバック面談は、<b>当社が貴社に代わって実施する形</b>を標準としています。診断結果の読み解きには一定の経験が必要なこと、また第三者が入ることで経営者側も本音を話しやすくなるためです。
-            <span class="note">ご自身で実施できるようになりたい場合は、<b>内製化・型化のご支援</b>（スタンダードプラン以上）にて、面談の進め方やレポートの読み解き方までお伝えします。将来的に、貴社のメンバーの方が実施できる状態を目指せます。</span>
+            <span class="note">ご自身で実施できるようになりたい場合は、<b>内製化・型化のご支援</b>にて、面談の進め方やレポートの読み解き方までお伝えします。</span>
           </div>
         </div>
       </details>
@@ -1638,32 +1580,17 @@ footer p { font-size: 0.74rem; color: #4b5563; }
       <details class="faq-item">
         <summary class="faq-q">
           <span class="qmark">Q</span>
-          <span class="qtext">当社サービスの営業代行やリード紹介まで依頼できますか？</span>
+          <span class="qtext">その他の質問を見る</span>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="faq-a">
           <span class="amark">A</span>
           <div class="atext">
-            社長カルテOEMは、貴社専用診断の立ち上げと活用導線づくりを支援するサービスです。<b>当社が貴社サービスを直接営業する形ではありません。</b>
-            <span class="note">ただし、診断を入口にした商談創出の設計や運用伴走は、プラン内容に応じてご相談いただけます。</span>
+            <p><b>当社サービスの営業代行やリード紹介まで依頼できますか？</b><br>社長カルテOEMは、貴社専用診断の立ち上げと活用導線づくりを支援するサービスです。当社が貴社サービスを直接営業する形ではありませんが、診断を入口にした商談創出の設計や運用伴走はご相談いただけます。</p>
+            <p style="margin-top:14px;"><b>エンドユーザー（経営者）へ有償で提供することは可能ですか？</b><br>可能です。提供価格は貴社にお任せしています。サービス設計や提供方法に合わせて、無理のない活用方法を一緒に整理します。</p>
           </div>
         </div>
       </details>
-
-      <details class="faq-item">
-        <summary class="faq-q">
-          <span class="qmark">Q</span>
-          <span class="qtext">エンドユーザー（経営者）へ有償で提供することは可能ですか？</span>
-          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="faq-a">
-          <span class="amark">A</span>
-          <div class="atext">
-            可能です。価格設定は貴社にお任せしています。参考として、多くの導入企業では<b>1.5万円〜2万円程度</b>で提供されるケースが多くなっています。
-          </div>
-        </div>
-      </details>
-
     </div>
   </div>
 </section>
@@ -1671,7 +1598,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- CTA -->
 <div class="cta-section" id="cta">
-  <h2>まず、あなたのサービスで<br>活用できるか無料相談で整理しませんか</h2>
+  <h2>まず、貴社のサービスで<br>活用できるか無料相談で整理しませんか</h2>
   <p>デモ診断を受けてから判断していただけます。登録不要・約5分。</p>
   <div class="cta-cards">
     <div class="cta-card">
@@ -1680,7 +1607,7 @@ footer p { font-size: 0.74rem; color: #4b5563; }
     </div>
     <div class="cta-card">
       <div class="cta-card-title">診断テーマの仮説出し</div>
-      <div class="cta-card-body">あなたの業務領域に合った診断テーマの仮説を一緒に考えます</div>
+      <div class="cta-card-body">貴社の業務領域に合った診断テーマの仮説を一緒に考えます</div>
     </div>
     <div class="cta-card">
       <div class="cta-card-title">提案導線の設計可否</div>
