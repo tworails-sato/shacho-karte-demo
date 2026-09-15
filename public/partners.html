@@ -122,7 +122,7 @@ body.menu-open { overflow: hidden; }
 .hero-veil {
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.74) 0%, rgba(255,255,255,0.9) 58%, rgba(255,255,255,1) 100%);
+    linear-gradient(180deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.82) 56%, rgba(255,255,255,0.98) 100%);
 }
 .blob,
 .ripple {
@@ -134,32 +134,33 @@ body.menu-open { overflow: hidden; }
   width: 360px;
   height: 360px;
   filter: blur(38px);
-  opacity: 0.18;
+  opacity: 0.28;
   animation: heroBlob 14s ease-in-out infinite alternate;
 }
 .blob.red {
   left: -120px;
   top: 96px;
-  background: #E23B4E;
+  background: #EF4056;
 }
 .blob.blue {
   right: -110px;
   top: 130px;
-  background: #4FB2DD;
+  background: #35D7E5;
   animation-delay: -5s;
 }
 .ripple {
   width: 320px;
   height: 320px;
   border: 2px solid currentColor;
-  box-shadow: 0 0 34px currentColor;
+  background: radial-gradient(circle, transparent 52%, currentColor 53%, transparent 56%);
+  box-shadow: 0 0 44px currentColor, inset 0 0 42px currentColor;
   opacity: 0;
-  animation: heroRipple 8.8s ease-out infinite;
+  animation: heroRipple 8.2s ease-out infinite;
 }
-.r-red { color: rgba(226,59,78,0.34); }
-.r-blue { color: rgba(79,178,221,0.32); }
-.o1 { left: 3%; top: 17%; }
-.o2 { right: 6%; top: 12%; }
+.r-red { color: rgba(239,64,86,0.58); }
+.r-blue { color: rgba(53,215,229,0.56); }
+.o1 { left: 1%; top: 15%; }
+.o2 { right: 4%; top: 10%; }
 .d0 { animation-delay: 0s; }
 .d1 { animation-delay: 2.2s; }
 .d2 { animation-delay: 4.4s; }
@@ -169,8 +170,8 @@ body.menu-open { overflow: hidden; }
 }
 @keyframes heroRipple {
   0% { transform: scale(0.58); opacity: 0; }
-  16% { opacity: 0.58; }
-  100% { transform: scale(2.18); opacity: 0; }
+  14% { opacity: 0.84; }
+  100% { transform: scale(2.22); opacity: 0; }
 }
 .hero-lead {
   font-size: 0.95rem; font-weight: 700; color: var(--text);
