@@ -95,7 +95,82 @@ body.menu-open { overflow: hidden; }
 [id] { scroll-margin-top: 88px; }
 
 /* HERO */
-.hero { padding: 120px 48px 0; text-align: center; background: var(--white); overflow: hidden; }
+.hero {
+  position: relative;
+  padding: 120px 48px 64px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(226,59,78,0.08), transparent 28%),
+    radial-gradient(circle at 84% 18%, rgba(79,178,221,0.08), transparent 30%),
+    var(--white);
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.hero-bg,
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-bg { z-index: 0; overflow: hidden; }
+.hero-veil {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.96) 54%, rgba(255,255,255,1) 100%);
+}
+.blob,
+.ripple {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+}
+.blob {
+  width: 360px;
+  height: 360px;
+  filter: blur(38px);
+  opacity: 0.18;
+  animation: heroBlob 14s ease-in-out infinite alternate;
+}
+.blob.red {
+  left: -120px;
+  top: 96px;
+  background: #E23B4E;
+}
+.blob.blue {
+  right: -110px;
+  top: 130px;
+  background: #4FB2DD;
+  animation-delay: -5s;
+}
+.ripple {
+  width: 260px;
+  height: 260px;
+  border: 1px solid currentColor;
+  opacity: 0;
+  animation: heroRipple 7.8s ease-out infinite;
+}
+.r-red { color: rgba(226,59,78,0.24); }
+.r-blue { color: rgba(79,178,221,0.22); }
+.o1 { left: 6%; top: 22%; }
+.o2 { right: 10%; top: 18%; }
+.d0 { animation-delay: 0s; }
+.d1 { animation-delay: 2.2s; }
+.d2 { animation-delay: 4.4s; }
+@keyframes heroBlob {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(24px,20px,0) scale(1.08); }
+}
+@keyframes heroRipple {
+  0% { transform: scale(0.58); opacity: 0; }
+  18% { opacity: 0.7; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
 .hero-lead {
   font-size: 0.95rem; font-weight: 700; color: var(--text);
   margin-bottom: 20px; letter-spacing: 0.05em;
@@ -119,14 +194,14 @@ body.menu-open { overflow: hidden; }
 }
 .hero h1 {
   font-family: 'Noto Serif JP', serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--black);
-  line-height: 1.5; margin-bottom: 16px; max-width: 900px; margin-left: auto; margin-right: auto;
+  font-size: clamp(2rem, 4.8vw, 3.35rem); font-weight: 700; color: var(--black);
+  line-height: 1.38; margin-bottom: 18px; max-width: 960px; margin-left: auto; margin-right: auto;
   word-break: auto-phrase;
 }
 .hero-title-line { display: block; }
 .hero h1 em { font-style: normal; color: var(--red); border-bottom: 3px solid var(--red); padding-bottom: 2px; white-space: nowrap; }
 .sp-br { display: none; }
-.hero-sub2 { font-size: clamp(1rem, 1.6vw, 1.14rem); color: var(--text); margin-bottom: 18px; letter-spacing: 0.03em; font-weight: 700; line-height: 1.9; }
+.hero-sub2 { font-size: clamp(1rem, 1.6vw, 1.16rem); color: var(--text); margin-bottom: 26px; letter-spacing: 0.03em; font-weight: 700; line-height: 1.9; }
 .hero-sub {
   display: block;
   font-size: clamp(0.92rem, 1.4vw, 1.04rem);
@@ -209,11 +284,104 @@ body.menu-open { overflow: hidden; }
 .hero-badge-num small { font-size: 0.85rem; color: var(--black); font-weight: 700; margin-left: 2px; }
 .hero-cta {
   display: inline-flex; align-items: center; justify-content: center; background: var(--red); color: var(--white);
-  font-size: 1rem; font-weight: 700; padding: 18px 52px; border-radius: 4px;
-  text-decoration: none; transition: background 0.2s, transform 0.2s; margin-bottom: 12px;
+  font-size: 1rem; font-weight: 700; padding: 18px 36px; border-radius: 6px;
+  text-decoration: none; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; margin-bottom: 0;
+  box-shadow: 0 16px 34px rgba(185,28,28,0.18);
 }
-.hero-cta:hover { background: var(--red-hover); transform: translateY(-2px); }
+.hero-cta span {
+  display: inline-block;
+  margin-left: 7px;
+  font-size: 0.78rem;
+  opacity: 0.9;
+}
+.hero-cta:hover { background: var(--red-hover); transform: translateY(-2px); box-shadow: 0 20px 40px rgba(185,28,28,0.24); }
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+.hero-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(185,28,28,0.28);
+  border-radius: 6px;
+  padding: 17px 30px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.hero-cta-secondary:hover {
+  background: var(--red-light);
+  border-color: var(--red);
+  transform: translateY(-2px);
+}
 .hero-note { font-size: 0.76rem; color: #9ca3af; margin-bottom: 52px; }
+.hero-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.hero-point {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  text-align: left;
+  align-items: start;
+  padding: 22px 20px;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(229,231,235,0.92);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(17,17,17,0.06);
+  backdrop-filter: blur(10px);
+}
+.hero-point-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.hero-point-red .hero-point-num { color: #E23B4E; }
+.hero-point-blue .hero-point-num { color: #4FB2DD; }
+.hero-point-teal .hero-point-num { color: #0f766e; }
+.hero-point-label {
+  color: var(--black);
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+.hero-point-note {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--red);
+  background: var(--red-light);
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.hero-point-text {
+  margin-top: 8px;
+  color: var(--gray);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.7;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .ripple {
+    animation: none;
+  }
+  .ripple { opacity: 0.18; transform: scale(1.1); }
+}
 
 /* HERO MOCKUP */
 .hero-mockup-wrap {
@@ -842,8 +1010,27 @@ footer p { font-size: 0.74rem; color: #4b5563; }
   .mobile-menu .mobile-main-cta { background: var(--red); color: var(--white); }
   .mobile-menu .mobile-sub-cta { color: var(--red); border: 1px solid rgba(185,28,28,0.35); }
   .mobile-menu .mobile-accent { color: var(--red); background: var(--red-light); justify-content: center; border-radius: 4px; border-bottom: none; margin-top: 10px; }
-  .hero { padding: 100px 24px 0; }
+  .hero { padding: 100px 24px 52px; }
   .sp-br { display: inline; }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta,
+  .hero-cta-secondary { width: 100%; }
+  .hero-cta { flex-direction: column; gap: 2px; padding: 17px 22px; }
+  .hero-cta span { margin-left: 0; }
+  .hero-points {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .hero-point { padding: 18px 17px; }
+  .blob { width: 240px; height: 240px; }
+  .ripple { width: 170px; height: 170px; }
   .hero-metrics { grid-template-columns: 1fr; }
   .hero-metric + .hero-metric { border-left: none; border-top: 1px solid var(--gray-light); }
   .hero-badges { gap: 16px; }
@@ -1018,27 +1205,52 @@ footer p { font-size: 0.74rem; color: #4b5563; }
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-kicker">BtoB事業者向け｜診断OEMサービス</div>
-  <h1>貴社専用のビジョン診断で、顧客との経営対話を生み出す。</h1>
-  <p class="hero-sub2">貴社のお客様に受けていただき、結果を一緒に読み解く。<br>「売り込み・案内」ではなく「課題解決」から会話が始まります。</p>
-  <p class="fv-lead-sub">※ 800名の経営者が使うビジョン診断「社長カルテ」を、貴社ブランドで提供できるOEMプログラムです</p>
+  <div class="hero-bg" aria-hidden="true">
+    <span class="blob red"></span>
+    <span class="blob blue"></span>
+    <span class="ripple r-red o1 d0"></span>
+    <span class="ripple r-red o1 d1"></span>
+    <span class="ripple r-red o1 d2"></span>
+    <span class="ripple r-blue o2 d0"></span>
+    <span class="ripple r-blue o2 d1"></span>
+    <span class="ripple r-blue o2 d2"></span>
+  </div>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-kicker">眠っている顧客リストから、商談を増やしたい企業様へ</div>
+    <h1>売り込まなくても、お客様から<br class="sp-br"><em>相談が来る</em>仕組みを。</h1>
+    <p class="hero-sub2">貴社のサービスに自然につながる診断を、OEMで開発します。<br>売り込みではなく、お客様の課題から商談が自然に生まれます。</p>
 
-  <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まず無料でデモ診断を体験する</a>
-  <div class="hero-metrics" aria-label="社長カルテOEMの実績数値">
-    <div class="hero-metric">
-      <span class="hero-metric-label">参考経営者データ</span>
-      <span class="hero-metric-num">800<small>名以上</small></span>
+    <div class="hero-actions">
+      <a href="https://karte.ceo-sherpa.com/basic-info" target="_blank" class="hero-cta">まずは無料デモを体験する<span>（約5分・登録不要）</span></a>
+      <a href="/partners/contact" class="hero-cta-secondary">導入について相談する</a>
     </div>
-    <div class="hero-metric">
-      <span class="hero-metric-label">受検にかかる時間</span>
-      <span class="hero-metric-num"><small>約</small>5<small>分</small></span>
-    </div>
-    <div class="hero-metric">
-      <span class="hero-metric-label">デモ後の商談化率</span>
-      <span class="hero-metric-num">70<small>%以上</small></span>
+
+    <div class="hero-points" aria-label="社長カルテOEMの特長">
+      <div class="hero-point hero-point-red">
+        <span class="hero-point-num">01</span>
+        <div>
+          <div class="hero-point-label">独自の経営診断エンジンを提供</div>
+          <div class="hero-point-note">約800名の成長企業の経営者データ</div>
+          <p class="hero-point-text">課題抽出精度の高い診断が、すぐに創れる。</p>
+        </div>
+      </div>
+      <div class="hero-point hero-point-blue">
+        <span class="hero-point-num">02</span>
+        <div>
+          <div class="hero-point-label">比較で「気づき」を可視化</div>
+          <p class="hero-point-text">回答者本人も言語化できていなかった課題が見える。</p>
+        </div>
+      </div>
+      <div class="hero-point hero-point-teal">
+        <span class="hero-point-num">03</span>
+        <div>
+          <div class="hero-point-label">カスタマイズ性の高さ</div>
+          <p class="hero-point-text">自社サービスのテーマに合わせた診断のカスタマイズが可能。</p>
+        </div>
+      </div>
     </div>
   </div>
-  <p class="hero-metric-note">※商談化率は自社実績に基づく数値です（集計期間：2025年7月〜2026年6月）</p>
 </div>
 
 <!-- WHAT IS KARTE OEM -->
